@@ -1,4 +1,4 @@
-![Logo](https://ibb.co/zVq2SMj)
+![Logo](https://i.ibb.co/60jt4MV/Cover-removebg-preview.png)
 
 # The Cajuput Spa
 
