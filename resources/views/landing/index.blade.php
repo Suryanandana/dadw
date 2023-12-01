@@ -20,10 +20,12 @@
     {{-- splide --}}
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 
-<body>
+<body x-data="{login: false, registrasi: false}">
 
     {{-- navbar --}}
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
@@ -33,8 +35,7 @@
             </a>
             <div class="flex md:order-2">
                 <button type="button"
-                    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Get
-                    started</button>
+                    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" x-on:click="login = true">Sign In</button>
                 <button data-collapse-toggle="navbar-sticky" type="button"
                     class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                     aria-controls="navbar-sticky" aria-expanded="false">
@@ -354,6 +355,28 @@
         </div>
     </footer>
 
+    {{-- pop up login dan registrasi --}}
+    <section x-cloak>
+        <div x-show="login || registrasi" x-on:click="login = false, registrasi = false" class="w-screen h-screen bg-gray-100 backdrop-filter backdrop-blur-[2px] bg-opacity-10 rounded-lg fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"></div>
+        <form x-show="login" action="#" class="fixed rounded-lg shadow-2xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-10 bg-white z-30 flex flex-col items-center w-96">
+            <h3 class="text-green-400 text-3xl text-center font-bold mb-8">Login</h3>
+            <input type="text" id="first_name" class="bg-gray-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Username" required>
+            <input type="password" id="first_name" class="bg-gray-50 my-4 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Password" required>
+            <input type="submit" class="focus:outline-none text-white w-full bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 cursor-pointer" value="Sign In">
+            <a href="#" x-on:click="login = false, registrasi = true" class="underline text-green-700 text-sm mt-3">Does not have an account?</a>
+        </form>
+        <form x-show="registrasi" action="#" class="fixed rounded-lg shadow-2xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-10 bg-white z-30 flex flex-col items-center w-96">
+            <h3 class="text-green-400 text-3xl text-center font-bold mb-8">Registrasi</h3>
+            <input type="text" id="first_name" class="bg-gray-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Full Name" required>
+            <input type="text" id="first_name" class="bg-gray-50 my-4 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Phone Number" required>
+            <input type="text" id="first_name" class="bg-gray-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Email" required>
+            <input type="password" id="first_name" class="bg-gray-50 my-4 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Create Password" required>
+            <input type="submit" class="focus:outline-none text-white w-full bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 cursor-pointer" value="Sign Up">
+            <a href="#" x-on:click="login = true, registrasi = false" class="underline text-green-700 text-sm mt-3">Already have an account?</a>
+        </form>
+    </section>
+
+    {{-- splide config --}}
     <script>
         new Splide( '.splide', {
             perPage: 3,
