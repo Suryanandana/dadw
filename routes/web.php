@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,15 @@ Route::get('/', function () {
     return view('landing.index');
 });
 
-Route::get('/app', function(){
-    return view('app');
-});
+Route::get('/dashboard', function () {
+    return view('landing.index');
+})->middleware(['auth'])->name('dashboard');
+
+// autentikasi
+Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
+Route::post('/login', [App\Http\Controllers\Authentication::class, 'login']);
+Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); 
+    return redirect('/');
+})->name('verification.verify');
