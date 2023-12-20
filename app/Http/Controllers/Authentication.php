@@ -24,10 +24,9 @@ class Authentication extends Controller
             'level' => 'customer',
             'password' => bcrypt($request->password),
         ]);
-        // insert table customer
         Customer::create([
             'phone' => $request->phone,
-            'id_users' => User::where('email', $request->email)->first()->id,
+            'id_users' => $user->id,
         ]);
         // commit transaction
         DB::commit();
