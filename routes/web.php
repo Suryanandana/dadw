@@ -70,24 +70,25 @@ Route::post('/reset-password', function (Request $request) {
         'email' => 'required|email',
         'password' => 'required|min:8|confirmed',
     ]);
- 
+
     $status = Password::reset(
         $request->only('email', 'password', 'password_confirmation', 'token'),
         function (User $user, string $password) {
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
- 
+
             $user->save();
- 
+
             event(new PasswordReset($user));
         }
     );
- 
+
     return $status === Password::PASSWORD_RESET
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
+
 
 // booking
 Route::get('/booking', function () {
@@ -96,3 +97,6 @@ Route::get('/booking', function () {
     $rooms = DB::table('rooms')->get();
     return view('landing.booking', ['services' => $services, 'rooms' => $rooms]);
 });
+
+Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
+Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
