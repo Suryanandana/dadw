@@ -411,6 +411,7 @@
             <input name="password" type="password" id="first_name"
                 class="bg-gray-50 my-4 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:outline-green-400 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                 placeholder="Password" required>
+                <a href="{{ route('password.request') }}" class="mb-3 text-blue-400 text-sm">Forgot Password ?</a>
             <input type="submit"
                 class="focus:outline-none text-white w-full bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 cursor-pointer"
                 value="Sign In">
