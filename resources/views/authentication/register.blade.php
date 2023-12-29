@@ -37,36 +37,40 @@
             <div
                 class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 sm:p-8">
-                    @if (session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                        role="alert">
-                        <ul class="list-disc ml-2">
-                            <li class="text-sm">{{session('success')}}</li>
-                        </ul>
-                    </div>
-                    @endif                    
                     <h1
                         class="text-xl mb-4 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Reset Your Password
+                        Create account
                     </h1>
-                    <form class="space-y-4" action="/reset-password" method="POST">
+                    @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                        role="alert">
+                        <ul class="list-disc ml-2">
+                            @foreach ($errors->all() as $error)
+                            <li class="text-sm">{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <form class="space-y-4" action="/register" method="POST">
                         @csrf
-                        {{-- Alert untuk notifikasi jika terjadi error --}}
-                        @if ($errors->any())
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                            role="alert">
-                            <ul class="list-disc ml-2">
-                                @foreach ($errors->all() as $error)
-                                <li class="text-sm">{{$error}}</li>
-                                @endforeach
-                            </ul>
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">
+                                Full Name</label>
+                            <input type="name" name="name" id="name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Your Name" required="">
                         </div>
-                        @endif
-                        <input type="hidden" name="token" value="{{request('token')}}">
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-900 dark:text-white">
+                                Phone</label>
+                            <input type="phone" name="phone" id="phone"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="08xxxx" required="">
+                        </div>
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-900 dark:text-white">
                                 Email</label>
-                            <input type="email" name="email" id="email" value="{{request('email')}}"
+                            <input type="email" name="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="example@domain.com" required="">
                         </div>
@@ -74,21 +78,15 @@
                             <label for="password"
                                 class="block text-sm font-medium text-gray-900 dark:text-white">Password</label>
                             <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
-                        </div>
-                        <div>
-                            <label for="password"
-                                class="block text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
-                            <input type="password" name="password_confirmation" id="password" placeholder="••••••••"
-                                class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required="">
                         </div>
                         <button type="submit"
-                            class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Reset Password</button>
+                            class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Create
+                            an account</button>
                         <p class="text-sm font-light text-center text-gray-500 dark:text-gray-400">
-                            Does'nt have an account? <a href="/register"
-                                class="font-medium text-green-600 underline dark:text-green-500">Register
+                            Already have an account? <a href="/login"
+                                class="font-medium text-green-600 hover:underline dark:text-green-500">Login
                                 here</a>
                         </p>
                     </form>

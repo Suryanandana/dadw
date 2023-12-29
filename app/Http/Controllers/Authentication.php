@@ -15,29 +15,41 @@ class Authentication extends Controller
 {
     public function register(Request $request)
     {
-        // start transaction
-        DB::beginTransaction();
-        // insert table user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'level' => 'customer',
-            'password' => bcrypt($request->password),
+        // validate request
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|max:255',
         ]);
-        Customer::create([
-            'phone' => $request->phone,
-            'id_users' => $user->id,
-        ]);
-        // commit transaction
-        DB::commit();
-
-        // Kirim email verifikasi
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        // return no response
-        return response()->noContent();
+        try {
+            // start transaction
+            DB::beginTransaction();
+            // insert table user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'level' => 'customer',
+                'password' => bcrypt($request->password),
+            ]);
+            Customer::create([
+                'phone' => $request->phone,
+                'id_users' => $user->id,
+            ]);
+            // commit transaction
+            DB::commit();
+            // Kirim email verifikasi
+            event(new Registered($user));
+            Auth::login($user);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            // get error message
+            $error = $th->getMessage();
+            // redirect and send massage error
+            return redirect('/register')->with('error', $error);
+        }
+        // if success, redirect to login page with success message
+        return redirect('/login')->with('success', 'Register success, please check your email to verify your account.');
     }
 
     public function login(Request $request)
@@ -49,23 +61,21 @@ class Authentication extends Controller
                 // Jika autentikasi berhasil
                 $user = Auth::user();
                 $request->session()->regenerate();
-
                 // Buat session untuk user
                 $request->session()->put('user', $user);
-
                 return redirect()->intended('/'); // Redirect ke halaman dashboard atau halaman setelah login berhasil
             } else {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-
-                return redirect('/');
+                return redirect('/login')->withErrors([
+                    'email' => 'Email is not validate.',
+                ]);
             }
         }
-
         // Jika autentikasi gagal, kembalikan ke halaman login dengan pesan error
-        return redirect('/')->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+        return redirect('/login')->withErrors([
+            'email' => 'Email or password is wrong.',
         ]);
     }
 
