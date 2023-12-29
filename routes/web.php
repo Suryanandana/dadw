@@ -29,6 +29,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 // autentikasi
+Route::get('/login', function () {
+    return view('authentication.login');
+});
+Route::get('/register', function () {
+    return view('authentication.register');
+});
 Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
 Route::post('/login', [App\Http\Controllers\Authentication::class, 'login'])->name('login');
 Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);
@@ -82,3 +88,11 @@ Route::post('/reset-password', function (Request $request) {
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
+
+// booking
+Route::get('/booking', function () {
+    // get data from database
+    $services = DB::table('services')->get();
+    $rooms = DB::table('rooms')->get();
+    return view('landing.booking', ['services' => $services, 'rooms' => $rooms]);
+});
