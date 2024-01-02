@@ -95,8 +95,15 @@ Route::get('/booking', function () {
     // get data from database
     $services = DB::table('services')->get();
     $rooms = DB::table('rooms')->get();
-    return view('landing.booking', ['services' => $services, 'rooms' => $rooms]);
+    return view('customer.booking', ['services' => $services, 'rooms' => $rooms]);
 });
+Route::post('/booking', [App\Http\Controllers\CustomerController::class, 'booking'])->name('customer.booking');
 
 Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
 Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
+
+Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction']);
+
+Route::get('/admin', function () {
+    return view('admin.index');
+});
