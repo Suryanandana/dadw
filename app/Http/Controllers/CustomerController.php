@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Customer;
-use App\Models\Order;
+use App\Models\Services;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -85,8 +86,28 @@ class CustomerController extends Controller
     public function transaction()
     {
         $user = auth()->user();
-        // count total row count
-        $booking = Booking::select('*')->where('id_customer', $user->id)->get();
-        return view('customer.transaction', compact('booking'));
+        // select order and booking table
+        $data = Order::select('order.*', 'booking.*', 'services.service_name', 'services.price', 'rooms.room_name')
+            ->join('booking', 'order.id_booking', '=', 'booking.id')
+            ->join('services', 'order.id_services', '=', 'services.id')
+            ->join('rooms', 'order.id_room', '=', 'rooms.id')
+            ->where('booking.id_customer', $user->id)
+            ->orderBy('order.id', 'desc')
+            ->get();
+        // set color for status booking
+        for($i = 0; $i < count($data); $i++){
+            if($data[$i]->status_booking == 'inprogress'){
+                $data[$i]->color = 'bg-yellow-100 text-yellow-800';
+            } else if ($data[$i]->status_booking == 'reschedule'){
+                $data[$i]->color = 'bg-blue-100 text-blue-800';
+            } else if ($data[$i]->status_booking == 'cancelled'){
+                $data[$i]->color = 'bg-red-100 text-red-800';
+            } else if ($data[$i]->status_booking == 'accepted'){
+                $data[$i]->color = 'bg-green-100 text-green-800';
+            } else {
+                $data[$i]->color = 'bg-gray-100 text-gray-800';
+            }
+        }
+        return view('customer.transaction', compact('data'));
     }
 }

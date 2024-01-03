@@ -35,7 +35,7 @@
 
     {{-- content --}}
     <section class="bg-white dark:bg-gray-900 mt-12 -mb-24">
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        <div class="mx-auto px-10 lg:py-16">
             {{-- show validate error --}}
             @if ($errors->any())
             <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
@@ -52,43 +52,52 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
+                                No
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Product
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Status
+                                Date
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Price
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Action
+                                Room
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($booking as $item)    
+                        @foreach ($data as $item)    
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                Apple Watch
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->status_booking}}</span>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                {{$loop->iteration}}
                             </td>
                             <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                $599
+                                {{$item->service_name}}
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                {{$item->date}}
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                {{$item->price}}
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                {{$item->room_name}}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="#"
-                                    class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                                <span class="{{$item->color}} text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->status_booking}}</span>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-
-
         </div>
     </section>
 
