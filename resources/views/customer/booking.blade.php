@@ -36,17 +36,35 @@
     {{-- content --}}
     <section class="bg-white dark:bg-gray-900 mt-12 -mb-24">
         <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Booking a service</h2>
-            <form action="#">
+            {{-- show validate error --}}
+            @if ($errors->any())
+            <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li class="text-sm">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service</h2>
+            <form action="/booking" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <div class="sm:col-span-2">
                         <label for="Service"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Service</label>
-                        <select id="Service"
+                        <select id="Service" name="id_services"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected="">Select Service</option>
                             @foreach ($services as $item)
-                            <option value="{{$item->id}}">{{ $item->service_name }}</option>
+                            <option value="{{$item->id}}"
+                                <?php 
+                                    if(isset($_GET['service']) == $item->service_name){
+                                        echo "selected";
+                                    }
+                                ?>>
+                                {{ $item->service_name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -69,30 +87,30 @@
                     <div>
                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
                             Available</label>
-                        <select id="category"
+                        <select id="category" name="time"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected="">Select Time</option>
-                            <option value="TV">10:00</option>
-                            <option value="PC">11:00</option>
-                            <option value="GA">12:00</option>
-                            <option value="PH">13:00</option>
-                            <option value="PH">14:00</option>
-                            <option value="PH">15:00</option>
-                            <option value="PH">16:00</option>
-                            <option value="PH">17:00</option>
+                            <option value="10:00:00">10:00</option>
+                            <option value="11:00:00">11:00</option>
+                            <option value="12:00:00">12:00</option>
+                            <option value="13:00:00">13:00</option>
+                            <option value="14:00:00">14:00</option>
+                            <option value="15:00:00">15:00</option>
+                            <option value="16:00:00">16:00</option>
+                            <option value="17:00:00">17:00</option>
                         </select>
                     </div>
                     <div class="w-full">
                         <label for="number-input"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pax</label>
-                        <input type="number" id="number-input" aria-describedby="helper-text-explanation"
+                        <input type="number" name="pax" id="number-input" aria-describedby="helper-text-explanation"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="0" required>
                     </div>
                     <div>                       
                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rooms
                             Available</label>
-                        <select id="category"
+                        <select id="category" name="id_room"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected="">Select Room</option>
                             @foreach ($rooms as $item)
@@ -103,16 +121,15 @@
                     <div class="sm:col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             for="file_input">Upload file</label>
-                        <input
+                        <input name="img_receipt" accept="image/*" aria-describedby="file_input_help"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                             aria-describedby="file_input_help" id="file_input" type="file">
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Only accept these image extension: PNG, JPG, and JPEG</p>
                     </div>
                 </div>
-                <button type="submit"
-                    class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                    Add product
-                </button>
+                <div class="flex justify-end">
+                    <input type="submit" value="Booking" class="focus:outline-none mt-3 ml-auto mb-10 text-white bg-green-600 cursor-pointer hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                </div>
             </form>
         </div>
     </section>
