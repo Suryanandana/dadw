@@ -1,12 +1,13 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -23,6 +24,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/', function () {
     return view('landing.index');
 });
+
+// customer dashboard
+Route::get('/customer-dashboard', [App\Http\Controllers\CustomerController::class, 'dashboard'])->name('customer.dashboard')->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('landing.index');
@@ -96,7 +100,8 @@ Route::get('/booking', function () {
     $services = DB::table('services')->get();
     $rooms = DB::table('rooms')->get();
     return view('landing.booking', ['services' => $services, 'rooms' => $rooms]);
-});
+})->middleware('auth');
 
-Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
-Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
+Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule'])->name('reschedule-form')->middleware('auth');
+Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule')->middleware('auth');
+Route::delete('/cancellation', [App\Http\Controllers\CustomerController::class, 'cancellation'])->name('cancellation')->middleware('auth');
