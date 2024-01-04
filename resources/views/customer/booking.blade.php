@@ -46,6 +46,12 @@
                 </ul>
             </div>
             @endif
+            {{-- show success message --}}
+            @if (session('success'))
+            <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                {{ session('success') }}
+            </div>
+            @endif
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service</h2>
             <form action="/booking" method="POST" enctype="multipart/form-data">
                 @csrf
