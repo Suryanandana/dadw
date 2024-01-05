@@ -71,16 +71,25 @@ class CustomerController extends Controller
 
     public function reschedule(Request $request)
     {
+        $formattedDate = date("Y-m-d", strtotime($request->date));
         //mencari id customer yang dimiliki oleh user yang sedang login
         $user = auth()->user();
-        $id_customer = Customer::select('id_users')->where('id_users', $user->id)->first();
-        $id_booking = Booking::select('*')->where('id_customer', $id_customer->id_users)->first();
-        Booking::where('id', $id_booking->id)->update([
-            'date' => $request->date,
+        Booking::where('id', $request->id)->update([
+            'date' => $formattedDate . ' ' . $request->time,
             'status_booking' => 'reschedule'
         ]);
 
         return redirect()->route('customer.reschedule')->with('success', 'Reschedule berhasil');
+    }
+
+    public function cancel(Request $request)
+    {
+        Booking::where('id', $request->id)->update([
+            'date' => $request->date,
+            'status_booking' => 'cancelled',
+        ]);
+
+        return redirect()->route('customer.transaction')->with('success', 'Cancel berhasil');
     }
 
     public function transaction()
@@ -96,6 +105,7 @@ class CustomerController extends Controller
             ->get();
         // set color for status booking
         for($i = 0; $i < count($data); $i++){
+            $data[$i]->price = (int)$data[$i]->price;
             if($data[$i]->status_booking == 'inprogress'){
                 $data[$i]->color = 'bg-yellow-100 text-yellow-800';
             } else if ($data[$i]->status_booking == 'reschedule'){

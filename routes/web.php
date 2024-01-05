@@ -101,8 +101,10 @@ Route::post('/booking', [App\Http\Controllers\CustomerController::class, 'bookin
 
 Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
 Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
+Route::put('/cancel', [App\Http\Controllers\CustomerController::class, 'cancel']);
 
-Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction']);
+
+Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction'])->name('customer.transaction');
 
 Route::get('/admin', function () {
     return view('admin.index');

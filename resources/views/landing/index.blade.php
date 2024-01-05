@@ -73,11 +73,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Lorem ipsum dolor sit amet, consectetur
                                 adipisicing elit. Impedit, placeat aut expedita mollitia ex voluptate magni!</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Body Treatment"
+                                    class="text-green-700 flex gap-2 items-center cursor-pointer hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K
@@ -100,11 +100,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Lorem ipsum dolor sit amet, consectetur
                                 adipisicing elit. Impedit, placeat aut expedita mollitia ex voluptate magni!</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Massage"
+                                    class="text-green-700 flex cursor-pointer gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K
@@ -127,11 +127,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Lorem ipsum dolor sit amet, consectetur
                                 adipisicing elit. Impedit, placeat aut expedita mollitia ex voluptate magni!</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Hair Treatment"
+                                    class="text-green-700 flex gap-2 cursor-pointer items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K
@@ -154,11 +154,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Lorem ipsum dolor sit amet, consectetur
                                 adipisicing elit. Impedit, placeat aut expedita mollitia ex voluptate magni!</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Manicure"
+                                    class="text-green-700 flex gap-2 cursor-pointer items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K

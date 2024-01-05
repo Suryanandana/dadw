@@ -52,7 +52,7 @@
                 {{ session('success') }}
             </div>
             @endif
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service</h2>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service {{request('service')}}</h2>
             <form action="/booking" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -65,8 +65,11 @@
                             @foreach ($services as $item)
                             <option value="{{$item->id}}"
                                 <?php 
-                                    if(isset($_GET['service']) == $item->service_name){
-                                        echo "selected";
+                                    if(isset($_GET['service']))
+                                    {
+                                        if($_GET['service'] == $item->service_name){
+                                            echo "selected";
+                                        }
                                     }
                                 ?>>
                                 {{ $item->service_name }}
