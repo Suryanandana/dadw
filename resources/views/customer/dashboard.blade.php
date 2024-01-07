@@ -8,15 +8,17 @@
 </head>
 <body>
     <h1>Hallo {{ $user->name }}</h1>
-    {{-- Cek apakah customer memiliki reservasi atau tidak --}}
+    {{-- Check $data is $data = null? --}}
     @if (!empty($data))
-    {{-- jika ada data reservasi maka tampilkan data reservasi customer --}}
+    {{-- If $data not null, do this down below condition(if statment) --}}
         <table border="1">
             <tr>
                 <td>Status</td>
                 <td>Pax</td>
                 <td>Date</td>
-                <td>Customer Name</td>
+                <td>Service Name</td>
+                <td>Room Type</td>
+                <td>Total</td>
                 <td>Aksi</td>
             </tr>
             @foreach ($data as $item)
@@ -24,14 +26,17 @@
                     <td>{{ $item->status_booking }}</td>
                     <td>{{ $item->pax }}</td>
                     <td>{{ $item->date }}</td>
-                    <td>{{ $user->name }}</td>
+                    <td>{{ $item->service_name }}</td>
+                    <td>{{ $item->room_name }}</td>
+                    {{-- Calculate total price --}}
+                    <td>{{ $item->price * $item->pax }}</td>
                     <td>
                         <a href="{{ route('reschedule-form') }}">Reschedule</a>
                         {{-- 
-                            *NOTE :*  tombol delete harus menggunakan form
-                                    karena perlu mendifinisikan method DELETE
+                            *NOTE* : The delete button must use the form
+                                    because it is necessary to define the DELETE method
                         --}}
-                        <form action="{{ route('cancellation') }}" method="post" onclick="return confirm('Are you sure you want to cancel this reservation?')">
+                        <form action="{{ route('cancellation/'.$item->id) }}" method="post" onclick="return confirm('Are you sure you want to cancel this reservation?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Cancel</button>
@@ -41,7 +46,7 @@
             @endforeach
             </table>
     @else
-        {{-- jika tidak maka tampilkan tulisan berikut --}}
+        {{-- if $data is null then show this text --}}
         <p>Anda belum memiliki reservasi apapun</p>
     @endif
 </body>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\AdminController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -99,9 +100,22 @@ Route::get('/booking', function () {
     // get data from database
     $services = DB::table('services')->get();
     $rooms = DB::table('rooms')->get();
-    return view('landing.booking', ['services' => $services, 'rooms' => $rooms]);
+    return view('customer.booking', ['services' => $services, 'rooms' => $rooms]);
 })->middleware('auth');
+
+Route::post('/booking', [App\Http\Controllers\CustomerController::class, 'booking'])->name('customer.booking');
 
 Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule'])->name('reschedule-form')->middleware('auth');
 Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule')->middleware('auth');
-Route::delete('/cancellation', [App\Http\Controllers\CustomerController::class, 'cancellation'])->name('cancellation')->middleware('auth');
+Route::delete('/cancellation/{{id}}', [App\Http\Controllers\CustomerController::class, 'cancellation'])->name('cancellation')->middleware('auth');
+
+Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction']);
+
+
+// ==================== ADMIN ====================
+Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
+Route::get('/admin-account', [AdminController::class, 'getAdmin'])->name('admin.account')->middleware('auth');
+Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add.admin')->middleware('auth');
+Route::put('/update-user/{id}', [AdminController::class, 'updateUser'])->name('update.user')->middleware('auth');
+
+// ==================== END ADMIN ================
