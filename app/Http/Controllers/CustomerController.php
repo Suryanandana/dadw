@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Customer;
@@ -103,8 +104,12 @@ class CustomerController extends Controller
             ->where('booking.id_customer', $user->id)
             ->orderBy('order.id', 'desc')
             ->get();
-        // set color for status booking
+        $feedback = Feedback::select('feedback.*')
+            ->join('booking', 'feedback.id_booking', '=', 'booking.id')
+            ->where('booking.id_customer', $user->id)
+            ->get();
         for($i = 0; $i < count($data); $i++){
+            // set color for status booking
             $data[$i]->price = (int)$data[$i]->price;
             if($data[$i]->status_booking == 'inprogress'){
                 $data[$i]->color = 'bg-yellow-100 text-yellow-800';
@@ -115,9 +120,25 @@ class CustomerController extends Controller
             } else if ($data[$i]->status_booking == 'accepted'){
                 $data[$i]->color = 'bg-green-100 text-green-800';
             } else {
-                $data[$i]->color = 'bg-gray-100 text-gray-800';
+                $data[$i]->color = 'bg-teal-100 text-teal-800';
+            }
+            for($j = 0; $j < count($feedback); $j++){
+                if($data[$i]->id == $feedback[$j]->id_booking){
+                    $data[$i]->feedback = $feedback[$j];
+                }
             }
         }
         return view('customer.transaction', compact('data'));
+    }
+
+    public function feedback(Request $request){
+        Feedback::create([
+            'rate' => $request->rate,
+            'text' => $request->text,
+            'date' => date("Y-m-d H:i:s"),
+            'id_booking' => $request->id_booking,
+        ]);
+
+        return redirect()->route('customer.transaction')->with('success', 'Feedback berhasil');
     }
 }

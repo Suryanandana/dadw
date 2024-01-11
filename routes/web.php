@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StaffController;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
@@ -8,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,9 +105,25 @@ Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'view
 Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
 Route::put('/cancel', [App\Http\Controllers\CustomerController::class, 'cancel']);
 
-
 Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction'])->name('customer.transaction');
+
+Route::post('/feedback', [App\Http\Controllers\CustomerController::class, 'feedback'])->name('customer.feedback');
 
 Route::get('/admin', function () {
     return view('admin.index');
+});
+
+Route::get('/staff', [App\Http\Controllers\StaffController::class, 'index']);
+
+Route::get('/img/{filename}', function ($filename)
+{
+    $path = storage_path('app/public/img/receipt/'. $filename);;
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header('Content-Type', $type);
+    return $response;
 });

@@ -34,11 +34,11 @@
     @extends('landing.navbar')
 
     {{-- content --}}
-    <section class="mt-12 -mb-24 bg-white dark:bg-gray-900">
-        <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+    <section class="bg-white dark:bg-gray-900 mt-12 -mb-24">
+        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
             {{-- show validate error --}}
             @if ($errors->any())
-            <div class="p-4 mb-6 text-center text-white bg-red-500 rounded-lg">
+            <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
                 <ul>
                     @foreach ($errors->all() as $error)
                     <li class="text-sm">{{ $error }}</li>
@@ -48,35 +48,14 @@
             @endif
             {{-- show success message --}}
             @if (session('success'))
-            <div class="p-4 mb-6 text-center text-white bg-green-500 rounded-lg">
+            <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
                 {{ session('success') }}
             </div>
             @endif
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service</h2>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service {{request('service')}}</h2>
             <form action="/booking" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                    <div class="sm:col-span-2">
-                        <label for="Service"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Service</label>
-                        <select id="Service" name="id_services"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="">Select Service</option>
-                            @foreach ($services as $item)
-                            <option value="{{$item->id}}"
-                                <?php 
-                                    if(isset($_GET['service']))
-                                    {
-                                        if($_GET['service'] == $item->service_name){
-                                            echo "selected";
-                                        }
-                                    }
-                                ?>>
-                                {{ $item->service_name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="w-full">
                         <label for="brand"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
@@ -115,17 +94,6 @@
                         <input type="number" name="pax" id="number-input" aria-describedby="helper-text-explanation"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="0" required>
-                    </div>
-                    <div>                       
-                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rooms
-                            Available</label>
-                        <select id="category" name="id_room"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="">Select Room</option>
-                            @foreach ($rooms as $item)
-                            <option value="{{$item->id}}">{{ $item->room_name }} ({{$item->category}})</option>
-                            @endforeach
-                        </select>
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
