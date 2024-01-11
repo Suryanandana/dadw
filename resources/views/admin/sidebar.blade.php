@@ -19,7 +19,7 @@
             </div>
         </form>
         <ul class="space-y-2">
-            <li>
+            {{-- <li>
                 <a href="#"
                     class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg aria-hidden="true"
@@ -30,7 +30,7 @@
                     </svg>
                     <span class="ml-3">Dashboard</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <button type="button"
                     class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -79,7 +79,7 @@
                     <span class="ml-3">Reports</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="#"
                     class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                     <svg aria-hidden="true"
@@ -104,7 +104,7 @@
                     </svg>
                     <span class="ml-3">Help</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
     <div

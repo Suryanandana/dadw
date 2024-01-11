@@ -19,9 +19,8 @@
                 </svg>
                 <span class="sr-only">Toggle sidebar</span>
             </button>
-            <a href="https://flowbite.com" class="flex items-center justify-between mr-4">
-                <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="Flowbite Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">The Cajuput SPA</span>
+            <a href="https://flowbite.com/" class="flex items-center">
+                <img src="{{asset('img/logo.png')}}" class="h-8 mr-3" alt="Flowbite Logo">
             </a>
             {{-- search --}}
             {{-- <form action="#" method="GET" class="hidden md:block md:pl-2">
@@ -67,7 +66,7 @@
                     <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ Auth::user()->name }}</span>
                     <span class="block text-sm text-gray-900 truncate dark:text-white">{{ Auth::user()->email }}</span>
                 </div>
-                <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
+                {{-- <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
                     <li>
                         <a href="#"
                             class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My
@@ -78,11 +77,11 @@
                             class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Account
                             settings</a>
                     </li>
-                </ul>
+                </ul> --}}
                 <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
                     <li>
                         <a href="/logout"
-                            class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                            class="block text-red-600 py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
                             out</a>
                     </li>
                 </ul>
