@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Services;
 use App\Models\Transaction;
+use App\Models\Services;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller

@@ -130,3 +130,4 @@ Route::post('/add-customer', [AdminController::class, 'addCustomer'])->name('add
 Route::put('/update-customer/{id}', [AdminController::class, 'updateCustomer'])->name('update.customer')->middleware('auth');
 Route::delete('/delete-customer/{id}', [AdminController::class, 'deleteCustomer'])->name('delete.customer')->middleware('auth');
 // ==================== END ADMIN ================
+
