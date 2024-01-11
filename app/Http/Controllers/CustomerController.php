@@ -3,15 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Services;
 use App\Models\Transaction;
+use App\Models\Services;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
+    public function dashboard()
+    {
+        $user = auth()->user();
+        // Get detail booking data
+        $data = Booking::select('booking.*', 'customer.*', 'users.*', 'order.*', 'services.*', 'rooms.*')
+                        ->join('customer', 'booking.id_customer', '=', 'customer.id')
+                        ->join('users', 'customer.id_users', '=', 'users.id')
+                        ->join('order', 'booking.id', '=', 'order.id_booking')
+                        ->join('services', 'order.id_services', '=', 'services.id')
+                        ->join('rooms', 'order.id_room', '=', 'rooms.id')
+                        ->where('customer.id_users', $user->id)
+                        ->orderBy('booking.id', 'desc')
+                        ->get();
+
+        return view('customer.dashboard', compact('data', 'user'));
+    }
 
     public function booking(Request $request)
     {
@@ -64,6 +84,7 @@ class CustomerController extends Controller
         return redirect()->route('customer.booking')->with('success', 'Booking berhasil');
     }
 
+    
     public function viewReschedule()
     {
         return view('customer.reschedule');
@@ -80,7 +101,17 @@ class CustomerController extends Controller
             'status_booking' => 'reschedule'
         ]);
 
-        return redirect()->route('customer.reschedule')->with('success', 'Reschedule berhasil');
+        return redirect()->route('customer.dashboard')->with('success', 'Reschedule berhasil');
+    }
+
+    public function cancellation($id){
+        // $user = auth()->user();
+        // $id_customer = Customer::select('*')->where('id_users', $user->id)->first();
+        // $id_booking = Booking::select('*')->where('id_customer', $id_customer->id_users)->first();
+        
+        Booking::where('id', $id)->delete();
+
+        return redirect()->route('customer.dashboard')->with('success', 'Booking berhasil dibatalkan');
     }
 
     public function transaction()

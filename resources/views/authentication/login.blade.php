@@ -86,8 +86,8 @@
                                 <a href="/forgot-password" class="text-sm underline">Forgot password?</a>
                         </div>
                         <button type="submit"
-                            class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Create
-                            an account</button>
+                            class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Sign In
+                        </button>
                         <p class="text-sm font-light text-center text-gray-500 dark:text-gray-400">
                             Does'nt have an account? <a href="/register"
                                 class="font-medium text-green-600 underline dark:text-green-500">Register
