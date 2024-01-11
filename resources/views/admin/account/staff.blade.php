@@ -57,11 +57,6 @@
                         {{ session('success') }}
                     </div>
                     @endif
-                    @if (session('error'))
-                    <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
-                        {{ session('error') }}
-                    </div>
-                    @endif
                     <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                         <div
                             class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -96,11 +91,12 @@
                                         <path clip-rule="evenodd" fill-rule="evenodd"
                                             d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                                     </svg>
-                                    New admin
+                                    New staff
                                 </button>
                             </div>
                         </div>
                         <div class="overflow-x-auto">
+                        @if ($data->count() > 0)
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -108,60 +104,61 @@
                                         <th scope="col" class="px-4 py-4">Name</th>
                                         <th scope="col" class="px-4 py-3">Email</th>
                                         <th scope="col" class="px-4 py-3">Level</th>
+                                        <th scope="col" class="px-4 py-3">Phone</th>
                                         <th scope="col" class="px-4 py-3">Updated At</th>
                                         <th scope="col" class="px-4 py-3 text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($data->count() > 0)
-                                        @foreach ($data as $userData)
-                                            <tr class="border-b dark:border-gray-700">
-                                                <td class="px-4 py-3">{{ $userData->name }}</td>
-                                                <td class="px-4 py-3">{{ $userData->email }}</td>
-                                                <td class="px-4 py-3">{{ $userData->level }}</td>
-                                                <td class="px-4 py-3">{{ $userData->updated_at }}</td>
-                                                <td class="px-4 py-3 flex items-center justify-end">
-                                                    <button type="button" data-modal-target="updateProductModal-{{ $userData->id }}"
-                                                        data-modal-toggle="updateProductModal-{{ $userData->id }}"
-                                                        class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
-                                                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
-                                                            viewbox="0 0 20 20" fill="currentColor"
-                                                            aria-hidden="true">
-                                                            <path
-                                                                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                                                        </svg>
-                                                    </button>
-                                                    <button type="button" data-modal-target="readProductModal-{{ $userData->id }}"
-                                                        data-modal-toggle="readProductModal-{{ $userData->id }}"
-                                                        class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
-                                                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
-                                                            viewbox="0 0 20 20" fill="currentColor"
-                                                            aria-hidden="true">
-                                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                        </svg>
-                                                    </button>
-                                                    <button type="button" data-modal-target="deleteModal-{{ $userData->id }}"
-                                                        data-modal-toggle="deleteModal-{{ $userData->id }}"
-                                                        class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400">
-                                                        <svg class="w-4 h-4" viewbox="0 0 14 15" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                fill="currentColor"
-                                                                d="M6.09922 0.300781C5.93212 0.30087 5.76835 0.347476 5.62625 0.435378C5.48414 0.523281 5.36931 0.649009 5.29462 0.798481L4.64302 2.10078H1.59922C1.36052 2.10078 1.13161 2.1956 0.962823 2.36439C0.79404 2.53317 0.699219 2.76209 0.699219 3.00078C0.699219 3.23948 0.79404 3.46839 0.962823 3.63718C1.13161 3.80596 1.36052 3.90078 1.59922 3.90078V12.9008C1.59922 13.3782 1.78886 13.836 2.12643 14.1736C2.46399 14.5111 2.92183 14.7008 3.39922 14.7008H10.5992C11.0766 14.7008 11.5344 14.5111 11.872 14.1736C12.2096 13.836 12.3992 13.3782 12.3992 12.9008V3.90078C12.6379 3.90078 12.8668 3.80596 13.0356 3.63718C13.2044 3.46839 13.2992 3.23948 13.2992 3.00078C13.2992 2.76209 13.2044 2.53317 13.0356 2.36439C12.8668 2.1956 12.6379 2.10078 12.3992 2.10078H9.35542L8.70382 0.798481C8.62913 0.649009 8.5143 0.523281 8.37219 0.435378C8.23009 0.347476 8.06631 0.30087 7.89922 0.300781H6.09922ZM4.29922 5.70078C4.29922 5.46209 4.39404 5.23317 4.56282 5.06439C4.73161 4.8956 4.96052 4.80078 5.19922 4.80078C5.43791 4.80078 5.66683 4.8956 5.83561 5.06439C6.0044 5.23317 6.09922 5.46209 6.09922 5.70078V11.1008C6.09922 11.3395 6.0044 11.5684 5.83561 11.7372C5.66683 11.906 5.43791 12.0008 5.19922 12.0008C4.96052 12.0008 4.73161 11.906 4.56282 11.7372C4.39404 11.5684 4.29922 11.3395 4.29922 11.1008V5.70078ZM8.79922 4.80078C8.56052 4.80078 8.33161 4.8956 8.16282 5.06439C7.99404 5.23317 7.89922 5.46209 7.89922 5.70078V11.1008C7.89922 11.3395 7.99404 11.5684 8.16282 11.7372C8.33161 11.906 8.56052 12.0008 8.79922 12.0008C9.03791 12.0008 9.26683 11.906 9.43561 11.7372C9.6044 11.5684 9.69922 11.3395 9.69922 11.1008V5.70078C9.69922 5.46209 9.6044 5.23317 9.43561 5.06439C9.26683 4.8956 9.03791 4.80078 8.79922 4.80078Z" />
-                                                        </svg>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <p class="text-gray-700 ">Admin Account Empty !</p>
-                                    @endif
+                                    @foreach ($data as $userData)
+                                        <tr class="border-b dark:border-gray-700">
+                                            <td class="px-4 py-3">{{ $userData->name }}</td>
+                                            <td class="px-4 py-3">{{ $userData->email }}</td>
+                                            <td class="px-4 py-3">{{ $userData->level }}</td>
+                                            <td class="px-4 py-3">{{ $userData->phone }}</td>
+                                            <td class="px-4 py-3">{{ $userData->updated_at }}</td>
+                                            <td class="px-4 py-3 flex items-center justify-end">
+                                                <button type="button" data-modal-target="updateProductModal-{{ $userData->id }}"
+                                                    data-modal-toggle="updateProductModal-{{ $userData->id }}"
+                                                    class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
+                                                        viewbox="0 0 20 20" fill="currentColor"
+                                                        aria-hidden="true">
+                                                        <path
+                                                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" data-modal-target="readProductModal-{{ $userData->id }}"
+                                                    data-modal-toggle="readProductModal-{{ $userData->id }}"
+                                                    class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
+                                                        viewbox="0 0 20 20" fill="currentColor"
+                                                        aria-hidden="true">
+                                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" data-modal-target="deleteModal-{{ $userData->id }}"
+                                                    data-modal-toggle="deleteModal-{{ $userData->id }}"
+                                                    class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400">
+                                                    <svg class="w-4 h-4" viewbox="0 0 14 15" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            fill="currentColor"
+                                                            d="M6.09922 0.300781C5.93212 0.30087 5.76835 0.347476 5.62625 0.435378C5.48414 0.523281 5.36931 0.649009 5.29462 0.798481L4.64302 2.10078H1.59922C1.36052 2.10078 1.13161 2.1956 0.962823 2.36439C0.79404 2.53317 0.699219 2.76209 0.699219 3.00078C0.699219 3.23948 0.79404 3.46839 0.962823 3.63718C1.13161 3.80596 1.36052 3.90078 1.59922 3.90078V12.9008C1.59922 13.3782 1.78886 13.836 2.12643 14.1736C2.46399 14.5111 2.92183 14.7008 3.39922 14.7008H10.5992C11.0766 14.7008 11.5344 14.5111 11.872 14.1736C12.2096 13.836 12.3992 13.3782 12.3992 12.9008V3.90078C12.6379 3.90078 12.8668 3.80596 13.0356 3.63718C13.2044 3.46839 13.2992 3.23948 13.2992 3.00078C13.2992 2.76209 13.2044 2.53317 13.0356 2.36439C12.8668 2.1956 12.6379 2.10078 12.3992 2.10078H9.35542L8.70382 0.798481C8.62913 0.649009 8.5143 0.523281 8.37219 0.435378C8.23009 0.347476 8.06631 0.30087 7.89922 0.300781H6.09922ZM4.29922 5.70078C4.29922 5.46209 4.39404 5.23317 4.56282 5.06439C4.73161 4.8956 4.96052 4.80078 5.19922 4.80078C5.43791 4.80078 5.66683 4.8956 5.83561 5.06439C6.0044 5.23317 6.09922 5.46209 6.09922 5.70078V11.1008C6.09922 11.3395 6.0044 11.5684 5.83561 11.7372C5.66683 11.906 5.43791 12.0008 5.19922 12.0008C4.96052 12.0008 4.73161 11.906 4.56282 11.7372C4.39404 11.5684 4.29922 11.3395 4.29922 11.1008V5.70078ZM8.79922 4.80078C8.56052 4.80078 8.33161 4.8956 8.16282 5.06439C7.99404 5.23317 7.89922 5.46209 7.89922 5.70078V11.1008C7.89922 11.3395 7.99404 11.5684 8.16282 11.7372C8.33161 11.906 8.56052 12.0008 8.79922 12.0008C9.03791 12.0008 9.26683 11.906 9.43561 11.7372C9.6044 11.5684 9.69922 11.3395 9.69922 11.1008V5.70078C9.69922 5.46209 9.6044 5.23317 9.43561 5.06439C9.26683 4.8956 9.03791 4.80078 8.79922 4.80078Z" />
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
+                            @else
+                                <p class="text-gray-700 text-sm text-center py-4">Staff Account Empty !</p>
+                            @endif
                         </div>
                         <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
                             aria-label="Table navigation">
@@ -231,7 +228,7 @@
                         <!-- Modal header -->
                         <div
                             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add New Admin</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add New Staff</h3>
                             <button type="button"
                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                 data-modal-target="createProductModal" data-modal-toggle="createProductModal">
@@ -245,7 +242,7 @@
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <form action="{{ route('add.admin') }}" method="POST">
+                        <form action="{{ route('add.staff') }}" method="POST">
                             @csrf
                             <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                 <div>
@@ -254,6 +251,13 @@
                                     <input type="text" name="name" id="name"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Type admin name">
+                                </div>
+                                <div>
+                                    <label for="phone"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                                    <input type="text" name="phone" id="phone"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Type staff phone">
                                 </div>
                                 <div>
                                     <label for="email"
@@ -271,13 +275,13 @@
                                         d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                Add new admin
+                                Add new staff
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            @foreach ($data as $data)
+            @foreach ($data as $data) 
                 <!-- Update modal -->
                 <div id="updateProductModal-{{ $data->id }}" tabindex="-1" aria-hidden="true"
                     class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -301,7 +305,7 @@
                                 </button>
                             </div>
                             <!-- Modal body -->
-                            <form action="{{ route('update.admin', ['id' => $data->id]) }}" method="post">
+                            <form action="{{ route('update.staff', ['id' => $data->id]) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" value="{{ $data->id }}">
@@ -310,6 +314,13 @@
                                         <label for="name"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                         <input type="text" name="name" id="name" value="{{ $data->name }}"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Ex. Apple iMac 27&ldquo;">
+                                    </div>
+                                    <div>
+                                        <label for="phone"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                                        <input type="text" name="phone" id="phone" value="{{ $data->phone }}"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Ex. Apple iMac 27&ldquo;">
                                     </div>
@@ -409,7 +420,7 @@
                     </div>
                 </div>
                 <!-- Delete modal -->
-                <form action="{{ route('delete.admin', ['id' => $data->id]) }}" method="POST">
+                <form action="{{ route('delete.staff', ['id' => $data->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div id="deleteModal-{{ $data->id }}" tabindex="-1" aria-hidden="true"

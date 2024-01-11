@@ -114,8 +114,19 @@ Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'tra
 
 // ==================== ADMIN ====================
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
+
 Route::get('/admin-account', [AdminController::class, 'getAdmin'])->name('admin.account')->middleware('auth');
 Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add.admin')->middleware('auth');
-Route::put('/update-user/{id}', [AdminController::class, 'updateUser'])->name('update.user')->middleware('auth');
+Route::put('/update-admin/{id}', [AdminController::class, 'updateAdmin'])->name('update.admin')->middleware('auth');
+Route::delete('/delete-admin/{id}', [AdminController::class, 'deleteAdmin'])->name('delete.admin')->middleware('auth');
 
+Route::get('/staff-account', [AdminController::class, 'getStaff'])->name('staff.account')->middleware('auth');
+Route::post('/add-staff', [AdminController::class, 'addStaff'])->name('add.staff')->middleware('auth');
+Route::put('/update-staff/{id}', [AdminController::class, 'updateStaff'])->name('update.staff')->middleware('auth');
+Route::delete('/delete-staff/{id}', [AdminController::class, 'deleteStaff'])->name('delete.staff')->middleware('auth');
+
+Route::get('/customer-account', [AdminController::class, 'getCustomer'])->name('customer.account')->middleware('auth');
+Route::post('/add-customer', [AdminController::class, 'addCustomer'])->name('add.customer')->middleware('auth');
+Route::put('/update-customer/{id}', [AdminController::class, 'updateCustomer'])->name('update.customer')->middleware('auth');
+Route::delete('/delete-customer/{id}', [AdminController::class, 'deleteCustomer'])->name('delete.customer')->middleware('auth');
 // ==================== END ADMIN ================
