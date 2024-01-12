@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
-    public function index()
+    public function viewTransaction()
     {
         $data = Order::select('order.*', 'booking.*', 'services.price', 'users.name', 'transaction.img_receipt',)
             ->join('booking', 'order.id_booking', '=', 'booking.id')

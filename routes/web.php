@@ -113,7 +113,7 @@ Route::get('/admin', function () {
     return view('admin.index');
 });
 
-Route::get('/staff', [App\Http\Controllers\StaffController::class, 'index']);
+Route::get('/staff', [App\Http\Controllers\StaffController::class, 'viewTransaction']);
 
 Route::get('/img/{filename}', function ($filename)
 {
