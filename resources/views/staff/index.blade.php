@@ -29,7 +29,7 @@
 
 <body>
 
-    <div class="antialiased bg-gray-50 dark:bg-gray-900">
+    <div class="antialiased bg-gray-50 dark:bg-gray-900" x-data="{id: 0}">
         {{-- navbar --}}
         @extends('staff.navbar')
 
@@ -91,6 +91,11 @@
                             </div>
                         </div>
                         <div class="overflow-x-auto">
+                            @if (session('success'))
+                            <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                                {{ session('success') }}
+                            </div>
+                            @endif
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
