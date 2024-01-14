@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
 /*
@@ -122,11 +124,11 @@ Route::get('/admin', function () {
     return view('admin.index');
 });
 
-Route::get('/staff', [App\Http\Controllers\StaffController::class, 'viewTransaction']);
+// ==================== STAFF ====================
 
-Route::get('/img/{filename}', function ($filename)
+Route::get('/img/{type}/{filename}', function ($type, $filename)
 {
-    $path = storage_path('app/public/img/receipt/'. $filename);;
+    $path = storage_path('app/public/img/'.$type.'/'. $filename);;
     if (!File::exists($path)) {
         abort(404);
     }
@@ -136,6 +138,15 @@ Route::get('/img/{filename}', function ($filename)
     $response->header('Content-Type', $type);
     return $response;
 });
+
+Route::get('/staff/transaction', [StaffController::class, 'getTransaction'])->middleware('auth');
+Route::post('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->middleware('auth');
+
+Route::post('/staff/service', [StaffController::class, 'getService'])->middleware('auth');
+Route::get('/staff/service', [StaffController::class, 'getService'])->name('search')->middleware('auth');
+Route::post('/staff/addservice', [StaffController::class, 'addService'])->middleware('auth');
+Route::put('/staff/updateservice/{id}', [StaffController::class, 'updateService'])->name('update.service')->middleware('auth');
+Route::delete('/staff/deleteservice/{id}', [StaffController::class, 'deleteService'])->name('delete.service')->middleware('auth');
 
 // ==================== ADMIN ====================
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
