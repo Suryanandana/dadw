@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -17,5 +18,14 @@ class StaffController extends Controller
             ->orderBy('order.id', 'desc')
             ->get();
         return view('staff.index')->with('data', $data);
+    }
+
+    public function validateTransaction(request $request)
+    {
+        $id = $request->id;
+        Booking::where('id', $id)->update([
+            'status_booking' => $request->status_booking,
+        ]);
+        return redirect()->route('staff.index')->with('success', 'Transaction validated');
     }
 }

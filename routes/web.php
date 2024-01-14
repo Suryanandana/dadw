@@ -119,7 +119,8 @@ Route::get('/admin', function () {
     return view('admin.index');
 });
 
-Route::get('/staff', [App\Http\Controllers\StaffController::class, 'viewTransaction']);
+Route::get('/staff', [App\Http\Controllers\StaffController::class, 'viewTransaction'])->name('staff.index') ;
+Route::post('/validateTransaction', [App\Http\Controllers\StaffController::class, 'validateTransaction']);
 
 Route::get('/img/{filename}', function ($filename)
 {

@@ -97,7 +97,7 @@ class CustomerController extends Controller
             'status_booking' => 'reschedule'
         ]);
 
-        return redirect()->route('customer.dashboard')->with('success', 'Reschedule berhasil');
+        return redirect()->route('customer.transaction')->with('success', 'Reschedule berhasil');
     }
 
     public function cancel(Request $request)
