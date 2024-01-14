@@ -156,7 +156,7 @@ class AdminController extends Controller
         return view('admin.account.staff', compact('data'));
     }
 
-    // add new staff account
+    //add new staff account
     public function addStaff(Request $request)
     {
         $request->validate([
@@ -179,6 +179,7 @@ class AdminController extends Controller
             ]);
             // insert data into staff table
             Staff::create([
+                'image' => 'default.png',
                 'phone' => $request->phone,
                 'id_users' => $data->id,
             ]);
