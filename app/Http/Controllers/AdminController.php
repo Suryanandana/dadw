@@ -445,4 +445,26 @@ class AdminController extends Controller
 
         return redirect('/customer-account')->with('success', 'successfully deleted data.');
     }
+
+    public function getAllTransaction(Request $request)
+    {
+        $data = DB::table('order')
+                    ->join('booking', 'order.id_booking', '=', 'booking.id')
+                    ->join('services', 'order.id_services', '=', 'services.id')
+                    ->get();
+        return view('admin.report.all-order', compact('data'));
+    }
+
+    public function filterTransaction(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $data = DB::table('order')
+                    ->join('booking', 'order.id_booking', '=', 'booking.id')
+                    ->join('services', 'order.id_services', '=', 'services.id')
+                    ->whereDate('booking.date', '>=', $start_date)
+                    ->whereDate('booking.date', '<=', $end_date)
+                    ->get();
+        return view('admin.report.all-order', compact('data'));
+    }
 }

@@ -1,18 +1,22 @@
 <?php
 
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\StaffController;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Authentication;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Auth\Events\PasswordReset;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,7 +132,7 @@ Route::get('/img/{filename}', function ($filename)
     }
     $file = File::get($path);
     $type = File::mimeType($path);
-    $response = Response::make($file, 200);
+    $response = response($file, 200);
     $response->header('Content-Type', $type);
     return $response;
 });
@@ -150,5 +154,8 @@ Route::get('/customer-account', [AdminController::class, 'getCustomer'])->name('
 Route::post('/add-customer', [AdminController::class, 'addCustomer'])->name('add.customer')->middleware('auth');
 Route::put('/update-customer/{id}', [AdminController::class, 'updateCustomer'])->name('update.customer')->middleware('auth');
 Route::delete('/delete-customer/{id}', [AdminController::class, 'deleteCustomer'])->name('delete.customer')->middleware('auth');
+
+Route::get('/all-transaction', [AdminController::class, 'getAllTransaction'])->name('all.transaction')->middleware('auth');
+Route::post('/filter-transaction', [AdminController::class, 'filterTransaction'])->name('filter.transaction')->middleware('auth');
 // ==================== END ADMIN ================
 
