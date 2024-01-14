@@ -7,8 +7,10 @@ use App\Models\Staff;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
+use App\Exports\TransactionExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Auth\Events\Registered;
 
 class AdminController extends Controller
@@ -444,5 +446,36 @@ class AdminController extends Controller
         }
 
         return redirect('/customer-account')->with('success', 'successfully deleted data.');
+    }
+
+    public function getAllTransaction(Request $request)
+    {
+        $data = DB::table('order')
+                    ->join('booking', 'order.id_booking', '=', 'booking.id')
+                    ->join('services', 'order.id_services', '=', 'services.id')
+                    ->get();
+        return view('admin.report.all-order', compact('data'));
+    }
+
+    public function filterTransaction(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $data = DB::table('order')
+                    ->join('booking', 'order.id_booking', '=', 'booking.id')
+                    ->join('services', 'order.id_services', '=', 'services.id')
+                    ->whereDate('booking.date', '>=', $start_date)
+                    ->whereDate('booking.date', '<=', $end_date)
+                    ->get();
+        return view('admin.report.all-order', compact('data'));
+    }
+
+    public function exportTransaction(Request $request)
+    {
+        $data = DB::table('order')
+                    ->join('booking', 'order.id_booking', '=', 'booking.id')
+                    ->join('services', 'order.id_services', '=', 'services.id')
+                    ->get();
+        return Excel::download(new TransactionExport($data), 'transaction.csv',  \Maatwebsite\Excel\Excel::CSV);
     }
 }
