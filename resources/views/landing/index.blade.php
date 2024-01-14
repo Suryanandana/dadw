@@ -73,11 +73,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Indulge in the ultimate self-care experience with our rejuvenating body treatment services! 
                                 Step into a world of relaxation and wellness as our skilled therapists pamper you with luxurious treatments designed to nourish your body and soothe your senses.</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Body Treatment"
+                                    class="text-green-700 flex gap-2 items-center cursor-pointer hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K
@@ -100,11 +100,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Embark on a journey of serenity and rejuvenation with our exceptional massage services. 
                                 Unwind, relax, and let the stresses of the day melt away as our skilled therapists expertly address your unique needs.</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Massage"
+                                    class="text-green-700 flex cursor-pointer gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K
@@ -127,11 +127,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Revitalize your locks and unleash the full potential of your hair with our exceptional hair treatment services. 
                                 Step into a world of beauty and self-care where our expert stylists are dedicated to enhancing the health, shine, and overall allure of your hair.</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Hair Treatment"
+                                    class="text-green-700 flex gap-2 cursor-pointer items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K
@@ -154,11 +154,11 @@
                             <p class="leading-relaxed mb-3 text-justify">Treat yourself to a moment of luxury and care that extends beyond aesthetics to promote healthier, more radiant hands. 
                                 Our wide selection of high-quality nail colors and products ensures that your manicure is not only visually stunning but also long-lasting.</p>
                             <div class="flex items-center flex-wrap ">
-                                <button type="button"
-                                    class="text-green-700 flex gap-2 items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                <a href="/booking?service=Manicure"
+                                    class="text-green-700 flex gap-2 cursor-pointer items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Learn More</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
-                                </button>
+                                </a>
                                 <span
                                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                     <i class="fa-solid fa-thumbs-up mr-1"></i>1.2K

@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\Feedback;
 use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Services;
 use App\Models\Transaction;
-use App\Models\Services;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
@@ -92,26 +89,25 @@ class CustomerController extends Controller
 
     public function reschedule(Request $request)
     {
+        $formattedDate = date("Y-m-d", strtotime($request->date));
         //mencari id customer yang dimiliki oleh user yang sedang login
         $user = auth()->user();
-        $id_customer = Customer::select('id_users')->where('id_users', $user->id)->first();
-        $id_booking = Booking::select('*')->where('id_customer', $id_customer->id_users)->first();
-        Booking::where('id', $id_booking->id)->update([
-            'date' => $request->date,
+        Booking::where('id', $request->id)->update([
+            'date' => $formattedDate . ' ' . $request->time,
             'status_booking' => 'reschedule'
         ]);
 
         return redirect()->route('customer.dashboard')->with('success', 'Reschedule berhasil');
     }
 
-    public function cancellation($id){
-        // $user = auth()->user();
-        // $id_customer = Customer::select('*')->where('id_users', $user->id)->first();
-        // $id_booking = Booking::select('*')->where('id_customer', $id_customer->id_users)->first();
-        
-        Booking::where('id', $id)->delete();
+    public function cancel(Request $request)
+    {
+        Booking::where('id', $request->id)->update([
+            'date' => $request->date,
+            'status_booking' => 'cancelled',
+        ]);
 
-        return redirect()->route('customer.dashboard')->with('success', 'Booking berhasil dibatalkan');
+        return redirect()->route('customer.transaction')->with('success', 'Cancel berhasil');
     }
 
     public function transaction()
@@ -125,8 +121,13 @@ class CustomerController extends Controller
             ->where('booking.id_customer', $user->id)
             ->orderBy('order.id', 'desc')
             ->get();
-        // set color for status booking
+        $feedback = Feedback::select('feedback.*')
+            ->join('booking', 'feedback.id_booking', '=', 'booking.id')
+            ->where('booking.id_customer', $user->id)
+            ->get();
         for($i = 0; $i < count($data); $i++){
+            // set color for status booking
+            $data[$i]->price = (int)$data[$i]->price;
             if($data[$i]->status_booking == 'inprogress'){
                 $data[$i]->color = 'bg-yellow-100 text-yellow-800';
             } else if ($data[$i]->status_booking == 'reschedule'){
@@ -136,9 +137,25 @@ class CustomerController extends Controller
             } else if ($data[$i]->status_booking == 'accepted'){
                 $data[$i]->color = 'bg-green-100 text-green-800';
             } else {
-                $data[$i]->color = 'bg-gray-100 text-gray-800';
+                $data[$i]->color = 'bg-teal-100 text-teal-800';
+            }
+            for($j = 0; $j < count($feedback); $j++){
+                if($data[$i]->id == $feedback[$j]->id_booking){
+                    $data[$i]->feedback = $feedback[$j];
+                }
             }
         }
         return view('customer.transaction', compact('data'));
+    }
+
+    public function feedback(Request $request){
+        Feedback::create([
+            'rate' => $request->rate,
+            'text' => $request->text,
+            'date' => date("Y-m-d H:i:s"),
+            'id_booking' => $request->id_booking,
+        ]);
+
+        return redirect()->route('customer.transaction')->with('success', 'Feedback berhasil');
     }
 }

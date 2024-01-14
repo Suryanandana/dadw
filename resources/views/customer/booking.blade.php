@@ -34,11 +34,11 @@
     @extends('landing.navbar')
 
     {{-- content --}}
-    <section class="bg-white dark:bg-gray-900 mt-12 -mb-24">
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+    <section class="mt-12 -mb-24 bg-white dark:bg-gray-900">
+        <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
             {{-- show validate error --}}
             @if ($errors->any())
-            <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+            <div class="p-4 mb-6 text-center text-white bg-red-500 rounded-lg">
                 <ul>
                     @foreach ($errors->all() as $error)
                     <li class="text-sm">{{ $error }}</li>
@@ -48,7 +48,7 @@
             @endif
             {{-- show success message --}}
             @if (session('success'))
-            <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+            <div class="p-4 mb-6 text-center text-white bg-green-500 rounded-lg">
                 {{ session('success') }}
             </div>
             @endif
@@ -65,8 +65,11 @@
                             @foreach ($services as $item)
                             <option value="{{$item->id}}"
                                 <?php 
-                                    if(isset($_GET['service']) == $item->service_name){
-                                        echo "selected";
+                                    if(isset($_GET['service']))
+                                    {
+                                        if($_GET['service'] == $item->service_name){
+                                            echo "selected";
+                                        }
                                     }
                                 ?>>
                                 {{ $item->service_name }}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StaffController;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\AdminController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,12 +107,32 @@ Route::get('/booking', function () {
 
 Route::post('/booking', [App\Http\Controllers\CustomerController::class, 'booking'])->name('customer.booking');
 
-Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule'])->name('reschedule-form')->middleware('auth');
-Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule')->middleware('auth');
-Route::delete('/cancellation/{{id}}', [App\Http\Controllers\CustomerController::class, 'cancellation'])->name('cancellation')->middleware('auth');
+Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
+Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
+Route::put('/cancel', [App\Http\Controllers\CustomerController::class, 'cancel']);
 
-Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction']);
+Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction'])->name('customer.transaction');
 
+Route::post('/feedback', [App\Http\Controllers\CustomerController::class, 'feedback'])->name('customer.feedback');
+
+Route::get('/admin', function () {
+    return view('admin.index');
+});
+
+Route::get('/staff', [App\Http\Controllers\StaffController::class, 'viewTransaction']);
+
+Route::get('/img/{filename}', function ($filename)
+{
+    $path = storage_path('app/public/img/receipt/'. $filename);;
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header('Content-Type', $type);
+    return $response;
+});
 
 // ==================== ADMIN ====================
 Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');

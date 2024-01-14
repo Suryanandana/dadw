@@ -52,11 +52,9 @@
                 {{ session('success') }}
             </div>
             @endif
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Reschedule a booking</h2>
-            <form action="/reschedule" method="POST" enctype="multipart/form-data">
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Book a service {{request('service')}}</h2>
+            <form action="/booking" method="POST" enctype="multipart/form-data">
                 @csrf
-                {{ method_field('PUT') }}
-                <input type="hidden" name="id" value="{{request('id')}}">
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <div class="w-full">
                         <label for="brand"
@@ -90,13 +88,31 @@
                             <option value="17:00:00">17:00</option>
                         </select>
                     </div>
+                    <div class="w-full">
+                        <label for="number-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pax</label>
+                        <input type="number" name="pax" id="number-input" aria-describedby="helper-text-explanation"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="0" required>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            for="file_input">Upload file</label>
+                        <input name="img_receipt" accept="image/*" aria-describedby="file_input_help"
+                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="file_input_help" id="file_input" type="file">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Only accept these image extension: PNG, JPG, and JPEG</p>
+                    </div>
                 </div>
                 <div class="flex justify-end">
-                    <input type="submit" value="Reschedule" class="focus:outline-none mt-3 ml-auto mb-10 text-white bg-green-600 cursor-pointer hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                    <input type="submit" value="Booking" class="focus:outline-none mt-3 ml-auto mb-10 text-white bg-green-600 cursor-pointer hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                 </div>
             </form>
         </div>
     </section>
+
+    {{-- footer --}}
+    @extends('landing.footer')
 </body>
 
 </html>
