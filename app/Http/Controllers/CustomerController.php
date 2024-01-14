@@ -59,7 +59,7 @@ class CustomerController extends Controller
                 'id_customer' => $id_customer->id_users,
                 'date' => $formattedDate . ' ' . $request->time,
                 'status_booking' => 'inprogress',
-                'pax' => 1,
+                'pax' => $request->pax,
                 'id_transaction' => $id_transaction,
             ]);
             // get id booking
