@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\LandingController;
 use App\Http\Controllers\StaffController;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -25,7 +24,9 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/', [LandingController::class, 'landing']);
+Route::get('/', function () {
+    return view('landing.index');
+});
 
 // customer dashboard
 Route::get('/customer-dashboard', [App\Http\Controllers\CustomerController::class, 'dashboard'])->name('customer.dashboard')->middleware('auth');
@@ -105,7 +106,7 @@ Route::get('/booking', function () {
 })->middleware('auth');
 
 Route::post('/booking', [App\Http\Controllers\CustomerController::class, 'booking'])->name('customer.booking');
- 
+
 Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
 Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
 Route::put('/cancel', [App\Http\Controllers\CustomerController::class, 'cancel']);
