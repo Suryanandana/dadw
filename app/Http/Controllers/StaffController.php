@@ -51,7 +51,6 @@ class StaffController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             $error = $th->getMessage();
-            return $error;
             return redirect('/staff/transaction')->with('error', $error);
         }
     }

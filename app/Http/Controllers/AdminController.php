@@ -181,7 +181,6 @@ class AdminController extends Controller
             ]);
             // insert data into staff table
             Staff::create([
-                'image' => 'default.png',
                 'phone' => $request->phone,
                 'id_users' => $data->id,
             ]);

@@ -72,7 +72,7 @@
                 <div class="p-4 md:w-1/3 splide__slide">
                     <div class="h-full overflow-hidden border-2 border-gray-200 rounded-lg border-opacity-60">
                         <img class="object-cover object-center w-full lg:h-48 md:h-36"
-                            src="{{asset('img/landing/'.$item->imgdir)}}" alt="blog">
+                            src="{{asset('img/service/'.$item->imgdir)}}" alt="blog">
                         <div class="p-6">
                             <h2 class="mb-1 text-xs font-medium tracking-widest text-gray-400 title-font">PACKAGE</h2>
                             <h1 class="mb-3 text-lg font-medium text-gray-900 title-font">{{$item->service_name}}</h1>
