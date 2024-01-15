@@ -91,11 +91,6 @@
                             </div>
                         </div>
                         <div class="overflow-x-auto">
-                            @if (session('success'))
-                            <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
-                                {{ session('success') }}
-                            </div>
-                            @endif
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -135,9 +130,16 @@
                                                     <span
                                                         class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Need
                                                         check</span>
-                                                @elseif (!strcmp($item->status, 'validate'))
+                                                @elseif (!strcmp($item->status_booking, 'complete'))
                                                     <span
-                                                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Validate</span>
+                                                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Completed</span>
+                                                @elseif (!strcmp($item->status, 'validate'))
+                                                    <form action="/staff/donetransaction/{{ $item->id }}" method="post">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Click to Complete</button>
+
+                                                    </form>
                                                 @else
                                                     <span
                                                         class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Denied</span>
