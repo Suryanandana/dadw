@@ -19,7 +19,7 @@ class StaffController extends Controller
 {
     public function getTransaction()
     {
-        $data = Order::select('booking.pax', 'services.price', 'users.name', 'transaction.*',)
+        $data = Order::select('booking.pax', 'booking.status_booking', 'services.price', 'users.name', 'transaction.*',)
             ->join('booking', 'order.id_booking', '=', 'booking.id')
             ->join('users', 'booking.id_customer', '=', 'users.id')
             ->join('services', 'order.id_services', '=', 'services.id')
@@ -42,11 +42,34 @@ class StaffController extends Controller
                 'status' => $request->status,
             ]);
             $booking->update([
-                'id_staff' => $id_staff->id
+                'status_booking' => $request->status == 'validate' ? 'accepted' : 'cancelled',
+                'id_staff' => $id_staff->id,
             ]);
 
             DB::commit();
             
+            return redirect('/staff/transaction')->with('success', 'Data change successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $error = $th->getMessage();
+            return redirect('/staff/transaction')->with('error', $error);
+        }
+    }
+
+    public function doneTransaction($id)
+    {
+        $booking = Booking::where('id_transaction', $id);
+        $user = auth()->user();
+        $id_staff = Staff::select('id')->where('id_users', $user->id)->first();
+        try {
+            DB::beginTransaction();
+            
+            $booking->update([
+                'status_booking' => 'complete',
+                'id_staff' => $id_staff->id,
+            ]);
+
+            DB::commit();
             return redirect('/staff/transaction')->with('success', 'Data change successfully');
         } catch (\Throwable $th) {
             DB::rollBack();

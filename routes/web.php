@@ -140,6 +140,7 @@ Route::get('/img/{type}/{filename}', function ($type, $filename)
 
 Route::get('/staff/transaction', [StaffController::class, 'getTransaction'])->middleware('auth');
 Route::post('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->middleware('auth');
+Route::post('/staff/donetransaction/{id}', [StaffController::class, 'doneTransaction'])->middleware('auth');
 
 Route::post('/staff/service', [StaffController::class, 'getService'])->middleware('auth');
 Route::get('/staff/service', [StaffController::class, 'getService'])->name('search')->middleware('auth');
