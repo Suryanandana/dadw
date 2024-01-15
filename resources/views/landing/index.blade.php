@@ -34,7 +34,7 @@
     @extends('landing.navbar')
 
     {{-- hero --}}
-    <img src="{{asset('img/landing/hero.png')}}" alt="">
+    <img src="{{asset('img/landing/hero.png')}}" alt="" class="w-screen">
 
     {{-- our recommendation --}}
     <section class="text-gray-600 body-font">

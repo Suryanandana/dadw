@@ -19,7 +19,7 @@
                 </svg>
                 <span class="sr-only">Toggle sidebar</span>
             </button>
-            <a href="/staff" class="flex items-center justify-between mr-4">
+            <a href="/" class="flex items-center justify-between mr-4">
                 <img src="{{asset('img/logo.png')}}" class="h-8 mr-3" alt="Flowbite Logo" />
             </a>
         </div>
