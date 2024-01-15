@@ -470,12 +470,56 @@ class AdminController extends Controller
         return view('admin.report.all-order', compact('data'));
     }
 
-    public function exportTransaction(Request $request)
+    public function exportTransaction()
     {
         $data = DB::table('order')
                     ->join('booking', 'order.id_booking', '=', 'booking.id')
                     ->join('services', 'order.id_services', '=', 'services.id')
                     ->get();
         return Excel::download(new TransactionExport($data), 'transaction.csv',  \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function getCashFlow()
+    {
+        $data = DB::table('order')
+                    ->join('booking', 'order.id_booking', '=', 'booking.id')
+                    ->join('services', 'order.id_services', '=', 'services.id')
+                    ->get();
+
+        foreach($data as $item)
+        {
+            $timestamp = strtotime($item->date);
+
+            $month = date('m', $timestamp);
+            $item->month = $month;
+
+            // if($month == 1){
+            //     $item->month = 'January';
+            // }elseif($month == 2){
+            //     $item->month = 'February';
+            // }elseif($month == 3){
+            //     $item->month = 'March';
+            // }elseif($month == 4){
+            //     $item->month = 'April';
+            // }elseif($month == 5){
+            //     $item->month = 'May';
+            // }elseif($month == 6){
+            //     $item->month = 'June';
+            // }elseif($month == 7){
+            //     $item->month = 'July';
+            // }elseif($month == 8){
+            //     $item->month = 'August';
+            // }elseif($month == 9){
+            //     $item->month = 'September';
+            // }elseif($month == 10){
+            //     $item->month = 'October';
+            // }elseif($month == 11){
+            //     $item->month = 'November';
+            // }elseif($month == 12){
+            //     $item->month = 'December';
+            // }
+        }
+        
+        return view('admin.report.cash-flow', compact('data'));
     }
 }
