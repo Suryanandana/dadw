@@ -168,5 +168,6 @@ Route::delete('/delete-customer/{id}', [AdminController::class, 'deleteCustomer'
 Route::get('/all-transaction', [AdminController::class, 'getAllTransaction'])->name('all.transaction')->middleware('auth');
 Route::post('/filter-transaction', [AdminController::class, 'filterTransaction'])->name('filter.transaction')->middleware('auth');
 Route::get('/transaction-export', [AdminController::class, 'exportTransaction'])->name('transaction.export')->middleware('auth');
+Route::get('/cash-flow', [AdminController::class, 'getCashFlow'])->name('cash.flow')->middleware('auth');
 // ==================== END ADMIN ================
 
