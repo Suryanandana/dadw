@@ -119,9 +119,7 @@ Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'tra
 
 Route::post('/feedback', [App\Http\Controllers\CustomerController::class, 'feedback'])->name('customer.feedback');
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
+Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.landing')->middleware('auth');
 
 // ==================== STAFF ====================
 

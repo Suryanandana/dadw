@@ -36,7 +36,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
         ]);
-        
+
         try {
             $password = "password123";
             $data = User::create([
@@ -45,7 +45,7 @@ class AdminController extends Controller
                 'level' => 'admin',
                 'password' => bcrypt($password),
             ]);
-    
+
             // send an email to the email entered
             event(new Registered($data));
             // provides login access when verifying email
@@ -58,12 +58,11 @@ class AdminController extends Controller
         return redirect('/admin-account')->with('success', 'successfully added data, the default password is "password123" please change it later.');
     }
 
-     // update admin data
+    // update admin data
     public function updateAdmin(Request $request, $id)
     {
         $data = User::find($id);
-        if($data->level == 'admin' && $request->level == 'customer')
-        {
+        if ($data->level == 'admin' && $request->level == 'customer') {
             try {
                 DB::beginTransaction();
 
@@ -84,9 +83,7 @@ class AdminController extends Controller
                 $error = $th->getMessage();
                 return redirect('/admin-account')->with('error', $error);
             }
-        }
-        elseif($data->level == 'admin' && $request->level == 'staff')
-        {
+        } elseif ($data->level == 'admin' && $request->level == 'staff') {
             try {
                 DB::beginTransaction();
 
@@ -107,9 +104,7 @@ class AdminController extends Controller
                 $error = $th->getMessage();
                 return redirect('/admin-account')->with('error', $error);
             }
-        }
-        elseif($data->level == 'admin' && $request->level == 'admin')
-        {
+        } elseif ($data->level == 'admin' && $request->level == 'admin') {
             try {
                 DB::beginTransaction();
 
@@ -151,10 +146,10 @@ class AdminController extends Controller
     public function getStaff()
     {
         $data = DB::table('users')
-                ->join('staff', 'users.id', '=', 'staff.id_users')
-                ->select('users.*', 'staff.*')
-                ->where('users.level', 'staff')
-                ->get();
+            ->join('staff', 'users.id', '=', 'staff.id_users')
+            ->select('users.*', 'staff.*')
+            ->where('users.level', 'staff')
+            ->get();
         return view('admin.account.staff', compact('data'));
     }
 
@@ -166,7 +161,7 @@ class AdminController extends Controller
             'phone' => 'required|max:15',
             'email' => 'required|string|email|max:255|unique:users',
         ]);
-        
+
         try {
             // set default password
             $password = "password123";
@@ -210,8 +205,7 @@ class AdminController extends Controller
 
         $data = Staff::find($id);
         $user = User::find($data->id_users);
-        if($user->level == 'staff' && $request->level == 'admin')
-        {
+        if ($user->level == 'staff' && $request->level == 'admin') {
             try {
                 DB::beginTransaction();
 
@@ -221,16 +215,14 @@ class AdminController extends Controller
                     'name' => $request->name,
                     'level' => $request->level,
                 ]);
-                
+
                 DB::commit();
             } catch (\Throwable $th) {
                 DB::rollBack();
                 $error = $th->getMessage();
                 return redirect('/staff-account')->with('error', $error);
             }
-        }
-        elseif($user->level == 'staff' && $request->level == 'customer')
-        {
+        } elseif ($user->level == 'staff' && $request->level == 'customer') {
             try {
                 DB::beginTransaction();
 
@@ -252,9 +244,7 @@ class AdminController extends Controller
                 $error = $th->getMessage();
                 return redirect('/staff-account')->with('error', $error);
             }
-        }
-        else
-        {
+        } else {
             try {
                 DB::beginTransaction();
 
@@ -275,19 +265,19 @@ class AdminController extends Controller
         }
         return redirect('/staff-account')->with('success', 'successfully updated data.');
     }
-    
+
     public function deleteStaff($id)
     {
         $staff = Staff::find($id);
         $user = User::find($staff->id_users);
         try {
             DB::beginTransaction();
-                $staff->delete();
-                $user->delete();
+            $staff->delete();
+            $user->delete();
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-                $error = $th->getMessage();
+            $error = $th->getMessage();
             return redirect('/staff-account')->with('error', $error);
         }
 
@@ -298,10 +288,10 @@ class AdminController extends Controller
     public function getCustomer()
     {
         $data = DB::table('users')
-                ->join('customer', 'users.id', '=', 'customer.id_users')
-                ->select('users.*', 'customer.*')
-                ->where('users.level', 'customer')
-                ->get();
+            ->join('customer', 'users.id', '=', 'customer.id_users')
+            ->select('users.*', 'customer.*')
+            ->where('users.level', 'customer')
+            ->get();
         return view('admin.account.customer', compact('data'));
     }
 
@@ -353,8 +343,7 @@ class AdminController extends Controller
         $customer = Customer::find($id);
         $user = User::find($customer->id_users);
 
-        if($user->level == 'customer' && $request->level == 'admin')
-        {
+        if ($user->level == 'customer' && $request->level == 'admin') {
             try {
                 DB::beginTransaction();
 
@@ -364,16 +353,14 @@ class AdminController extends Controller
                     'name' => $request->name,
                     'level' => $request->level,
                 ]);
-                
+
                 DB::commit();
             } catch (\Throwable $th) {
                 DB::rollBack();
                 $error = $th->getMessage();
                 return redirect('/customer-account')->with('error', $error);
             }
-        }
-        elseif($user->level == 'customer' && $request->level == 'staff')
-        {
+        } elseif ($user->level == 'customer' && $request->level == 'staff') {
             try {
                 DB::beginTransaction();
 
@@ -395,9 +382,7 @@ class AdminController extends Controller
                 $error = $th->getMessage();
                 return redirect('/customer-account')->with('error', $error);
             }
-        }
-        else
-        {
+        } else {
             $request->validate([
                 'name' => 'string|max:255',
                 'address' => 'string|max:51',
@@ -435,12 +420,12 @@ class AdminController extends Controller
         $user = User::find($customer->id_users);
         try {
             DB::beginTransaction();
-                $customer->delete();
-                $user->delete();
+            $customer->delete();
+            $user->delete();
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-                $error = $th->getMessage();
+            $error = $th->getMessage();
             return redirect('/customer-account')->with('error', $error);
         }
 
@@ -450,9 +435,9 @@ class AdminController extends Controller
     public function getAllTransaction(Request $request)
     {
         $data = DB::table('order')
-                    ->join('booking', 'order.id_booking', '=', 'booking.id')
-                    ->join('services', 'order.id_services', '=', 'services.id')
-                    ->get();
+            ->join('booking', 'order.id_booking', '=', 'booking.id')
+            ->join('services', 'order.id_services', '=', 'services.id')
+            ->get();
         return view('admin.report.all-order', compact('data'));
     }
 
@@ -461,64 +446,64 @@ class AdminController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $data = DB::table('order')
-                    ->join('booking', 'order.id_booking', '=', 'booking.id')
-                    ->join('services', 'order.id_services', '=', 'services.id')
-                    ->whereDate('booking.date', '>=', $start_date)
-                    ->whereDate('booking.date', '<=', $end_date)
-                    ->get();
+            ->join('booking', 'order.id_booking', '=', 'booking.id')
+            ->join('services', 'order.id_services', '=', 'services.id')
+            ->whereDate('booking.date', '>=', $start_date)
+            ->whereDate('booking.date', '<=', $end_date)
+            ->get();
         return view('admin.report.all-order', compact('data'));
     }
 
     public function exportTransaction()
     {
         $data = DB::table('order')
-                    ->join('booking', 'order.id_booking', '=', 'booking.id')
-                    ->join('services', 'order.id_services', '=', 'services.id')
-                    ->get();
-        return Excel::download(new TransactionExport($data), 'transaction.csv',  \Maatwebsite\Excel\Excel::CSV);
+            ->join('booking', 'order.id_booking', '=', 'booking.id')
+            ->join('services', 'order.id_services', '=', 'services.id')
+            ->get();
+        return Excel::download(new TransactionExport($data), 'transaction.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function getCashFlow()
     {
         $data = DB::table('order')
-                    ->join('booking', 'order.id_booking', '=', 'booking.id')
-                    ->join('services', 'order.id_services', '=', 'services.id')
-                    ->get();
+            ->join('booking', 'order.id_booking', '=', 'booking.id')
+            ->join('services', 'order.id_services', '=', 'services.id')
+            ->get();
 
-        foreach($data as $item)
-        {
+        foreach ($data as $item) {
             $timestamp = strtotime($item->date);
 
             $month = date('m', $timestamp);
             $item->month = $month;
-
-            // if($month == 1){
-            //     $item->month = 'January';
-            // }elseif($month == 2){
-            //     $item->month = 'February';
-            // }elseif($month == 3){
-            //     $item->month = 'March';
-            // }elseif($month == 4){
-            //     $item->month = 'April';
-            // }elseif($month == 5){
-            //     $item->month = 'May';
-            // }elseif($month == 6){
-            //     $item->month = 'June';
-            // }elseif($month == 7){
-            //     $item->month = 'July';
-            // }elseif($month == 8){
-            //     $item->month = 'August';
-            // }elseif($month == 9){
-            //     $item->month = 'September';
-            // }elseif($month == 10){
-            //     $item->month = 'October';
-            // }elseif($month == 11){
-            //     $item->month = 'November';
-            // }elseif($month == 12){
-            //     $item->month = 'December';
-            // }
         }
-        
+
         return view('admin.report.cash-flow', compact('data'));
+    }
+
+    public function dashboard()
+    {
+        $data = DB::table('order')
+            ->join('booking', 'order.id_booking', '=', 'booking.id')
+            ->join('services', 'order.id_services', '=', 'services.id')
+            ->get();
+
+        foreach ($data as $item) {
+            $timestamp = strtotime($item->date);
+
+            $month = date('n', $timestamp);
+            $item->month = $month;
+        }
+        $reports = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $reports[$i - 1] = 0;
+        }
+        foreach ($data as $item) {
+            for ($i = 1; $i <= 12; $i++) {
+                if ($item->month == $i) {
+                    $reports[$i - 1] = $reports[$i - 1] + $item->price * $item->pax;
+                }
+            }
+        }
+        return view('admin.index', compact('reports'));
     }
 }
