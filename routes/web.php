@@ -136,6 +136,7 @@ Route::get('/img/{type}/{filename}', function ($type, $filename)
     return $response;
 });
 
+Route::get('/staff', [StaffController::class, 'dashboard'])->middleware('auth');
 Route::get('/staff/transaction', [StaffController::class, 'getTransaction'])->middleware('auth');
 Route::post('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->middleware('auth');
 Route::post('/staff/donetransaction/{id}', [StaffController::class, 'doneTransaction'])->middleware('auth');
