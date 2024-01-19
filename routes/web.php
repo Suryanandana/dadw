@@ -93,6 +93,28 @@ Route::post('/reset-password', function (Request $request) {
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
 
+// booking
+Route::get('/booking', function () {
+    // get data from database
+    $services = DB::table('services')->get();
+    $rooms = DB::table('rooms')->get();
+    return view('customer.booking', ['services' => $services, 'rooms' => $rooms]);
+})->middleware('auth');
+
+Route::post('/booking', [App\Http\Controllers\CustomerController::class, 'booking'])->name('customer.booking');
+ 
+Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'viewReschedule']);
+Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
+Route::put('/cancel', [App\Http\Controllers\CustomerController::class, 'cancel']);
+
+Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction'])->name('customer.transaction');
+
+Route::post('/feedback', [App\Http\Controllers\CustomerController::class, 'feedback'])->name('customer.feedback');
+
+Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.landing')->middleware('auth');
+
+// ==================== STAFF ====================
+
 Route::get('/img/{type}/{filename}', function ($type, $filename)
 {
     $path = storage_path('app/public/img/'.$type.'/'. $filename);;
@@ -105,6 +127,10 @@ Route::get('/img/{type}/{filename}', function ($type, $filename)
     $response->header('Content-Type', $type);
     return $response;
 });
+Route::get('/staff', [StaffController::class, 'dashboard'])->middleware('auth');
+Route::get('/staff/transaction', [StaffController::class, 'getTransaction'])->middleware('auth');
+Route::post('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->middleware('auth');
+Route::post('/staff/donetransaction/{id}', [StaffController::class, 'doneTransaction'])->middleware('auth');
 
 
 Route::middleware(['auth'])->group(function() 

@@ -31,10 +31,10 @@
 
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
         {{-- navbar --}}
-        @extends('admin.navbar')
+        @extends('staff.navbar')
 
         {{-- sidebar --}}
-        @extends('admin.sidebar')
+        @extends('staff.sidebar')
 
         {{-- content --}}
         <main class="h-auto p-1 pt-20 md:ml-64">
@@ -42,7 +42,8 @@
             <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
                 <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
                     <!-- Start coding here -->
-                    <div>
+                    <div class="w-1/2 mx-auto">
+                        <h1 class="text-2xl font-semibold text-center">Chart Status Booking</h1>
                         <canvas id="myChart"></canvas>
                     </div>
                 </div>
@@ -56,37 +57,28 @@
     <script>
         const ctx = document.getElementById('myChart');
         new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                labels: ['inprogress', 'accepted', 'reschedule', 'cancelled', 'complete'],
                 datasets: [{
-                    label: 'Cashflow',
-                    backgroundColor: [
-                        'rgba(74, 222, 128, 0.5)',
-                    ],
+                    label: 'Total transaction',
                     data: [
-                        {{$reports[0]}}, 
-                        {{$reports[1]}},
-                        {{$reports[2]}},
-                        {{$reports[3]}}, 
-                        {{$reports[4]}}, 
-                        {{$reports[5]}},
-                        {{$reports[6]}},
-                        {{$reports[7]}},
-                        {{$reports[8]}},
-                        {{$reports[9]}},
-                        {{$reports[10]}},
-                        {{$reports[11]}}],
-                    borderWidth: 1
+                        {{$status['inprogress']}},
+                        {{$status['accepted']}},
+                        {{$status['reschedule']}},
+                        {{$status['cancelled']}},
+                        {{$status['complete']}}
+                    ],
+                    backgroundColor: [
+                        'yellow',
+                        'green',
+                        'blue',
+                        'red',
+                        'teal'
+                    ],
+                    hoverOffset: 4
                 }]
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
         });
     </script>
 </body>

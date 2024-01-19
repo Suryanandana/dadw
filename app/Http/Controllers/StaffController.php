@@ -17,6 +17,27 @@ use function PHPUnit\Framework\isNull;
 
 class StaffController extends Controller
 {
+
+    public function dashboard()
+    {
+        $status = ['inprogress' => 0, 'accepted' => 0, 'reschedule' => 0, 'cancelled' => 0, 'complete' => 0];
+        $data = Booking::select('booking.status_booking')->get();
+        foreach($data as $d){
+            if($d->status_booking == 'inprogress') {
+                $status['inprogress'] += 1;
+            } else if($d->status_booking == 'accepted') {
+                $status['accepted'] += 1;
+            } else if($d->status_booking == 'reschedule') {
+                $status['reschedule'] += 1;
+            } else if($d->status_booking == 'cancelled') {
+                $status['cancelled'] += 1;
+            } else if($d->status_booking == 'complete') {
+                $status['complete'] += 1;
+            }
+        }
+        return view('staff.dashboard')->with('status', $status);
+    }
+
     public function getTransaction()
     {
         $data = Order::select('booking.pax', 'booking.status_booking', 'services.price', 'users.name', 'transaction.*',)
