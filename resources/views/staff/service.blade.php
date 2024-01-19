@@ -141,21 +141,20 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                        <tr class="border-b dark:border-gray-700 hover:cursor-pointer" data-modal-target="readModal{{ $item->id }}"
-                                            data-modal-toggle="readModal{{ $item->id }}">
-                                            <th scope="row"
+                                        <tr class="border-b dark:border-gray-700 hover:cursor-pointer">
+                                            <th scope="row" data-modal-target="readModal{{ $item->id }}" data-modal-toggle="readModal{{ $item->id }}"
                                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {{ $item->service_name }}
                                             </th>
-                                            <td class="px-4 py-3">
+                                            <td class="px-4 py-3" data-modal-target="readModal{{ $item->id }}" data-modal-toggle="readModal{{ $item->id }}">
                                                 {{ $item->details }}
                                             </td>
-                                            <td class="px-4 py-3">
+                                            <td class="px-4 py-3" data-modal-target="readModal{{ $item->id }}" data-modal-toggle="readModal{{ $item->id }}">
                                                 <button class="text-blue underline">
                                                     {{ $item->imgdir }}
                                                 </button>
                                             </td>
-                                            <td class="px-4 py-3 max-w-[12rem] truncate">
+                                            <td class="px-4 py-3 max-w-[12rem] truncate" data-modal-target="readModal{{ $item->id }}" data-modal-toggle="readModal{{ $item->id }}">
                                                 {{ 'Rp. ' . number_format(num: $item->price, thousands_separator: '.') }}
                                             </td>
                                             <td class="flex items-center justify-end px-4 py-3">

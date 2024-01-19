@@ -46,7 +46,7 @@ class StaffController extends Controller
             ->join('services', 'order.id_services', '=', 'services.id')
             ->join('transaction', 'booking.id_transaction', '=', 'transaction.id')
             ->orderBy('order.id', 'desc')
-            ->paginate(5);
+            ->paginate(10);
         return view('staff.index')->with('data', $data);
     }
     
@@ -114,6 +114,7 @@ class StaffController extends Controller
             $data = DB::table('services')
             ->join('image_services', 'services.id', '=', 'image_services.service_id')
             ->select('services.*', 'image_services.imgdir')
+            ->orderBy('id', 'desc')
             ->paginate(4);
         }
         return view('staff.service')->with('data', $data);

@@ -105,45 +105,47 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                        <tr class="border-b dark:border-gray-700 hover:cursor-pointer"
-                                            data-modal-toggle="readModal{{ $item->id }}"
-                                            data-modal-target="readModal{{ $item->id }}">
-                                            <th scope="row"
+                                        <tr class="border-b dark:border-gray-700 hover:cursor-pointer">
+                                            <th scope="row" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}"
                                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {{ $item->name }}
                                             </th>
-                                            <td class="px-4 py-3">
+                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
                                                 {{ date_format(date_create($item->created_at), 'd M Y, H:i A') }}
                                             </td>
-                                            <td class="px-4 py-3">
+                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
                                                 {{ date_format(date_create($item->date), 'd M Y, H:i A') }}
                                             </td>
-                                            <td class="px-4 py-3 max-w-[12rem] truncate">
+                                            <td class="px-4 py-3 max-w-[12rem] truncate" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
                                                 {{ 'Rp. ' . number_format(num: $item->price * $item->pax, thousands_separator: '.') }}
                                             </td>
-                                            <td class="px-4 py-3">
+                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
                                                 <a
                                                     class="text-blue underline hover:cursor-pointer">{{ substr($item->img_receipt, 0, 4) . '...' . substr($item->img_receipt, -4, 5) }}</a>
                                             </td>
-                                            <td class="px-4 py-3">
-                                                @if (!strcmp($item->status, 'unvalidate'))
+                                            @if (!strcmp($item->status_booking, 'accepted'))
+                                            <td class="px-4 py-3" data-modal-toggle="done{{ $item->id }}" data-modal-target="done{{ $item->id }}">
+                                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Click to Complete &#709;</span>
+                                                <form action="/staff/donetransaction/{{ $item->id }}" method="post" id="done{{ $item->id }}" class="hidden py-1 items-start">
+                                                    @csrf
+                                                    <button type="submit" class="bg-green-600 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded">confirm</button>
+                                                </form>
+                                            @else 
+                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
+                                                @if (!strcmp($item->status_booking, 'inprogress'))
                                                     <span
-                                                        class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Need
-                                                        check</span>
+                                                        class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300">Need check</span>
                                                 @elseif (!strcmp($item->status_booking, 'complete'))
                                                     <span
                                                         class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Completed</span>
-                                                @elseif (!strcmp($item->status, 'validate'))
-                                                    <form action="/staff/donetransaction/{{ $item->id }}" method="post">
-                                                        @csrf
-                                                        <button type="submit"
-                                                            class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Click to Complete</button>
-
-                                                    </form>
-                                                @else
+                                                @elseif (!strcmp($item->status_booking, 'cancelled'))
                                                     <span
-                                                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Denied</span>
+                                                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Cancelled</span>
+                                                @elseif (!strcmp($item->status_booking, 'reschedule'))
+                                                    <span
+                                                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Reshcedule</span>
                                                 @endif
+                                            @endif
 
                                             </td>
                                         </tr>
@@ -158,54 +160,17 @@
             <!-- End block -->
 
             @foreach ($data as $item)
-                <!-- Update modal -->
-                <div id="updateProductModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
-                    class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative w-full max-w-2xl max-h-full p-4">
-                        <!-- Modal content -->
-                        <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                            <!-- Modal header -->
-                            <div
-                                class="flex items-center justify-between pb-4 mb-4 border-b rounded-t sm:mb-5 dark:border-gray-600">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Update Product</h3>
-                                <button type="button"
-                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                    data-modal-toggle="updateProductModal">
-                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="sr-only">Close modal</span>
-                                </button>
-                            </div>
-                            <!-- Modal body -->
-                            <form action="">
-                                <div class="grid gap-4 mb-4 sm:grid-cols-2 ">
-                                    <div class="col-span-2">
-                                        <label for="category"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mr-3">Category</label><select
-                                            id="category"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
-                                            <option value="approved">Approved</option>
-                                            <option value="denied">Denied</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="flex items-center space-x-4">
-                                    <button type="submit"
-                                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Validate</button>
-                                    <button type="button" data-modal-toggle="updateProductModal"
-                                        class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+            <form action="/staff/updatetransaction" method="POST">
+                @csrf
+                @method('put')
+                <div class="z-50 hidden w-56 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
+                id="updateModal{{ $item->id }}">
+                <div class="px-4 py-3">
+                    <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ auth()->user()->name }}</span>
+                    <span class="block text-sm text-gray-900 truncate dark:text-white"> {{ auth()->user()->email }}</span>
                 </div>
-
+            </div>
+            </form>
                 <!-- Read modal -->
                 <div id="readModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                     class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -258,6 +223,7 @@
 
                             </div>
                             <div class="pt-4">
+                                @if (!strcmp($item->status, 'unvalidate') && strcmp($item->status_booking, 'cancelled'))
                                 <form action="/staff/updatetransaction/{{ $item->id }}" method="post">
                                     @csrf
                                     <button type="submit" name="status" value="validate"
@@ -265,6 +231,7 @@
                                     <button type="submit" name="status" value="denied"
                                         class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Reject</button>
                                 </form>
+                                @endif
                             </div>
                         </div>
                     </div>
