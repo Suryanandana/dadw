@@ -107,6 +107,10 @@ class CustomerController extends Controller
             'status_booking' => 'cancelled',
         ]);
 
+        Transaction::where('id', $request->id)->update([
+            'status' => 'denied',
+        ]);
+
         return redirect()->route('customer.transaction')->with('success', 'Cancel berhasil');
     }
 
