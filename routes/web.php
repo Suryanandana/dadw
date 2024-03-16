@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Chat;
 use App\Models\User;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Str;
@@ -31,6 +32,15 @@ use Illuminate\Support\Facades\Response;
 */
 
 Route::get('/', [LandingController::class, 'landing']);
+
+Route::get('seed/chat', function(){
+    Chat::create([
+        'message' => 'Hello, how are you?',
+        'sender_id' => auth()->id(),
+        'receiver_id' => 2,
+        'is_read' => 0
+    ]);
+});
 
 // autentikasi
 Route::get('/login', function () {
@@ -107,7 +117,7 @@ Route::get('/reschedule', [App\Http\Controllers\CustomerController::class, 'view
 Route::put('/reschedule', [App\Http\Controllers\CustomerController::class, 'reschedule'])->name('customer.reschedule');
 Route::put('/cancel', [App\Http\Controllers\CustomerController::class, 'cancel']);
 
-Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction'])->name('customer.transaction');
+Route::get('/transaction', [App\Http\Controllers\CustomerController::class, 'transaction']);
 
 Route::post('/feedback', [App\Http\Controllers\CustomerController::class, 'feedback'])->name('customer.feedback');
 
@@ -156,7 +166,7 @@ Route::middleware(['auth'])->group(function()
 
     Route::post('/feedback', [CustomerController::class, 'feedback'])->name('customer.feedback')->middleware('userAccess:customer');
 
-    Route::get('/customer', [CustomerController::class, 'transaction'])->middleware('userAccess:customer')->name('customer.transaction');
+    Route::get('/customer', [CustomerController::class, 'transaction'])->middleware('userAccess:customer');
     
     // ==================== STAFF ====================
 

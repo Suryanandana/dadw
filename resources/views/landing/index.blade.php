@@ -109,7 +109,7 @@
     <!-- Main modal -->
     @foreach ($data as $item)
     @php
-        $empty = true;
+    $empty = true;
     @endphp
     <div id="default-modal-{{$item->service_name}}" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 backdrop-blur-[2px] right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -138,7 +138,7 @@
                     @foreach ($feedback as $fb)
                     @if ($fb->service_name == $item->service_name)
                     @php
-                        $empty = false;
+                    $empty = false;
                     @endphp
                     <article>
                         <div class="flex items-center mb-4">
@@ -147,14 +147,15 @@
                                 alt="">
                             <div class="font-medium dark:text-white">
                                 <p>{{$fb->name}} <time datetime="2014-08-16 19:00"
-                                        class="block text-sm text-gray-500 dark:text-gray-400">{{date("d F Y", strtotime($fb->date))}}</time>
+                                        class="block text-sm text-gray-500 dark:text-gray-400">{{date("d F Y",
+                                        strtotime($fb->date))}}</time>
                                 </p>
                                 @if ($fb->rate == 'like')
-                                    <i class="text-gray-400 fa-regular fa-face-smile"></i>
+                                <i class="text-gray-400 fa-regular fa-face-smile"></i>
                                 @elseif ($fb->rate == "neutral")
-                                    <i class="text-gray-400 fa-regular fa-face-meh"></i>
+                                <i class="text-gray-400 fa-regular fa-face-meh"></i>
                                 @elseif ($fb->rate == "dislike")
-                                    <i class="text-gray-400 fa-regular fa-face-frown"></i>
+                                <i class="text-gray-400 fa-regular fa-face-frown"></i>
                                 @endif
                                 <span class="text-gray-400">{{$fb->rate}}</span>
                             </div>
@@ -311,6 +312,44 @@
                 height="250" frameborder="0" style="border:0"></iframe>
         </div>
     </section>
+
+    {{-- chat --}}
+    @auth
+    <livewire:chat />
+    @endauth
+    @guest
+    <div x-data="{show: false}">
+        <div x-on:click="show = true" class="fixed z-50 p-2 bg-green-700 rounded-full cursor-pointer right-5 bottom-5">
+            <svg class="w-10 h-10 text-gray-100 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M14.079 6.839a3 3 0 0 0-4.255.1M13 20h1.083A3.916 3.916 0 0 0 18 16.083V9A6 6 0 1 0 6 9v7m7 4v-1a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1Zm-7-4v-6H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1Zm12-6h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
+            </svg>
+        </div>
+        <div x-cloak x-show="show" @click.away="show = false"
+            class="fixed z-10 flex flex-col bg-green-200 rounded-xl gap-y-2 right-5 bottom-20">
+            <div class="flex flex-col items-center justify-center max-w-sm p-6 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                <a href="#">
+                    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-center text-gray-900 dark:text-white">You need to log in!</h5>
+                </a>
+                <p class="mb-3 font-normal text-center text-gray-600 dark:text-gray-400">You must log in or register by clicking the link below to contact our customer service</p>
+                <a href="/login" class="inline-flex items-center font-medium text-blue-600 hover:underline">
+                    Login now
+                    <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    @endguest
 
     {{-- footer --}}
     @extends('landing.footer')
