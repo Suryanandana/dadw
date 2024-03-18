@@ -18,6 +18,11 @@ use function PHPUnit\Framework\isNull;
 class StaffController extends Controller
 {
 
+    public function chat()
+    {
+        return view('staff.chat');
+    }
+
     public function dashboard()
     {
         $status = ['inprogress' => 0, 'accepted' => 0, 'reschedule' => 0, 'cancelled' => 0, 'complete' => 0];

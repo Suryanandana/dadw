@@ -17,7 +17,7 @@
                     <span class="text-sm font-semibold text-gray-900 dark:text-white">{{auth()->user()->id == $chat->sender_id ? 'You' : 'Staff'}}</span>
                     <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{$chat->created_at}}</span>
                 </div>
-                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
+                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white overflow-auto">
                     {{ $chat->message }}
                 </p>
             </div>
