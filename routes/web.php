@@ -33,15 +33,6 @@ use Illuminate\Support\Facades\Response;
 
 Route::get('/', [LandingController::class, 'landing']);
 
-Route::get('seed/chat', function(){
-    Chat::create([
-        'message' => 'Hello, how are you?',
-        'sender_id' => auth()->id(),
-        'receiver_id' => 2,
-        'is_read' => 0
-    ]);
-});
-
 // autentikasi
 Route::get('/login', function () {
     return view('authentication.login');
@@ -172,6 +163,7 @@ Route::middleware(['auth'])->group(function()
 
     Route::get('/staff', [StaffController::class, 'getTransaction'])->middleware('userAccess:staff')->name('staff');
     Route::get('/staff/transaction', [StaffController::class, 'getTransaction'])->middleware('userAccess:staff');
+    Route::get('/staff/chat', [StaffController::class, 'chat'])->middleware('userAccess:staff');
     Route::post('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->middleware('userAccess:staff');
     Route::post('/staff/donetransaction/{id}', [StaffController::class, 'doneTransaction'])->middleware('userAccess:staff');
     

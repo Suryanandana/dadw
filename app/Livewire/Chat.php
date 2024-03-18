@@ -45,7 +45,8 @@ class Chat extends Component
         ]);  
         $chat = DB::table('chat')->where('id', $id)->first();
         $this->chats->push($chat);
-        event(new ReceiveChat($this->message, $this->user_id, null, $id));
+        event(new ReceiveChat($this->message, $this->user_id, "staff", $id));
+        $this->message = '';
     }
 
     public function render()

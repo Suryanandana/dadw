@@ -315,7 +315,9 @@
 
     {{-- chat --}}
     @auth
+    @if (Auth::user()->level == 'customer')
     <livewire:chat />
+    @endif
     @endauth
     @guest
     <div x-data="{show: false}">
