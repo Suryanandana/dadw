@@ -35,8 +35,8 @@
     @include('landing.navbar')
 
     {{-- hero --}}
-    <header class="max-w-screen-2xl h-screen mx-auto">
-        <div class="absolute w-3/4 top-1/2 left-1/2" style="transform: translate(-50%, -50%)">
+    <header class="relative z-30 max-w-screen-2xl h-screen w-3/4 left-1/2 translate-x-[-50%]" >
+        <div class="relative top-1/2 translate-y-[-50%]">
             <h1 class="text-6xl font-extrabold text-white text-center">Welcome to The Cajuput Spa</h1>
             <div class="flex gap-3 justify-center pt-5">
                 <a href="#service" class="border bg-white/25 p-3 rounded-sm text-md text-white hover:cursor-pointer hover:bg-white/50">Our Service</a>
@@ -50,7 +50,7 @@
             </svg>
         </a>
     </header>
-    <div class="absolute max-w-screen-2xl w-full top-0 2xl:left-1/2 2xl:translate-x-[-50%]">
+    <div class="absolute z-10 max-w-screen-2xl w-full top-0 2xl:left-1/2 2xl:translate-x-[-50%]">
         <div class="shadow-[inset_0px_-150px_150px_-50px] shadow-black">
         <section id="hero" class="splide h-screen max-w-screen-2xl absoulte z-[-2]">
             <div class="splide__track h-screen">
