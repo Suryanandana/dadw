@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     {{-- font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap"
@@ -31,42 +32,129 @@
 <body x-data="{fmodal: false, fdesc: '', ftitle: ''}">
 
     {{-- navbar --}}
-    @extends('landing.navbar')
+    @include('landing.navbar')
 
     {{-- hero --}}
-    <img src="{{asset('img/landing/hero.png')}}" alt="" class="w-screen">
-
-    {{-- our recommendation --}}
-    <section class="text-gray-600 body-font">
-        <div class="container flex flex-col items-center px-5 py-24 mx-auto md:flex-row">
-            <div class="w-5/6 mb-10 lg:max-w-lg lg:w-full md:w-1/2 md:mb-0">
-                <img class="object-cover object-center rounded" alt="hero" src="{{asset('img/landing/our.png')}}">
-            </div>
-            <div
-                class="flex flex-col items-center text-center lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 md:items-start md:text-left">
-                <h1 class="mb-4 text-3xl font-medium text-gray-900 title-font sm:text-4xl">Our recommendation
-                </h1>
-                <p class="mb-8 leading-relaxed">Indulge in our exclusive Cajuput Signature Rejuvenation, a harmonious
-                    blend of exfoliation and hydration.
-                    This treatment starts with a gentle body scrub, followed by a nourishing wrap infused with essential
-                    oils derived from the Cajuput tree.
-                    Surrender to the soothing ambiance as our therapists work their magic, leaving your skin revitalized
-                    and your senses refreshed.</p>
-                <div class="flex justify-center">
-                    <button
-                        class="inline-flex px-6 py-2 text-lg text-white bg-green-500 border-0 rounded focus:outline-none hover:bg-green-600">Book
-                        Here!</button>
-                    <!-- <button 
-                        class="inline-flex px-6 py-2 ml-4 text-lg text-gray-700 bg-gray-100 border-0 rounded focus:outline-none hover:bg-gray-200">Button</button>-->
-                </div>
+    <header class="max-w-screen-2xl h-screen mx-auto">
+        <div class="absolute w-3/4 top-1/2 left-1/2" style="transform: translate(-50%, -50%)">
+            <h1 class="text-6xl font-extrabold text-white text-center">Welcome to The Cajuput Spa</h1>
+            <div class="flex gap-3 justify-center pt-5">
+                <a href="#service" class="border bg-white/25 p-3 rounded-sm text-md text-white hover:cursor-pointer hover:bg-white/50">Our Service</a>
+                <a href="#" class="border bg-white/25 p-3 rounded-sm text-md text-white hover:cursor-pointer hover:bg-white/50">Book Now</a>
             </div>
         </div>
+        <a href="#header" class="absolute bottom-0 z-30 grid justify-items-center left-1/2 hover:cursor-pointer" style="transform: translate(-50%, -50%)" >
+            <span class="text-white text-xl font-thin">Discover More</span>
+            <svg class="h-10 w-10 text-white dark:text-white animate-bounce " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width=".6" d="m19 9-7 7-7-7"/>
+            </svg>
+        </a>
+    </header>
+    <div class="absolute max-w-screen-2xl w-full top-0 2xl:left-1/2 2xl:translate-x-[-50%]">
+        <div class="shadow-[inset_0px_-150px_150px_-50px] shadow-black">
+        <section id="hero" class="splide h-screen max-w-screen-2xl absoulte z-[-2]">
+            <div class="splide__track h-screen">
+                  <ul class="splide__list h-screen">
+                      <li class="splide__slide">
+                          <img src="{{asset('img/landing/hero.webp')}}"  class="object-cover h-screen w-full sm:w-auto sm:h-auto sm:translate-y-[-25%]">
+                      </li>
+                      <li class="splide__slide">
+                          <img src="{{asset('img/landing/hero2.webp')}}" class="object-cover h-screen w-full sm:w-auto sm:h-auto sm:translate-y-[-25%]">
+                      </li>
+                      <li class="splide__slide">
+                          <img src="{{asset('img/landing/hero3.webp')}}" class="object-cover h-screen w-full sm:w-auto sm:h-auto sm:translate-y-[-25%]">
+                      </li>
+                      <li class="splide__slide">
+                          <img src="{{asset('img/landing/hero4.webp')}}" class="object-cover h-screen w-full sm:w-auto sm:h-auto sm:translate-y-[-25%]">
+                      </li>
+                  </ul>
+            </div>
+        </section>
+        </div>
+    </div>
+
+    {{-- welcome message --}}
+    <section id="header" class="max-w-screen-lg mx-auto scroll-mt-20 mt-10 space-y-5 text-gray-600">
+        <h2 class="text-4xl text-center text-gray-800">Indulge, Relax & Rejuvenate.</h2>
+        <p class="text-center px-28">At our spa, we believe in the transformative power of relaxation and self-care. Our
+            dedicated team of professionals is here to provide you with a blissful escape from the everyday hustle and
+            bustle.</p>
+        <p class="px-20 text-center">Immerse yourself in a world of serenity as you choose from a variety of
+            luxurious treatments designed to revitalize your mind, body, and spirit. From soothing massages and
+            invigorating facials to holistic wellness rituals, we offer a range of services to cater to your unique
+            needs.</p>
+    </section>
+    
+    {{-- cajuput logo --}}
+    <div class="flex justify-center mt-5">
+        <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" width="47" height="67" viewBox="0 0 47 67" fill="none">
+            <path d="M32.2534 35.0758C31.9665 28.4062 32.7362 19.9136 35.6545 16.0616C38.3446 19.351 40.1858 26.6491 40.6336 33.7301C41.1442 41.8027 40.4765 50.7097 41.0175 56.0938C35.8984 50.3284 32.5984 43.0931 32.2534 35.0758Z" fill="#46A950" fill-opacity="0.3"/>
+            <path d="M15.0568 43.3456C15.5612 41.1027 17.8277 37.4735 19.9215 36.4858C20.4374 39.2014 20.214 42.4674 19.5212 45.4846C18.4449 49.0549 16.5138 52.5348 14.6788 54.0316C14.2252 50.2264 14.2398 46.9778 15.0568 43.3456Z" fill="#46A950" fill-opacity="0.3"/>
+            <path d="M22.2921 43.579C21.913 33.6489 25.8593 29.1691 29.0237 25.584C28.1385 33.1697 28.2064 39.6035 28.9245 46.6622C29.7433 54.7094 30.8315 61.3839 27.8856 66.8618C27.3108 59.2897 22.821 57.435 22.2921 43.579Z" fill="#46A950" fill-opacity="0.3"/>
+            <path d="M15.2263 33.6831C20.1419 30.5857 21.3679 28.8592 24.303 24.8994C20.0219 25.4477 16.4366 26.564 13.9915 27.9601C8.90698 30.8634 7.22337 34.6077 6.51866 39.1355C9.50152 36.2873 13.3256 34.8808 15.2263 33.6831Z" fill="#46A950" fill-opacity="0.3"/>
+            <path d="M14.6743 14.123C9.32664 16.4918 2.05933 21.653 1.27074 26.7197C5.92812 24.4634 14.5338 23.3186 21.1314 20.4254C29.3082 16.8398 32.3821 14.1161 37.1005 11.2094C29.9544 8.88255 20.7656 11.4248 14.6743 14.123Z" fill="#46A950" fill-opacity="0.3"/>
+        </svg>
+    </div>
+
+    {{-- our recommendation --}}
+    <section>
+        <article class="text-gray-600 max-w-screen-xl mx-auto mt-14">
+            <div class="flex flex-col gap-12 items-center px-5 mx-auto md:flex-row">
+                <div class="w-5/6 mb-10 lg:max-w-lg lg:w-full md:w-1/2 md:mb-0">
+                    <img class="object-cover aspect-[4/3] rounded" alt="hero" src="{{asset('img/landing/special.webp')}}">
+                </div>
+                <div
+                    class="flex flex-col items-center text-center lg:flex-grow md:w-1/2 md:items-start md:text-left">
+                    <h3 class="text-lg font-medium text-gray-400">
+                        Special From Us
+                    </h3>
+                    <h2 class="text-3xl text-gray-800">
+                        Relaxed Package
+                    </h2>
+                    <p class="mt-2 text-justify">Indulge in our exclusive Cajuput Signature Rejuvenation, a harmonious
+                        blend of exfoliation and hydration.
+                        This treatment starts with a gentle body scrub, followed by a nourishing wrap infused with essential
+                        oils derived from the Cajuput tree.
+                        Surrender to the soothing ambiance as our therapists work their magic, leaving your skin revitalized
+                        and your senses refreshed.</p>
+                    <div class="flex justify-center mt-5">
+                        <button class="inline-flex px-6 py-2 text-white bg-green-700 border-0 rounded focus:outline-none hover:bg-green-800">More Details</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="text-gray-600 max-w-screen-xl mx-auto mt-10">
+            <div class="flex flex-col gap-12 items-center px-5 mx-auto md:flex-row-reverse">
+                <div class="w-5/6 mb-10 lg:max-w-lg lg:w-full md:w-1/2 md:mb-0">
+                    <img class="object-cover aspect-[4/3] rounded" alt="hero" src="{{asset('img/landing/choice.webp')}}">
+                </div>
+                <div
+                    class="flex flex-col items-center text-center lg:flex-grow md:w-1/2 md:items-start md:text-left">
+                    <h3 class="text-lg font-medium text-gray-400">
+                        People's Choice
+                    </h3>
+                    <h2 class="text-3xl text-gray-800">
+                        Body Message
+                    </h2>
+                    <p class="mt-2 text-justify">Indulge in our exclusive Cajuput Signature Rejuvenation, a harmonious
+                        blend of exfoliation and hydration.
+                        This treatment starts with a gentle body scrub, followed by a nourishing wrap infused with essential
+                        oils derived from the Cajuput tree.
+                        Surrender to the soothing ambiance as our therapists work their magic, leaving your skin revitalized
+                        and your senses refreshed.</p>
+                    <div class="flex justify-center mt-5">
+                        <button class="inline-flex px-6 py-2 text-white bg-green-700 border-0 rounded focus:outline-none hover:bg-green-800">More Details</button>
+                    </div>
+                </div>
+            </div>
+        </article>
     </section>
 
     {{-- our services --}}
-    <section class="text-gray-600 body-font splide">
-        <div class="container px-5 py-24 mx-auto splide__track">
-            <ul class="-m-4 splide__list">
+    <section id="service" class="mt-20 scroll-mt-20 splide">
+        <h2 class="text-3xl py-3 text-center">Our Services</h2>
+        <div class="px-5 mx-auto splide__track">
+            <ul class="splide__list">
                 @foreach ($data as $item)
                 {{-- card service --}}
                 <div class="p-4 md:w-1/3 splide__slide">
@@ -79,21 +167,20 @@
                             <p class="mb-3 leading-relaxed text-justify">
                                 {{ $item->details }}
                             </p>
-                            <div class="flex flex-wrap items-center justify-between text-lg">
+                            <div class="flex flex-wrap items-center justify-between text-md">
                                 <a href="/booking?service={{ $item->service_name }}"
-                                    class="text-green-700 flex gap-2 cursor-pointer items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                    class="text-green-700 flex gap-2 cursor-pointer items-center hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
                                     <span>Book now!</span>
                                     <i class="fa-solid fa-arrow-right-long"></i>
                                 </a>
                                 <div class="flex items-center">
                                     <span
-                                        class="inline-flex items-center pr-2 ml-auto mr-2 font-medium leading-none text-gray-400 border-r border-gray-400 lg:ml-auto md:ml-0 text-md">
-                                        Rp.
-                                        {{ $item->price }}
+                                        class="inline-flex items-center pr-2 ml-auto mr-2 leading-none text-gray-400 border-r border-gray-400 lg:ml-auto md:ml-0 text-md">
+                                        IDR {{ number_format($item->price, 0, '.', '.') }}
                                     </span>
                                     <button data-modal-target="default-modal-{{$item->service_name}}"
                                         data-modal-toggle="default-modal-{{$item->service_name}}"
-                                        class="inline-flex items-center leading-none text-gray-400 border-b border-gray-400 cursor-pointer hover:border-none">
+                                        class="inline-flex items-center leading-none text-gray-400">
                                         <i class="mr-1 fa-regular fa-comment-dots"></i>
                                     </button>
                                 </div>
@@ -175,11 +262,11 @@
 
 
     {{-- testimonial --}}
-    <section class="p-8 bg-green-200">
-        <h1 class="mb-5 text-3xl font-semibold text-center">What People Think</h1>
-        <div class="flex gap-5 p-5">
+    <section class="p-8 bg-sky-100">
+        <h1 class="mb-5 text-3xl text-center">What People Think?</h1>
+        <div class="grid md:grid-cols-3 gap-5 p-5">
             {{-- card --}}
-            <div class="w-1/3">
+            <div class="">
                 <div class="relative flex flex-col p-5 bg-white rounded-lg">
                     <span class="text-gray-500">Hair Treatment (3 pax)</span>
                     <span>"The Luxurious Scalp Renewal at The Cajuput Spa is a must-try. The scalp massage was so
@@ -198,7 +285,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 mt-4 ml-5">
-                    <img src="{{asset('img/landing/avatar.png')}}" alt="" class="scale-90">
+                    <img src="{{asset('img/landing/avatar.webp')}}" alt="" class="scale-90">
                     <div class="flex flex-col">
                         <span class="font-semibold">Ariana Kjelberg</span>
                         <span class="text-sm text-gray-500">27 Oct 2023</span>
@@ -206,7 +293,7 @@
                 </div>
             </div>
             {{-- card --}}
-            <div class="w-1/3">
+            <div class="">
                 <div class="relative flex flex-col p-5 bg-white rounded-lg">
                     <span class="text-gray-500">Massages (1 pax)</span>
                     <span>"The massage services at The Cajuput Spa are pure bliss! The therapist's skilled touch and the
@@ -224,7 +311,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 mt-4 ml-5">
-                    <img src="{{asset('img/landing/avatar.png')}}" alt="" class="scale-90">
+                    <img src="{{asset('img/landing/avatar.webp')}}" alt="" class="scale-90">
                     <div class="flex flex-col">
                         <span class="font-semibold">Richard Felix</span>
                         <span class="text-sm text-gray-500">27 Oct 2023</span>
@@ -232,7 +319,7 @@
                 </div>
             </div>
             {{-- card --}}
-            <div class="w-1/3">
+            <div class="">
                 <div class="relative flex flex-col p-5 bg-white rounded-lg">
                     <span class="text-gray-500">Body Treatment (3 pax)</span>
                     <span>"The body treatment services are a true escape to serenity. The tailored approach and
@@ -251,7 +338,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 mt-4 ml-5">
-                    <img src="{{asset('img/landing/avatar.png')}}" alt="" class="scale-90">
+                    <img src="{{asset('img/landing/avatar.webp')}}" alt="" class="scale-90">
                     <div class="flex flex-col">
                         <span class="font-semibold">Mayrika Diva</span>
                         <span class="text-sm text-gray-500">20 Oct 2023</span>
@@ -261,26 +348,50 @@
         </div>
     </section>
 
-    {{-- motto --}}
-    <section>
-        <h2 class="my-10 text-3xl font-semibold text-center">Indulge, Relax & Rejuvenate.</h2>
-        <p class="text-center px-28">At our spa, we believe in the transformative power of relaxation and self-care. Our
-            dedicated team of professionals is here to provide you with a blissful escape from the everyday hustle and
-            bustle.</p>
-        <p class="px-20 mt-5 text-center">Immerse yourself in a world of serenity as you choose from a variety of
-            luxurious treatments designed to revitalize your mind, body, and spirit. From soothing massages and
-            invigorating facials to holistic wellness rituals, we offer a range of services to cater to your unique
-            needs.</p>
-        <div class="flex justify-center mt-5">
-            <button type="button"
-                class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Book
-                Now</button>
+
+    {{-- chat --}}
+    @auth
+    @if (Auth::user()->level == 'customer')
+    <livewire:chat />
+    @endif
+    @endauth
+    @guest
+    <div x-data="{show: false}">
+        <div x-on:click="show = true" class="fixed z-50 p-2 bg-green-700/70 hover:bg-green-700 rounded-full cursor-pointer right-5 bottom-5">
+            <svg class="w-10 h-10 text-gray-100 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M14.079 6.839a3 3 0 0 0-4.255.1M13 20h1.083A3.916 3.916 0 0 0 18 16.083V9A6 6 0 1 0 6 9v7m7 4v-1a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1Zm-7-4v-6H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1Zm12-6h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
+            </svg>
         </div>
-    </section>
+        <div x-cloak x-show="show" @click.away="show = false"
+            class="fixed z-10 flex flex-col bg-green-200 rounded-xl gap-y-2 right-5 bottom-20">
+            <div class="flex flex-col items-center justify-center max-w-sm p-6 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                <a href="#">
+                    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-center text-gray-900 dark:text-white">You need to log in!</h5>
+                </a>
+                <p class="mb-3 font-normal text-center text-gray-600 dark:text-gray-400">You must log in or register by clicking the link below to contact our customer service</p>
+                <a href="/login" class="inline-flex items-center font-medium text-blue-600 hover:underline">
+                    Login now
+                    <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    @endguest
 
     {{-- navigation and contact --}}
-    <section class="flex gap-10 px-10 mt-16">
-        <div class="w-[10%]">
+    <section class="flex md:flex-row flex-col gap-10 px-10 mt-16">
+        <div class="w-[25%]">
             <span class="font-semibold">Sitemap</span>
             <ul class="ml-2 list-disc list-inside">
                 <li>Home</li>
@@ -313,60 +424,60 @@
         </div>
     </section>
 
-    {{-- chat --}}
-    @auth
-    @if (Auth::user()->level == 'customer')
-    <livewire:chat />
-    @endif
-    @endauth
-    @guest
-    <div x-data="{show: false}">
-        <div x-on:click="show = true" class="fixed z-50 p-2 bg-green-700 rounded-full cursor-pointer right-5 bottom-5">
-            <svg class="w-10 h-10 text-gray-100 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M14.079 6.839a3 3 0 0 0-4.255.1M13 20h1.083A3.916 3.916 0 0 0 18 16.083V9A6 6 0 1 0 6 9v7m7 4v-1a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1Zm-7-4v-6H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1Zm12-6h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
-            </svg>
-        </div>
-        <div x-cloak x-show="show" @click.away="show = false"
-            class="fixed z-10 flex flex-col bg-green-200 rounded-xl gap-y-2 right-5 bottom-20">
-            <div class="flex flex-col items-center justify-center max-w-sm p-6 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-                <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-center text-gray-900 dark:text-white">You need to log in!</h5>
-                </a>
-                <p class="mb-3 font-normal text-center text-gray-600 dark:text-gray-400">You must log in or register by clicking the link below to contact our customer service</p>
-                <a href="/login" class="inline-flex items-center font-medium text-blue-600 hover:underline">
-                    Login now
-                    <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
-    @endguest
-
     {{-- footer --}}
-    @extends('landing.footer')
+    @include('landing.footer')
 
-    {{-- splide config --}}
     <script>
-        new Splide( '.splide', {
+        // splide config
+        new Splide( '#service', {
             perPage: 3,
+            perMove: 1,
+            pagination: false,
             type: 'loop',
             breakpoints: {
                 640: {
                     perPage: 1,
+                },
+                1024: {
+                    perPage: 2,
                 }
             }
-        } ).mount();        
+        } ).mount();
+
+        new Splide('#hero', {
+            type: 'loop',
+            autoplay: true,
+            interval: 8000,
+            speed: 2000,
+            rewind: true,
+            pagination : false,
+            arrows: false,
+        }).mount();
+        
+        // dynamic navbar background
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener("scroll", function() {
+                var height = document.getElementById('nav-container').offsetHeight;
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                list = document.querySelectorAll('[id=nav-text]')
+
+                if (scrollTop >= height - 40) {
+                    document.getElementById('nav-container').classList.add('md:animate-fadein');
+                    document.getElementById('nav-container').classList.remove('md:animate-fadeout');
+                    document.getElementById('logo').classList.add('md:animate-textfadein');
+                    document.getElementById('logo').classList.remove('md:animate-textfadeout');
+                    document.getElementById('nav-list').classList.add('md:animate-textfadein');
+                    document.getElementById('nav-list').classList.remove('md:animate-textfadeout');
+                } else {
+                    document.getElementById('nav-container').classList.add('md:animate-fadeout');
+                    document.getElementById('nav-container').classList.remove('md:animate-fadein');
+                    document.getElementById('logo').classList.add('md:animate-textfadeout');
+                    document.getElementById('logo').classList.remove('md:animate-textfadein');
+                    document.getElementById('nav-list').classList.remove('md:animate-textfadein');
+                    document.getElementById('nav-list').classList.add('md:animate-textfadeout');
+                }
+            })
+        }); 
     </script>
 </body>
 
