@@ -21,5 +21,6 @@ class LandingController extends Controller
         ->select('services.*', 'feedback.*', 'users.name')
         ->get();
         return view('landing.index')->with('data', $data)->with('feedback', $feedback);
+        // return view('app');
     }
 }
