@@ -1,4 +1,4 @@
-<nav id="nav-container" class="animate-fadein md:animate-fadeout dark:bg-gray-900 fixed w-full z-50 top-0 left-0 border-gray-200">
+<nav id="nav-container" class="animate-fadein md:animate-fadeout select-none dark:bg-gray-900 fixed w-full z-50 top-0 left-0 border-gray-200">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between w-full p-4 mx-auto">
         <a href="/" class="flex items-center">
             <div class="flex justify-center items-center">
@@ -9,7 +9,7 @@
                     <path d="M15.2263 33.6831C20.1419 30.5857 21.3679 28.8592 24.303 24.8994C20.0219 25.4477 16.4366 26.564 13.9915 27.9601C8.90698 30.8634 7.22337 34.6077 6.51866 39.1355C9.50152 36.2873 13.3256 34.8808 15.2263 33.6831Z" fill="currentColor"/>
                     <path d="M14.6743 14.123C9.32664 16.4918 2.05933 21.653 1.27074 26.7197C5.92812 24.4634 14.5338 23.3186 21.1314 20.4254C29.3082 16.8398 32.3821 14.1161 37.1005 11.2094C29.9544 8.88255 20.7656 11.4248 14.6743 14.123Z" fill="currentColor"/>
                 </svg>
-                <span id="logo" class="font-serif text-xl text-gray-700 md:text-white">The Cajuput Spa</span>
+                <span id="logo" class="hidden min-[360px]:block font-serif text-xl text-gray-700 md:text-white">The Cajuput Spa</span>
             </div>
         </a>
         <div class="flex md:order-2 gap-3">
@@ -39,8 +39,8 @@
             </div>
             @else
             <a href="/login"
-                class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                x-on:click="login = true">Sign In</a>
+                class="inline-flex px-8 py-3 text-xs text-white bg-green-700 border-0 rounded-sm focus:outline-none hover:bg-green-800 tracking-widest"
+                x-on:click="login = true">SIGN IN</a>
             @endauth
             <button data-collapse-toggle="navbar-sticky" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -55,22 +55,22 @@
         </div>
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul id="nav-list"
-                class="text-gray-700 md:text-white flex flex-col list-inside gap-3 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                <li class="text-current">
+                class="text-sm text-gray-700 md:text-white flex flex-col list-inside gap-3 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                <li>
                     <a href="/" id="nav-text"
-                        class="py-2 pl-3 pr-4 md:hover:text-green-700 md:p-0">Home</a>
+                        class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Home</a>
                 </li>
                 <li>
                     <a href="#" id="nav-text"
-                        class="py-2 pl-3 pr-4 md:hover:text-green-700 md:p-0">About</a>
+                        class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">About</a>
                 </li>
                 <li>
                     <a href="#" id="nav-text"
-                        class="py-2 pl-3 pr-4 md:hover:text-green-700 md:p-0">Services</a>
+                        class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Services</a>
                 </li>
                 <li>
                     <a href="#" id="nav-text"
-                        class="py-2 pl-3 pr-4 md:hover:text-green-700 md:p-0">Contact</a>
+                        class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Contact</a>
                 </li>
             </ul>
         </div>
