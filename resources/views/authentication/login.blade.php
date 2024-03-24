@@ -93,6 +93,17 @@
                                 class="font-medium text-green-600 underline dark:text-green-500">Register
                                 here</a>
                         </p>
+                        <p class="text-sm font-light text-center text-gray-500 dark:text-gray-400 ">
+                            Or Login With :
+                        </p>
+                        <div class="flex justify-center">
+                            <a class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2 mb-2">
+                                <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
+                                    <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
+                                </svg>
+                                Sign in with Facebook
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
