@@ -12,6 +12,7 @@ use App\Http\Controllers\StaffController;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\File;
 
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\File;
 Route::get('/', [LandingController::class, 'landing']);
 
 // autentikasi
+# ====================Facebook Auth================================
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
+# ================End Facebook Auth================================
 Route::get('/login', function () {
     return view('authentication.login');
 });

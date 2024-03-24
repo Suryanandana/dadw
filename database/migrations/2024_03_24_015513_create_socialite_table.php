@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('socialite', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
+            $table->string('provider_id');
+            $table->string('provider_name');
+            $table->lomgText('provider_token');
+            $table->string('provider_refresh_token')->nullable();
             $table->timestamps();
         });
     }
