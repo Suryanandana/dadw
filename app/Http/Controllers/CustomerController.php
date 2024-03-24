@@ -6,10 +6,12 @@ use App\Models\Feedback;
 use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Customer;
-use App\Models\Services;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\ImageManager;
 
 class CustomerController extends Controller
 {
@@ -38,19 +40,27 @@ class CustomerController extends Controller
             'time' => 'required',
             'pax' => 'required',
             'id_room' => 'required',
-            'img_receipt' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'img_receipt' => 'required|image|mimes:jpeg,png,jpg,webp|max:4096',
         ]);
-        // get image file name
-        $image = $request->file('img_receipt')->getClientOriginalName() . '-' . time() . '.' . $request->file('img_receipt')->extension();
-        // upload image to folder storage/app/public/img/receipt
-        $request->file('img_receipt')->storeAs('public/img/receipt', $image);
+
         $user = auth()->user();
         $id_customer = Customer::select('id_users')->where('id_users', $user->id)->first();
         $formattedDate = date("Y-m-d", strtotime($request->date));
+        
+        // create image file name
+        $image = $request->file('img_receipt');
+
+        $filename = $formattedDate . date('_Ymd_His') . '.webp';
+        $manager = new ImageManager(Driver::class);
+        $img = $manager->read($image);
+        $img->scale(width:900);
+        $encode = $img->encode(new WebpEncoder(quality:100));
+        $encode->save(storage_path('app/public/img/receipt/' . $filename));
+
         try {
             DB::beginTransaction();
             $transaction = Transaction::create([
-                'img_receipt' => $image,
+                'img_receipt' => $filename,
                 'status' => 'unvalidate',
             ]);
             // get id transaction

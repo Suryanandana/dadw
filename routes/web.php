@@ -50,7 +50,7 @@ Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);
 Route::middleware(['auth', 'signed'])->group(function() {
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill(); 
-        $request->session()->flash('message', 'Your account is now verified, enjoy full experience from The Cajuput Spa!');
+        session()->flash('message', 'Your account is now verified, enjoy full experience from The Cajuput Spa!');
         return redirect('/');
     })->name('verification.verify');
 });

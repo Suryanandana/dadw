@@ -11,6 +11,10 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\ImageManager;
 
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
@@ -45,14 +49,15 @@ class StaffController extends Controller
 
     public function getTransaction()
     {
-        $data = Order::select('booking.pax', 'booking.status_booking', 'services.price', 'users.name', 'transaction.*',)
+        $data = Order::select('booking.pax', 'booking.status_booking', 'booking.date', 'services.price', 'users.name', 'transaction.*',)
             ->join('booking', 'order.id_booking', '=', 'booking.id')
             ->join('users', 'booking.id_customer', '=', 'users.id')
             ->join('services', 'order.id_services', '=', 'services.id')
             ->join('transaction', 'booking.id_transaction', '=', 'transaction.id')
             ->orderBy('order.id', 'desc')
             ->paginate(10);
-        return view('staff.index')->with('data', $data);
+        // dd($data);
+        return view('staff.transaction')->with('data', $data);
     }
     
     public function updateTransaction(Request $request, $id)
@@ -78,7 +83,7 @@ class StaffController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             $error = $th->getMessage();
-            return redirect('/staff/transaction')->with('error', $error);
+            return redirect('/staff/transaction')->withErrors(['error'=> $error]);
         }
     }
 
@@ -100,7 +105,7 @@ class StaffController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             $error = $th->getMessage();
-            return redirect('/staff/transaction')->with('error', $error);
+            return redirect('/staff/transaction')->withErrors(['error'=> $error]);
         }
     }
 
@@ -130,14 +135,12 @@ class StaffController extends Controller
         $request->validate([
             'service_name' => 'required|string|max:255',
             'price' => 'required|integer',
-            'details' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'details' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp',
         ]);
 
-        $image = str_replace(' ', '', $request->service_name) . '.' . $request->file('image')->extension();
-        $request->file('image')->storeAs('public/img/service', $image);
-
         try {
+            $img = str_replace(' ', '', strtolower($request->service_name)) . date('_Ymd_His') .'.webp';
             // database transaction to insert data into two tables at once
             DB::beginTransaction();
             // insert data into users table
@@ -148,16 +151,23 @@ class StaffController extends Controller
             ]);
             // insert data into staff table
             Image_service::create([
-                'imgdir' => $image,
+                'imgdir' => $img,
                 'service_id' => $data->id,
             ]);
+            $manager = new ImageManager(Driver::class);
+            $image = $manager->read($request->image)->scale(width:800);
+            $encode = $image->encode(new WebpEncoder(quality:100));
+            $encode->save(storage_path('app/public/img/service/'.$img));
+
             // commit transaction
             DB::commit();
+
+            
         } catch (\Throwable $th) {
             // rollback transaction if error
             DB::rollBack();
             $error = $th->getMessage();
-            return redirect('/staff/service')->with('error', $error);
+            return redirect('/staff/service')->withErrors(['error'=> $error]);
         }
         return redirect('/staff/service')->with('success', 'New service added sucessfully!');
 
@@ -165,19 +175,20 @@ class StaffController extends Controller
 
     public function deleteService($id)
     {
-        $service = Service::where('id', $id);
         $image = Image_service::where('service_id', $id);
-
-
+        $service = Service::where('id', $id);
+        $filename = $image->value('imgdir');
+        
         try {
             DB::beginTransaction();
             $image->delete();
             $service->delete();
             DB::commit();
+            Storage::delete('public/img/service/'. $filename);
         } catch (\Throwable $th) {
             DB::rollBack();
             $error = $th->getMessage();
-            return redirect('/staff/service')->with('error', $error);
+            return redirect('/staff/service')->withErrors(['error'=> $error]);
         }
 
         return redirect('/staff/service')->with('success', 'data deleted successfully');
@@ -186,59 +197,67 @@ class StaffController extends Controller
     public function updateService(Request $request, $id) 
     {
         $service = Service::where('id', $id);
-        $image = Image_service::where('service_id', $id);
-
-            $request->validate([
-                'service_name' => 'string|max:255',
-                'price' => 'integer',
-                'details' => 'string|max:255',
-                'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            ]);
-
-            if($request->has('image')) {
-                $img = str_replace(' ', '', $request->service_name) . time(). '.' . $request->file('image')->extension();
-                $request->file('image')->storeAs('public/img/service', $img);
+        
+        $request->validate([
+            'service_name' => 'string|max:255',
+            'price' => 'integer',
+            'details' => 'string',
+            'image' => 'image|mimes:jpeg,png,jpg,webp',
+        ]);
+        
+        if($request->has('image')) {
+            try {
+                DB::beginTransaction();
                 
-                try {
-                    DB::beginTransaction();
-    
-                    $image->update([
-                        'imgdir' => $img,
-                    ]);
-                    
-                    $service->update([
-                        'service_name' => $request->service_name,
-                        'price' => $request->price,
-                        'details' => $request->details,
-                    ]);
-    
-                    DB::commit();
-                    
-                    return redirect('/staff/service')->with('success', 'Data change successfully');
-                } catch (\Throwable $th) {
-                    DB::rollBack();
-                    $error = $th->getMessage();
-                    return redirect('/staff/service')->with('error', $error);
-                }
-
-            } else {
-                try {
-                    DB::beginTransaction();
-    
-                    $service->update([
-                        'service_name' => $request->service_name,
-                        'price' => $request->price,
-                        'details' => $request->details,
-                    ]);
-    
-                    DB::commit();
-                } catch (\Throwable $th) {
-                    DB::rollBack();
-                    $error = $th->getMessage();
-                    return redirect('/staff/service')->with('error', $error);
-                }
-                return redirect('/staff/service')->with('success', 'successfully updated data.');
+                $filename = str_replace(' ', '', strtolower($request->service_name)) . date('_Ymd_His'). '.webp' ;
+                $img = Image_service::where('service_id', $id);
+                $old = $img->value('imgdir');
+                
+                $img->update([
+                    'imgdir' => $filename,
+                ]);
+                
+                $service->update([
+                    'service_name' => $request->service_name,
+                    'price' => $request->price,
+                    'details' => $request->details,
+                ]);
+                
+                $manager = new ImageManager(Driver::class);
+                $image = $manager->read($request->image);
+                $image->scale(width:800);
+                $encode = $image->encode(new WebpEncoder(quality:100));
+                $encode->save(storage_path('app/public/img/service/'. $filename));
+                Storage::delete('/public/img/service/'. $old);
+                
+                DB::commit();
+                
+                return redirect('/staff/service')->with('success', 'Data change successfully');
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                Storage::delete('public/img/service/'. $filename);
+                $error = $th->getMessage();
+                return redirect('/staff/service')->withErrors(['error'=> $error]);
             }
+
+        } else {
+            try {
+                DB::beginTransaction();
+
+                $service->update([
+                    'service_name' => $request->service_name,
+                    'price' => $request->price,
+                    'details' => $request->details,
+                ]);
+
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                $error = $th->getMessage();
+                return redirect('/staff/service')->withErrors(['error'=> $error]);
+            }
+            return redirect('/staff/service')->with('success', 'successfully updated data.');
+        }
 
     }
 }
