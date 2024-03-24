@@ -1961,13 +1961,17 @@
         {
             "name": "league/flysystem",
             "version": "3.25.1",
+            "version": "3.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
                 "reference": "abbd664eb4381102c559d358420989f835208f18"
+                "reference": "abbd664eb4381102c559d358420989f835208f18"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/abbd664eb4381102c559d358420989f835208f18",
+                "reference": "abbd664eb4381102c559d358420989f835208f18",
                 "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/abbd664eb4381102c559d358420989f835208f18",
                 "reference": "abbd664eb4381102c559d358420989f835208f18",
                 "shasum": ""
@@ -2035,6 +2039,7 @@
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
                 "source": "https://github.com/thephpleague/flysystem/tree/3.25.1"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.25.1"
             },
             "funding": [
                 {
@@ -2047,17 +2052,22 @@
                 }
             ],
             "time": "2024-03-16T12:53:19+00:00"
+            "time": "2024-03-16T12:53:19+00:00"
         },
         {
             "name": "league/flysystem-local",
+            "version": "3.25.1",
             "version": "3.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
                 "reference": "61a6a90d6e999e4ddd9ce5adb356de0939060b92"
+                "reference": "61a6a90d6e999e4ddd9ce5adb356de0939060b92"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/61a6a90d6e999e4ddd9ce5adb356de0939060b92",
+                "reference": "61a6a90d6e999e4ddd9ce5adb356de0939060b92",
                 "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/61a6a90d6e999e4ddd9ce5adb356de0939060b92",
                 "reference": "61a6a90d6e999e4ddd9ce5adb356de0939060b92",
                 "shasum": ""
@@ -2094,6 +2104,7 @@
             ],
             "support": {
                 "source": "https://github.com/thephpleague/flysystem-local/tree/3.25.1"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.25.1"
             },
             "funding": [
                 {
@@ -2105,6 +2116,7 @@
                     "type": "github"
                 }
             ],
+            "time": "2024-03-15T19:58:44+00:00"
             "time": "2024-03-15T19:58:44+00:00"
         },
         {
@@ -3815,13 +3827,17 @@
         {
             "name": "psy/psysh",
             "version": "v0.12.2",
+            "version": "v0.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
                 "reference": "9185c66c2165bbf4d71de78a69dccf4974f9538d"
+                "reference": "9185c66c2165bbf4d71de78a69dccf4974f9538d"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/9185c66c2165bbf4d71de78a69dccf4974f9538d",
+                "reference": "9185c66c2165bbf4d71de78a69dccf4974f9538d",
                 "url": "https://api.github.com/repos/bobthecow/psysh/zipball/9185c66c2165bbf4d71de78a69dccf4974f9538d",
                 "reference": "9185c66c2165bbf4d71de78a69dccf4974f9538d",
                 "shasum": ""
@@ -3888,7 +3904,9 @@
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.2"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.2"
             },
+            "time": "2024-03-17T01:53:00+00:00"
             "time": "2024-03-17T01:53:00+00:00"
         },
         {

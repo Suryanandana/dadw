@@ -16,9 +16,21 @@ use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\File;
 
+// ==================== IMAGE ROUTE ====================
+Route::get('/img/{type}/{filename}', function ($type, $filename)
+{
+    $path = storage_path('app/public/img/'.$type.'/'. $filename);;
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = response($file, 200);
+    $response->header('Content-Type', $type);
+    return $response;
+});
 
 Route::get('/', [LandingController::class, 'landing']);
-
 // autentikasi
 # ====================Facebook Auth================================
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
@@ -33,17 +45,46 @@ Route::get('/register', function () {
 Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
 Route::post('/login', [App\Http\Controllers\Authentication::class, 'login'])->name('login');
 Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill(); 
-    return redirect('/');
-})->name('verification.verify');
 
-//reset & forgot password
+// ==================== EMAIL VERIFICATION ====================
+Route::middleware(['auth', 'signed'])->group(function() {
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill(); 
+        $request->session()->flash('message', 'Your account is now verified, enjoy full experience from The Cajuput Spa!');
+        return redirect('/');
+    })->name('verification.verify');
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('/email/verify', function () {
+        return redirect('/');
+    })->name('verification.notice');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        $request->session()->put('message','Verification link has been sent to your email address, please check to verify your account');
+        return redirect('/');
+    })->middleware('throttle:6,1')->name('verification.send');
+});
+
 Route::middleware('guest')->group(function() {
+
+    // ==================== AUTHENTICATION ====================
+    Route::post('/login', [App\Http\Controllers\Authentication::class, 'login'])->name('login');
+    Route::get('/login', function () {
+        return view('authentication.login');
+    });
+
+    Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
+    Route::get('/register', function () {
+        return view('authentication.register');
+    });
+
+    // ==================== Reset & Forgor Password ====================
     Route::get('/forgot-password', function () {
         return view('auth.forgot-password');
     })->name('password.request');
-    
+
     Route::post('/forgot-password', function (Request $request) {
         $request->validate(['email' => 'required|email']);
     
@@ -81,28 +122,13 @@ Route::middleware('guest')->group(function() {
         );
     
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     })->name('password.update');
 
 });
 
-// ==================== IMAGE ====================
-Route::get('/img/{type}/{filename}', function ($type, $filename)
-{
-    $path = storage_path('app/public/img/'.$type.'/'. $filename);;
-    if (!File::exists($path)) {
-        abort(404);
-    }
-    $file = File::get($path);
-    $type = File::mimeType($path);
-    $response = response($file, 200);
-    $response->header('Content-Type', $type);
-    return $response;
-});
-
-
-Route::middleware(['auth'])->group(function() 
+Route::middleware(['auth', 'verified'])->group(function() 
 {
     // ==================== CUSTOMER ====================
     Route::middleware('userAccess:customer')->group(function() {
