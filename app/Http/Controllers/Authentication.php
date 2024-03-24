@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 
 class Authentication extends Controller
@@ -41,6 +39,8 @@ class Authentication extends Controller
             // Kirim email verifikasi
             event(new Registered($user));
             Auth::login($user);
+            // if success, redirect to landing page with verification message
+            return redirect('/');
         } catch (\Throwable $th) {
             DB::rollBack();
             // get error message
@@ -48,8 +48,6 @@ class Authentication extends Controller
             // redirect and send massage error
             return redirect('/register')->with('error', $error);
         }
-        // if success, redirect to login page with success message
-        return redirect('/login')->with('success', 'Register success, please check your email to verify your account.');
     }
 
     public function login(Request $request)
@@ -57,21 +55,12 @@ class Authentication extends Controller
         $credentials = $request->only('email', 'password');
         // Cek apakah user sudah terautentikasi dan cek apakah user sudah terverifikasi
         if (Auth::attempt($credentials)) {
-            if (User::where('email', $request->email)->first()->email_verified_at != null) {
-                // Jika autentikasi berhasil
-                $user = Auth::user();
-                $request->session()->regenerate();
-                // Buat session untuk user
-                $request->session()->put('user', $user);
-                return redirect()->intended('/'); // Redirect ke halaman dashboard atau halaman setelah login berhasil
-            } else {
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-                return redirect('/login')->withErrors([
-                    'email' => 'Email is not validate.',
-                ]);
-            }
+            // Jika autentikasi berhasil
+            $user = Auth::user();
+            $request->session()->regenerate();
+            // Buat session untuk user
+            $request->session()->put('user', $user);
+            return redirect()->intended('/'); // Redirect ke halaman dashboard atau halaman setelah login berhasil
         }
         // Jika autentikasi gagal, kembalikan ke halaman login dengan pesan error
         return redirect('/login')->withErrors([

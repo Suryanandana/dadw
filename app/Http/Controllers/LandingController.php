@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class LandingController extends Controller
@@ -12,6 +11,7 @@ class LandingController extends Controller
         $data = DB::table('services')
         ->join('image_services', 'services.id', '=', 'image_services.service_id')
         ->select('services.*', 'image_services.imgdir')
+        ->orderBy('id', 'desc')
         ->get();
         $feedback = DB::table('order')
         ->join('feedback', 'feedback.id_booking', '=', 'order.id_booking')
@@ -21,6 +21,5 @@ class LandingController extends Controller
         ->select('services.*', 'feedback.*', 'users.name')
         ->get();
         return view('landing.index')->with('data', $data)->with('feedback', $feedback);
-        // return view('app');
     }
 }
