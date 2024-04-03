@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>The Cajuput Spa</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
@@ -217,7 +218,7 @@
                 <div class="p-4 md:w-1/3 splide__slide">
                     <div class="h-full overflow-hidden shadow-md rounded border-opacity-60">
                         <img class="object-cover object-center w-full lg:h-48 md:h-36"
-                            src="{{asset('img/service/'.$item->imgdir)}}" alt="blog">
+                            src="{{asset('storage/img/service/'.$item->imgdir)}}" alt="blog">
                         <div class="m-6">
                             <div class="">
                                 <span class="text-xs font-medium tracking-widest text-gray-400 title-font">PACKAGE | 30 MIN</span>

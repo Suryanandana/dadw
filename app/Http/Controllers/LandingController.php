@@ -13,10 +13,10 @@ class LandingController extends Controller
         ->select('services.*', 'image_services.imgdir')
         ->orderBy('id', 'desc')
         ->get();
-        $feedback = DB::table('order')
-        ->join('feedback', 'feedback.id_booking', '=', 'order.id_booking')
-        ->join('services', 'services.id', '=', 'order.id_services')
-        ->join('booking', 'booking.id', '=', 'order.id_booking')
+        $feedback = DB::table('order_services')
+        ->join('feedback', 'feedback.id_booking', '=', 'order_services.id_booking')
+        ->join('services', 'services.id', '=', 'order_services.id_services')
+        ->join('booking', 'booking.id', '=', 'order_services.id_booking')
         ->join('users', 'booking.id_customer', '=', 'users.id')
         ->select('services.*', 'feedback.*', 'users.name')
         ->get();

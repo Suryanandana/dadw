@@ -14,37 +14,14 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\File;
-
-// ==================== IMAGE ROUTE ====================
-Route::get('/img/{type}/{filename}', function ($type, $filename)
-{
-    $path = storage_path('app/public/img/'.$type.'/'. $filename);;
-    if (!File::exists($path)) {
-        abort(404);
-    }
-    $file = File::get($path);
-    $type = File::mimeType($path);
-    $response = response($file, 200);
-    $response->header('Content-Type', $type);
-    return $response;
-});
 
 Route::get('/', [LandingController::class, 'landing']);
+
 // autentikasi
-# ====================Facebook Auth================================
+# ==================== SOCIALITE AUTH ================================
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
 # ================End Facebook Auth================================
-Route::get('/login', function () {
-    return view('authentication.login');
-});
-Route::get('/register', function () {
-    return view('authentication.register');
-});
-Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
-Route::post('/login', [App\Http\Controllers\Authentication::class, 'login'])->name('login');
-Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);
 
 // ==================== EMAIL VERIFICATION ====================
 Route::middleware(['auth', 'signed'])->group(function() {
@@ -65,6 +42,9 @@ Route::middleware('auth')->group(function() {
         $request->session()->put('message','Verification link has been sent to your email address, please check to verify your account');
         return redirect('/');
     })->middleware('throttle:6,1')->name('verification.send');
+
+    Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);
+
 });
 
 Route::middleware('guest')->group(function() {
