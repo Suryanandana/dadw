@@ -9,9 +9,9 @@ use App\Models\Customer;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\ImageManager;
+use Xendit\Configuration;
+use Xendit\Invoice\InvoiceApi;
+use Xendit\XenditSdkException;
 
 class CustomerController extends Controller
 {
@@ -34,61 +34,107 @@ class CustomerController extends Controller
 
     public function booking(Request $request)
     {
-        // validate request
-        $request->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'pax' => 'required',
-            'id_room' => 'required',
-            'img_receipt' => 'required|image|mimes:jpeg,png,jpg,webp|max:4096',
-        ]);
-
-        $user = auth()->user();
-        $id_customer = Customer::select('id_users')->where('id_users', $user->id)->first();
-        $formattedDate = date("Y-m-d", strtotime($request->date));
         
-        // create image file name
-        $image = $request->file('img_receipt');
+        try {
+            // validate request
+            $request->validate([
+                'date' => 'required',
+                'time' => 'required',
+                'pax' => 'required',
+                'id_room' => 'required',
+            ]);
+            
+            DB::beginTransaction();
+            // $user = auth()->user();
+            // $id_customer = Customer::where('id_users', $user->id)->value('id');
+            $formattedDate = date("Y-m-d", strtotime($request->date));
+            $price = 0;
+            if (!empty($request->id_services)) {
+                $price += DB::table('services')->whereIn('id', $request->id_services)->sum('price');
+            } elseif(!empty($request->id_package)) {
+                $price += DB::table('package')->whereIn('id', $request->id_package)->sum('price');
+            }
+            $total = $price * $request->pax;
+            $external_id = 'ENV-' . date('Ymd') .'-'. uniqid();
+            $result = $this->newinvoice($external_id, $total);
 
-        $filename = $formattedDate . date('_Ymd_His') . '.webp';
-        $manager = new ImageManager(Driver::class);
-        $img = $manager->read($image);
-        $img->scale(width:900);
-        $encode = $img->encode(new WebpEncoder(quality:100));
-        $encode->save(storage_path('app/public/img/receipt/' . $filename));
+            DB::table('booking')->insert([
+                'id_customer' => 1,
+                'total' => $total,
+                'date' => $formattedDate . ' ' . $request->time,
+                'payment_status' => $result['status'],
+                'booking_status' => 'ONGOING',
+                'external_id' => $external_id,
+                'payment_url' => $result['invoice_url'],
+                'id_room' => $request->id_room,
+                'pax' => $request->pax,
+            ]);
 
+            DB::commit();
+
+            return printf($result);
+            // return redirect()->route('customer.booking')->with('success', 'Booking berhasil');
+
+        } catch (XenditSdkException $e) {
+            DB::rollBack();
+            $error = $e->getMessage();
+            // return redirect('/booking')->with('error', $error);
+            return printf($error);
+        } 
+    }
+
+    public function expire($id) {
+        try {
+            Configuration::setXenditKey(env('XENDIT_API_KEY'));
+            $apiInstance = new InvoiceApi();
+            $apiInstance->expireInvoice($id);
+        } catch (XenditSdkException $e) {
+            $error = $e->getMessage();
+            return response()->json([
+                'status' => 'error',
+                'message' => $error,
+            ], 500);
+        }
+    }
+
+    public function callback(Request $request) {
+        if($request->header('x-callback-token') !== env('XENDIT_CALLBACK_TOKEN')) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'invalid callback token',
+            ], 400);
+        } 
         try {
             DB::beginTransaction();
-            $transaction = Transaction::create([
-                'img_receipt' => $filename,
-                'status' => 'unvalidate',
-            ]);
-            // get id transaction
-            $id_transaction = $transaction->id;
-            $booking = Booking::create([
-                'id_customer' => $id_customer->id_users,
-                'date' => $formattedDate . ' ' . $request->time,
-                'status_booking' => 'inprogress',
-                'pax' => $request->pax,
-                'id_transaction' => $id_transaction,
-            ]);
-            // get id booking
-            $id_booking = $booking->id;
-            Order::create([
-                'id_booking' => $id_booking,
-                'id_room' => $request->id_room,
-                'id_services' => $request->id_services,
-            ]);
+            $payment = DB::table('booking')->where('external_id', $request->external_id);
+            if ($payment) {
+                $payment->update([
+                    'payment_status' => $request->status,
+                ]);
+            }
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (XenditSdkException $e) {          
             DB::rollBack();
-            // get error message
-            $error = $th->getMessage();
-            // redirect and send massage error
-            return redirect('/booking')->with('error', $error);
-        }
 
-        return redirect()->route('customer.booking')->with('success', 'Booking berhasil');
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function newinvoice($external_id, $price) {
+        Configuration::setXenditKey(env('XENDIT_API_KEY'));
+        $apiInstance = new InvoiceApi();
+
+        $create_invoice_request = new \Xendit\Invoice\CreateInvoiceRequest([
+            'external_id' => $external_id,
+            'description' => "Invoice of The Cajuput Spa",
+            'amount' => $price,
+            'currency' => 'IDR',
+            'reminder_time' => 1,
+        ]); 
+        return $apiInstance->createInvoice($create_invoice_request);
     }
 
     
