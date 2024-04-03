@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.air-datepicker-body--day-name {
+    color: rgb(22, 163, 74);
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+.progress-ring__circle {
+    stroke-dasharray: 400, 400;
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.air-datepicker {
+    width: 100%;
+}

@@ -16,6 +16,7 @@ use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [LandingController::class, 'landing']);
+Route::get('/payment', [CustomerController::class, 'payment']);
 
 // autentikasi
 # ==================== SOCIALITE AUTH ================================

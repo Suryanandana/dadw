@@ -43,10 +43,11 @@ class Chat extends Component
             'created_at' => now(),
             'updated_at' => now(),
         ]);  
+        $this->message = 'da';
+        $this->reset('message');
         $chat = DB::table('chat')->where('id', $id)->first();
         $this->chats->push($chat);
-        event(new ReceiveChat($this->message, $this->user_id, "staff", $id));
-        $this->message = '';
+        event(new ReceiveChat($this->message, $this->user_id, "staff", $id));        
     }
 
     public function render()

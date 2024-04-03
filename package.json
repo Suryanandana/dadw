@@ -23,5 +23,8 @@
     "test": "tests"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "air-datepicker": "^3.5.0"
+  }
 }

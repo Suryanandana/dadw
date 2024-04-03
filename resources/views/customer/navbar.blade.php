@@ -1,4 +1,4 @@
-<nav id="nav-container" class="fixed top-0 left-0 z-50 w-full border-gray-200 select-none md:absolute animate-fadein md:animate-fadeout dark:bg-gray-900">
+<nav id="nav-container" class="fixed top-0 left-0 z-50 w-full bg-white border-b border-gray-200 select-none dark:bg-gray-900">
     <div class="flex flex-wrap items-center justify-between w-full max-w-screen-xl p-4 mx-auto">
         <a href="/" class="flex items-center">
             <div class="flex items-center justify-center">
@@ -9,7 +9,7 @@
                     <path d="M15.2263 33.6831C20.1419 30.5857 21.3679 28.8592 24.303 24.8994C20.0219 25.4477 16.4366 26.564 13.9915 27.9601C8.90698 30.8634 7.22337 34.6077 6.51866 39.1355C9.50152 36.2873 13.3256 34.8808 15.2263 33.6831Z" fill="currentColor"/>
                     <path d="M14.6743 14.123C9.32664 16.4918 2.05933 21.653 1.27074 26.7197C5.92812 24.4634 14.5338 23.3186 21.1314 20.4254C29.3082 16.8398 32.3821 14.1161 37.1005 11.2094C29.9544 8.88255 20.7656 11.4248 14.6743 14.123Z" fill="currentColor"/>
                 </svg>
-                <span id="logo" class="hidden min-[360px]:block font-serif text-xl text-gray-700 md:text-white">The Cajuput Spa</span>
+                <span id="logo" class="hidden min-[360px]:block font-serif text-xl text-gray-700 md:text-gray-800">The Cajuput Spa</span>
             </div>
         </a>
         <div class="flex gap-3 md:order-2">
@@ -27,7 +27,7 @@
                         </svg>
                     </div>
                     @empty(auth()->user()->email_verified_at || session('message'))
-                    <div class="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-900">
+                    <div class="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-gray-800 bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-900">
                         1
                     </div>
                     @endempty
@@ -35,20 +35,20 @@
                 <!-- Dropdown menu -->
                 <div x-show="dropdown"
                     class="absolute right-0 z-10 translate-x-8 translate-y-10 bg-white divide-y divide-gray-100 rounded-lg shadow top-5 w-44 dark:bg-gray-700 dark:divide-gray-600">
-                    <div class="px-4 py-3 text-gray-900 dark:text-white">                           
+                    <div class="px-4 py-3 text-gray-900 dark:text-gray-800">                           
                         <div>Hello! {{auth()->user()->name}}</div>
                         <div class="text-xs text-gray-500 truncate">{{auth()->user()->email}}</div>
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                         <li>
                             <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My Transaction</a>
+                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-800">My Transaction</a>
                         </li>
                         @empty(auth()->user()->email_verified_at || session('message'))
                         <li>
                             <form action="/email/verification-notification" method="POST" class="">
                                 @csrf
-                                <button type="submit" class="inline-flex items-center justify-between w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <button type="submit" class="inline-flex items-center justify-between w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-800">
                                     Verify Your Email
                                     <span class="w-3 h-3 bg-red-500 rounded-full dark:border-gray-900"></span>
                                 </button>
@@ -58,7 +58,7 @@
                     </ul>
                     <div class="py-1">
                         <a href="logout"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-gray-800">Sign
                             out</a>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
         </div>
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul id="nav-list"
-                class="flex flex-col gap-3 p-4 mt-4 text-sm font-medium text-gray-700 list-inside border border-gray-100 rounded-lg md:text-white md:p-0 md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                class="flex flex-col gap-3 p-4 mt-4 text-sm font-medium text-gray-700 list-inside border border-gray-100 rounded-lg md:text-gray-800 md:p-0 md:flex-row md:space-x-8 md:mt-0 md:border-0">
                 <li>
                     <a href="/" id="nav-text"
                         class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Home</a>
@@ -109,12 +109,12 @@
 <div id="toast-message-cta" class="fixed z-50 right-2 top-[6rem] w-full max-w-xs px-4 py-6 text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-400" role="alert">
     <div class="flex">
         <div class="text-sm font-normal ms-3">
-            <span class="mb-2 text-sm font-semibold text-gray-900 dark:text-white">Verification</span>
+            <span class="mb-2 text-sm font-semibold text-gray-900 dark:text-gray-800">Verification</span>
             <div class="mb-2 text-sm font-normal">
                 <p>{{session('message')}}</p>
             </div> 
         </div>
-        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white justify-center items-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-message-cta" aria-label="Close">
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white justify-center items-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-message-cta" aria-label="Close">
             <span class="sr-only">Close</span>
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -128,19 +128,19 @@
 <div id="toast-message-cta" class="fixed z-50 right-2 top-[6rem] w-full max-w-xs px-4 py-6 text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-400" role="alert">
     <div class="flex">
         <div class="text-sm font-normal ms-3">
-            <span class="mb-2 text-sm font-semibold text-gray-900 dark:text-white">Your email is not verified</span>
+            <span class="mb-2 text-sm font-semibold text-gray-900 dark:text-gray-800">Your email is not verified</span>
             <div class="mb-2 text-sm">
                 <p>Greeting! {{auth()->user()->name}},</p>
                 <p>your account is not verified in our system, please check your email to verify.</p>
             </div> 
             <form action="/email/verification-notification" method="POST">
                 @csrf
-                <button type="submit" class="inline-flex px-5 py-1.5 text-xs font-medium text-center text-white bg-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+                <button type="submit" class="inline-flex px-5 py-1.5 text-xs font-medium text-center text-gray-800 bg-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
                     Verify Now
                 </button>
             </form>
         </div>
-        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white justify-center items-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-message-cta" aria-label="Close">
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white justify-center items-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-message-cta" aria-label="Close">
             <span class="sr-only">Close</span>
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
