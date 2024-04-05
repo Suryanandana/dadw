@@ -1,5 +1,4 @@
 <?php
-
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -15,7 +14,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-Route::get('/', [LandingController::class, 'landing']);
+Route::get('/', App\Livewire\Landing\Index::class)->name('landing');
+Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
 
 // autentikasi
 # ==================== SOCIALITE AUTH ================================

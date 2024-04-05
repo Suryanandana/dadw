@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Landing;
 
 use Livewire\Component;
 use App\Events\ReceiveChat;
@@ -16,7 +16,7 @@ class Chat extends Component
 
     public function mount()
     {
-        $this->user_id = Auth::user()->id;
+        $this->user_id = Auth::user()->id ?? 1;
         $this->chats = DB::table('chat')
             ->where('sender_id', $this->user_id)
             ->orWhere('receiver_id', $this->user_id)
@@ -52,6 +52,6 @@ class Chat extends Component
 
     public function render()
     {
-        return view('livewire.chat');
+        return view('livewire.landing.chat');
     }
 }

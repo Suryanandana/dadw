@@ -32,6 +32,11 @@ class CustomerController extends Controller
         return view('customer.dashboard', compact('data', 'user'));
     }
 
+    public function payment()
+    {
+        return view('customer.payment');
+    }
+
     public function booking(Request $request)
     {
         
