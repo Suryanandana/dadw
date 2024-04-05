@@ -37,9 +37,11 @@ class SocialiteController extends Controller
                         if(!$user) {
                             $user = User::updateOrCreate([
                                 'name' => $socialUser->getName() ? $socialUser->getName() : $socialUser->getNickname(),
-                                'email' => $socialUser->getEmail()
+                                'email' => $socialUser->getEmail(),
                             ]);
                         }
+                        
+                        $user->markEmailAsVerified();
 
                         $user->socialite()->create([
                             'provider_id' => $socialUser->getId(),
