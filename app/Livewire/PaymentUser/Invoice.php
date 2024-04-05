@@ -6,27 +6,10 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 
-class Payment extends Component
+class Invoice extends Component
 {
-    public $services;
     public array $service_invoice;
-    public $circle = 15.5;
     public $total = 0;
-    public $show = false;
-
-    public function mount()
-    {
-        $this->services = DB::table('services')->get();
-    }
-
-    public function klik()
-    {
-        $this->show = true;
-    }
-
-    public function setCircle($circle){
-        $this->circle = $circle;
-    }    
 
     #[On('add-service')]
     public function addService($idService)
@@ -58,9 +41,14 @@ class Payment extends Component
             $this->dispatch('next', boolean: false);
         }
     }
+    
+    public function placeholder()
+    {
+        return view('skeleton.payment-user.invoice');
+    }
 
     public function render()
     {
-        return view('livewire.payment-user.payment');
+        return view('livewire.payment-user.invoice');
     }
 }

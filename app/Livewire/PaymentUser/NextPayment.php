@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\PaymentUser;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -18,6 +18,6 @@ class NextPayment extends Component
 
     public function render()
     {
-        return view('livewire.next-payment');
+        return view('livewire.payment-user.next-payment');
     }
 }
