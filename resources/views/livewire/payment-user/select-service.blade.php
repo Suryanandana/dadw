@@ -1,4 +1,10 @@
-<section class="grid grid-cols-1 gap-3 p-5 bg-gray-100 rounded xl:col-span-2" x-show="currentStep === 1" x-transition.duration.300ms>
+<section class="grid grid-cols-1 gap-3 p-5 bg-gray-100 rounded xl:col-span-2" x-show="currentStep === 1"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-90"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-90">
     @foreach ($services as $service)
     <div class="w-full col-span-2 p-3 bg-white rounded-lg" x-data="{open: false}">
         <div class="flex items-center justify-between">
