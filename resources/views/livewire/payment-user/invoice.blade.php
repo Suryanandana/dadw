@@ -2,23 +2,21 @@
     <div class="w-full p-5 bg-white">
         <h2 class="pb-3 text-xl font-bold">Invoice Summary</h2>
         <div class="relative mt-2 overflow-x-auto">
+            <div class="grid grid-cols-2 mb-5">
+                <div>
+                    <div class="text-xs text-gray-600">Customer info:</div>
+                    <div class="text-sm font-semibold text-gray-900">-</div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-600">Booking date:</div>
+                    <div class="text-sm font-semibold text-gray-900" id="date-invoice">-</div>
+                </div>
+            </div>
             <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="text-xs text-gray-600">Customer info:</div>
-                            <div class="mb-5 text-gray-900">-</div>
-                        </th>
-                        <th>
-                            <div class="text-xs text-gray-600">Booking date:</div>
-                            <div class="mb-5 text-gray-900" id="date-invoice">-</div>
-                        </th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr class="text-xs text-gray-700 uppercase dark:text-gray-400 border-y">
                         <th class="py-3 rounded-s-lg">
-                            Service name
+                            Items name
                         </th>
                         <th class="py-3 rounded-e-lg">
                             Price
@@ -41,8 +39,7 @@
                     @endif
                     @foreach ($service_invoice as $service)
                     <tr class="bg-white dark:bg-gray-800">
-                        <th scope="row"
-                            class="py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{$service->service_name}}
                         </th>
                         <td class="py-4">

@@ -10,12 +10,14 @@
 {{-- date picker --}}
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.min.css">
+{{-- collapse plugin alpine --}}
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 @endsection
 @section('navbar')
     <livewire:payment-user.navbar>
 @endsection
 <div class="container mx-auto mt-24"
-x-data="{currentStep: 1, service: true, form: false, stepper: 'Select Customer', stepperNext: 'Next: Customer Form', step: '1 of 4'}">
+x-data="{currentStep: 2, service: true, form: false, stepper: 'Select Customer', stepperNext: 'Next: Customer Form', step: '1 of 4'}">
     {{-- stepper dekstop --}}
     <ol
         class="items-center hidden w-full text-sm font-medium text-center text-gray-500 lg:px-5 md:flex dark:text-gray-400 sm:text-base">
@@ -107,4 +109,5 @@ x-data="{currentStep: 1, service: true, form: false, stepper: 'Select Customer',
 </div>
 @push('scripts')
     <script src="{{asset('js/payment-user/date.js')}}"></script>
+    <script src="{{asset('js/payment-user/form-customer.js')}}"></script>
 @endpush
