@@ -17,7 +17,7 @@
     <livewire:payment-user.navbar>
 @endsection
 <div class="container mx-auto mt-24"
-x-data="{currentStep: 2, service: true, form: false, stepper: 'Select Customer', stepperNext: 'Next: Customer Form', step: '1 of 4'}">
+x-data="{currentStep: 3, service: true, form: false, stepper: 'Select Customer', stepperNext: 'Next: Customer Form', step: '1 of 4'}">
     {{-- stepper dekstop --}}
     <ol
         class="items-center hidden w-full text-sm font-medium text-center text-gray-500 lg:px-5 md:flex dark:text-gray-400 sm:text-base">

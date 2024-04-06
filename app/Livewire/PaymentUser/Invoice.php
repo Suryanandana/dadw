@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 class Invoice extends Component
 {
     public array $service_invoice;
+    public string $name;
+    public string $number;
+    public string $email;
+    public string $country;
+    public string $formatDate;
+    public string $address;
+    public $pax;
     public $total = 0;
 
     #[On('add-service')]
@@ -40,6 +47,47 @@ class Invoice extends Component
         } else {
             $this->dispatch('next', boolean: false);
         }
+    }
+    #[On('format-date')]
+    public function formatDate($date)
+    {
+        $this->formatDate = $date;
+    }
+
+    #[On('name-updated')]
+    public function nameUpdated($name)
+    {
+        $this->name = $name;
+    }
+
+    #[On('email-updated')]
+    public function emailUpdated($email)
+    {
+        $this->email = $email;
+    }
+
+    #[On('number-updated')]
+    public function numberUpdated($number)
+    {
+        $this->number = $number;
+    }
+
+    #[On('pax-updated')]
+    public function setPax($pax)
+    {
+        $this->pax = $pax;
+    }
+
+    #[On('country-updated')]
+    public function countryUpdated($country)
+    {
+        $this->country = $country;
+    }
+
+    #[On('address-updated')]
+    public function addressUpdated($address)
+    {
+        $this->address = $address;
     }
     
     public function placeholder()

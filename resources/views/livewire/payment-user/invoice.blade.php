@@ -2,14 +2,44 @@
     <div class="w-full p-5 bg-white">
         <h2 class="pb-3 text-xl font-bold">Invoice Summary</h2>
         <div class="relative mt-2 overflow-x-auto">
-            <div class="grid grid-cols-2 mb-5">
-                <div>
-                    <div class="text-xs text-gray-600">Customer info:</div>
-                    <div class="text-sm font-semibold text-gray-900">-</div>
+            <div class="grid grid-cols-3 mb-5 gap-x-1 gap-y-3">
+                <div class="col-span-3">
+                    <div class="mb-1 text-xs text-gray-600">Customer Details</div>
+                    <table>
+                        <tr>
+                            <td class="text-xs text-gray-600">Name</td>
+                            <td class="text-xs text-gray-600">:</td>
+                            <td class="text-sm font-semibold text-gray-900">{{(empty($name)) ? '-' : $name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs text-gray-600">Email</td>
+                            <td class="text-xs text-gray-600">:</td>
+                            <td class="text-sm font-semibold text-gray-900">{{(empty($email)) ? '-' : $email}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs text-gray-600">Phone</td>
+                            <td class="text-xs text-gray-600">:</td>
+                            <td class="text-sm font-semibold text-gray-900">{{(empty($number)) ? '-' : $number}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs text-gray-600">Country</td>
+                            <td class="text-xs text-gray-600">:</td>
+                            <td class="text-sm font-semibold text-gray-900">{{(empty($country)) ? '-' : $country}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs text-gray-600">Address</td>
+                            <td class="text-xs text-gray-600">:</td>
+                            <td class="text-sm font-semibold text-gray-900">{{(empty($address)) ? '-' : $address}}</td>
+                        </tr>
+                    </table>
                 </div>
                 <div>
+                    <div class="text-xs text-gray-600">Pax:</div>
+                    <div class="text-sm font-semibold text-gray-900">{{(empty($pax)) ? '-' : $pax . ' Person'}}</div>
+                </div>
+                <div class="col-span-2">
                     <div class="text-xs text-gray-600">Booking date:</div>
-                    <div class="text-sm font-semibold text-gray-900" id="date-invoice">-</div>
+                    <div class="text-sm font-semibold text-gray-900" id="date-invoice">{{(empty($formatDate)) ? '-' : $formatDate}}</div>
                 </div>
             </div>
             <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">

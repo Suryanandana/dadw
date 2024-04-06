@@ -21,7 +21,7 @@ var datepicker = new AirDatepicker('#date', {
     maxDate : new Date().setMonth(new Date().getMonth() + 3),
     onSelect(date) {
         let selectedDate = new Date(date.date);
-        let formattedDate = selectedDate.getDate() + ' ' + selectedDate.toLocaleString('default', { month: 'long' }) + ', ' + selectedDate.getFullYear() + '. ' + String(selectedDate.getHours()).padStart(2, '0') + ':' + String(selectedDate.getMinutes()).padStart(2, '0') + 'WITA';
+        let formattedDate = selectedDate.getDate() + ' ' + selectedDate.toLocaleString('default', { month: 'long' }) + ', ' + selectedDate.getFullYear() + '. ' + String(selectedDate.getHours()).padStart(2, '0') + ':' + String(selectedDate.getMinutes()).padStart(2, '0') + ' WITA';
         let formattedDateInput = selectedDate.getDate() + '-' + selectedDate.getMonth() + '-' + selectedDate.getFullYear();
         date.formattedDate = formattedDate;
         if (date.date === undefined) {
@@ -29,6 +29,6 @@ var datepicker = new AirDatepicker('#date', {
             formattedDateInput = '';
         }
         window.Livewire.dispatch('date', {date: formattedDateInput})
-        document.getElementById('date-invoice').innerText = formattedDate;
+        window.Livewire.dispatch('format-date', {date: formattedDate})
     }
 });
