@@ -8,14 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class Index extends Component
 {
-    public $services;
     public $circle = 15.5;
     public $show = false;
-
-    public function mount()
-    {
-        $this->services = DB::table('services')->get();
-    }
 
     public function klik()
     {
