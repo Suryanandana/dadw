@@ -10,6 +10,7 @@
 {{-- date picker --}}
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.min.css">
+<link rel="stylesheet" href="{{asset('css/date.css')}}">
 {{-- collapse plugin alpine --}}
 <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 @endsection
@@ -17,7 +18,7 @@
     <livewire:payment-user.navbar>
 @endsection
 <div class="container mx-auto mt-24"
-x-data="{currentStep: 3, service: true, form: false, stepper: 'Select Customer', stepperNext: 'Next: Customer Form', step: '1 of 4'}">
+x-data="{currentStep: 1, service: true, form: false, stepper: 'Select Customer', stepperNext: 'Next: Customer Form', step: '1 of 4'}">
     {{-- stepper dekstop --}}
     <ol
         class="items-center hidden w-full text-sm font-medium text-center text-gray-500 lg:px-5 md:flex dark:text-gray-400 sm:text-base">
@@ -101,8 +102,8 @@ x-data="{currentStep: 3, service: true, form: false, stepper: 'Select Customer',
         <div class="grid items-start w-full grid-cols-1 mt-10 bg-gray-100 lg:grid-cols-2 xl:grid-cols-3">
             <livewire:payment-user.select-service>
             <livewire:payment-user.date>
-            <livewire:payment-user.form-customer>
-            <livewire:payment-user.invoice lazy>
+            <livewire:payment-user.form-customer :customer='$customer'>
+            <livewire:payment-user.invoice lazy :customer='$customer'>
         </div>
         <livewire:payment-user.next-payment>
     </div>

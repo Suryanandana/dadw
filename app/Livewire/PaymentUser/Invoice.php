@@ -9,14 +9,27 @@ use Illuminate\Support\Facades\DB;
 class Invoice extends Component
 {
     public array $service_invoice;
-    public string $name;
-    public string $number;
-    public string $email;
-    public string $country;
-    public string $formatDate;
-    public string $address;
+    public $name;
+    public $phone;
+    public $email;
+    public $country;
+    public $date;
+    public $address;
     public $pax;
+    public $validationEmailRule = 'email|required|unique:users,email';
     public $total = 0;
+
+    public function mount($customer)
+    {
+        if(isset($customer)){
+            $this->name = $customer['name'];
+            $this->phone = $customer['phone'];
+            $this->email = $customer['email'];
+            $this->country = $customer['country'];
+            $this->address = $customer['address'];
+            $this->validationEmailRule = $customer['validationEmailRule'];
+        }
+    }
 
     #[On('add-service')]
     public function addService($idService)
@@ -49,9 +62,9 @@ class Invoice extends Component
         }
     }
     #[On('format-date')]
-    public function formatDate($date)
+    public function addDate($date)
     {
-        $this->formatDate = $date;
+        $this->date = $date;
     }
 
     #[On('name-updated')]
@@ -66,10 +79,10 @@ class Invoice extends Component
         $this->email = $email;
     }
 
-    #[On('number-updated')]
-    public function numberUpdated($number)
+    #[On('phone-updated')]
+    public function phoneUpdated($phone)
     {
-        $this->number = $number;
+        $this->phone = $phone;
     }
 
     #[On('pax-updated')]
@@ -89,7 +102,13 @@ class Invoice extends Component
     {
         $this->address = $address;
     }
-    
+
+    #[On('save-form')]
+    public function saveForm()
+    {
+
+    }
+
     public function placeholder()
     {
         return view('skeleton.payment-user.invoice');

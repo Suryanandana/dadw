@@ -19,7 +19,7 @@
                         <tr>
                             <td class="text-xs text-gray-600">Phone</td>
                             <td class="text-xs text-gray-600">:</td>
-                            <td class="text-sm font-semibold text-gray-900">{{(empty($number)) ? '-' : $number}}</td>
+                            <td class="text-sm font-semibold text-gray-900">{{(empty($phone)) ? '-' : $phone}}</td>
                         </tr>
                         <tr>
                             <td class="text-xs text-gray-600">Country</td>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-span-2">
                     <div class="text-xs text-gray-600">Booking date:</div>
-                    <div class="text-sm font-semibold text-gray-900" id="date-invoice">{{(empty($formatDate)) ? '-' : $formatDate}}</div>
+                    <div class="text-sm font-semibold text-gray-900" id="date-invoice">{{(empty($date)) ? '-' : $date}}</div>
                 </div>
             </div>
             <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
@@ -81,7 +81,16 @@
                 <tfoot class="border-y">
                     <tr class="font-semibold text-gray-900 dark:text-white">
                         <th scope="row" class="py-3 text-base">Total</th>
-                        <td class="py-3">Rp {{number_format($total, 0, ',', '.')}}</td>
+                        <td class="py-3">
+                            @if ($pax > 1)
+                            <span class="text-xs line-through">Rp {{number_format($total, 0, ',', '.')}}</span>
+                            <span class="text-xs">x {{$pax}} Person</span><br>
+                            @php
+                            $total = $total * $pax;
+                            @endphp
+                            @endif
+                            <span class="text-base">Rp {{number_format($total, 0, ',', '.')}}</span>                            
+                        </td>
                     </tr>
                 </tfoot>
             </table>
