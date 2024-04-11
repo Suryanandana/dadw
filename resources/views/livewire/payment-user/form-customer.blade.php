@@ -1,4 +1,4 @@
-<section x-cloak class="grid grid-cols-1 gap-3 p-5 bg-gray-100 rounded xl:col-span-2" x-show="currentStep === 3"
+<section x-cloak class="relative grid grid-cols-1 gap-3 p-5 bg-gray-100 rounded xl:col-span-2" x-show="currentStep === 3 && $wire.complete === false"
     x-transition:enter="transition ease-out duration-300 delay-300" x-transition:enter-start="opacity-0 scale-90"
     x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
@@ -14,8 +14,8 @@
             </div>
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input wire:model.live.debounce.300ms='email' type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('email') {{'outline-red-400 border-red-400'}} @enderror
-                " placeholder="Your Email..." required />
+                <input wire:model.live.debounce.300ms='email' type="text" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('email') {{'outline-red-400 border-red-400'}} @enderror @auth cursor-not-allowed bg-gray-100 @else bg-gray-50  @endauth
+                " placeholder="Your Email..." required @auth disabled @endauth />
                 <div>
                     @error('email')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                 </div>
@@ -117,5 +117,5 @@
                 @error('pax')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
             </div>
         </form>
-    </div>
+    </div>    
 </section>

@@ -18,7 +18,7 @@ class FormCustomer extends Component
     public $address;
     public $pax;
     public $validationEmailRule = 'email|required|unique:users,email';
-
+    public $complete = false;
     public function mount($customer)
     {
         if(isset($customer)){
@@ -29,6 +29,12 @@ class FormCustomer extends Component
             $this->address = $customer['address'];
             $this->validationEmailRule = $customer['validationEmailRule'];
         }
+    }
+
+    #[On('complete')]
+    public function complete($complete)
+    {
+        $this->complete = $complete;
     }
 
     public function dispatchCountry($country)

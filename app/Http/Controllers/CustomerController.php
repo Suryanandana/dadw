@@ -42,42 +42,44 @@ class CustomerController extends Controller
         
         try {
             // validate request
-            $request->validate([
-                'date' => 'required',
-                'time' => 'required',
-                'pax' => 'required',
-                'id_room' => 'required',
-            ]);
+            // $request->validate([
+            //     'date' => 'required',
+            //     'time' => 'required',
+            //     'pax' => 'required',
+            //     'id_room' => 'required',
+            // ]);
             
-            DB::beginTransaction();
-            // $user = auth()->user();
-            // $id_customer = Customer::where('id_users', $user->id)->value('id');
-            $formattedDate = date("Y-m-d", strtotime($request->date));
-            $price = 0;
-            if (!empty($request->id_services)) {
-                $price += DB::table('services')->whereIn('id', $request->id_services)->sum('price');
-            } elseif(!empty($request->id_package)) {
-                $price += DB::table('package')->whereIn('id', $request->id_package)->sum('price');
-            }
-            $total = $price * $request->pax;
+            // DB::beginTransaction();
+            // // $user = auth()->user();
+            // // $id_customer = Customer::where('id_users', $user->id)->value('id');
+            // $formattedDate = date("Y-m-d", strtotime($request->date));
+            // $price = 0;
+            // if (!empty($request->id_services)) {
+            //     $price += DB::table('services')->whereIn('id', $request->id_services)->sum('price');
+            // } elseif(!empty($request->id_package)) {
+            //     $price += DB::table('package')->whereIn('id', $request->id_package)->sum('price');
+            // }
+            // $total = $price * $request->pax;
+            $total = 100000;
             $external_id = 'ENV-' . date('Ymd') .'-'. uniqid();
             $result = $this->newinvoice($external_id, $total);
 
-            DB::table('booking')->insert([
-                'id_customer' => 1,
-                'total' => $total,
-                'date' => $formattedDate . ' ' . $request->time,
-                'payment_status' => $result['status'],
-                'booking_status' => 'ONGOING',
-                'external_id' => $external_id,
-                'payment_url' => $result['invoice_url'],
-                'id_room' => $request->id_room,
-                'pax' => $request->pax,
-            ]);
+            // DB::table('booking')->insert([
+            //     'id_customer' => 1,
+            //     'total' => $total,
+            //     'date' => $formattedDate . ' ' . $request->time,
+            //     'payment_status' => $result['status'],
+            //     'booking_status' => 'ONGOING',
+            //     'external_id' => $external_id,
+            //     'payment_url' => $result['invoice_url'],
+            //     'id_room' => $request->id_room,
+            //     'pax' => $request->pax,
+            // ]);
 
-            DB::commit();
+            // DB::commit();
 
-            return printf($result);
+            // return printf($result);
+            return $result['invoice_url'];
             // return redirect()->route('customer.booking')->with('success', 'Booking berhasil');
 
         } catch (XenditSdkException $e) {

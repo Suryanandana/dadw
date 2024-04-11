@@ -2,10 +2,13 @@
 
 namespace App\Livewire\PaymentUser;
 
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Index extends Component
 {
@@ -39,7 +42,62 @@ class Index extends Component
     #[On('save-form')]
     public function saveForm($customer)
     {
-        dd($customer);
+        try {
+            // start transaction
+            DB::beginTransaction();
+            $user = DB::table('users')->select('id')->where('email', $customer['email'])->first();
+            if ($user) {
+                // Update user if email exists (user login with email)
+                $this->updateIfEmailExists($customer, $user->id);
+            } else {
+                // Insert new user if email doesn't exist
+                $this->insertIfEmailNotExists($customer);
+            }
+            // commit transaction
+            DB::commit();
+            $this->dispatch('complete', true);
+        } catch (\Exception $e) {
+            // return error message with session
+            session()->flash('error', $e->getMessage());
+            dd($e->getMessage());
+        }
+    }
+
+    public function updateIfEmailExists($customer, $id_user)
+    {
+        DB::table('users')
+            ->where('email', $customer['email'])
+            ->update([
+                'name' => $customer['name'],
+            ]);
+        DB::table('customer')
+            ->where('id_users', $id_user)
+            ->update([
+                'country' => $customer['country'],
+                'address' => $customer['address'],
+                'phone' => $customer['phone']
+            ]);
+    }
+
+    public function insertIfEmailNotExists($customer)
+    {
+        // generate random password
+        $password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 10);
+        $user = User::create([
+            'name' => $customer['name'],
+            'email' => $customer['email'],
+            'level' => 'customer',
+            'password' => bcrypt($password),
+        ]);
+        DB::table('customer')->insert([
+            'id_users' => $user->id,
+            'country' => $customer['country'],
+            'address' => $customer['address'],
+            'phone' => $customer['phone']
+        ]);
+        // send email notification base on email
+        event(new Registered($user));
+        Auth::login($user);
     }
 
     public function klik()
@@ -47,9 +105,10 @@ class Index extends Component
         $this->show = true;
     }
 
-    public function setCircle($circle){
+    public function setCircle($circle)
+    {
         $this->circle = $circle;
-    }    
+    }
 
     public function render()
     {

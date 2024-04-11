@@ -19,3 +19,7 @@ Broadcast::channel('chat.{user}', function ($user) {
 Broadcast::channel('sent.{user}', function ($user) {
     return true;
 });
+
+Broadcast::channel('user.{id}', function ($user, $id) {
+    return true;
+});
