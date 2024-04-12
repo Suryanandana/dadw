@@ -1,4 +1,4 @@
-<div>
+<div> 
     <nav id="nav-container"
         class="fixed top-0 left-0 z-50 w-full bg-white border-b border-gray-200 select-none dark:bg-gray-900">
         <div class="flex flex-wrap items-center justify-between w-full max-w-screen-xl p-4 mx-auto">
@@ -141,7 +141,7 @@
     @empty(!auth()->user())
     @if(!empty(session('message')))
 
-    <div id="toast-message-cta"
+    <div x-data="{show: true}" x-show="show" x-transition.duration.300ms
         class="fixed z-50 right-2 top-[6rem] w-full max-w-xs px-4 py-6 text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-400"
         role="alert">
         <div class="flex">
@@ -151,9 +151,9 @@
                     <p>{{session('message')}}</p>
                 </div>
             </div>
-            <button type="button"
+            <button type="button" x-on:click="show = false"
                 class="ms-auto -mx-1.5 -my-1.5 bg-white justify-center items-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
-                data-dismiss-target="#toast-message-cta" aria-label="Close">
+                aria-label="Close">
                 <span class="sr-only">Close</span>
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 14 14">
@@ -166,7 +166,7 @@
 
     @elseif(empty(auth()->user()->email_verified_at))
 
-    <div id="toast-message-cta"
+    <div x-data="{show: true}" x-show="show" x-transition.duration.300ms
         class="fixed z-50 right-2 top-[6rem] w-full max-w-xs px-4 py-6 text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-400"
         role="alert">
         <div class="flex">
@@ -180,14 +180,14 @@
                 <form action="/email/verification-notification" method="POST">
                     @csrf
                     <button type="submit"
-                        class="inline-flex px-5 py-1.5 text-xs font-medium text-center text-gray-800 bg-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+                        class="inline-flex px-5 py-1.5 text-xs font-medium text-center text-gray-100 bg-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
                         Verify Now
                     </button>
                 </form>
             </div>
-            <button type="button"
+            <button type="button" x-on:click="show = false"
                 class="ms-auto -mx-1.5 -my-1.5 bg-white justify-center items-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
-                data-dismiss-target="#toast-message-cta" aria-label="Close">
+                aria-label="Close">
                 <span class="sr-only">Close</span>
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 14 14">

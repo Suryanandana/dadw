@@ -18,7 +18,7 @@
     <button
         x-cloak
         x-show="currentStep===3 && $wire.complete === false"
-        wire:click="$dispatch('submit-form')"
+        wire:click="$dispatch('submit-form'), $dispatch('refreshNavbar')"
         class="inline-flex px-8 py-3 mt-5 text-xs tracking-widest text-white bg-green-700 border-0 rounded-sm focus:outline-none hover:bg-green-800">
             Submit
         </span>

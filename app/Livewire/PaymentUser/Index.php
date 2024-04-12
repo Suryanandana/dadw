@@ -98,6 +98,7 @@ class Index extends Component
         // send email notification base on email
         event(new Registered($user));
         Auth::login($user);
+        $this->dispatch('refreshNavbar');
     }
 
     public function klik()
