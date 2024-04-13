@@ -77,6 +77,14 @@ class Index extends Component
                 'address' => $customer['address'],
                 'phone' => $customer['phone']
             ]);
+        // send email notification base on email if email_verified_at is null
+        $user = User::find($id_user);
+        if (!$user->email_verified_at) {
+            event(new Registered($user));
+            $this->dispatch('next', false);
+        } else {
+            $this->dispatch('next', true);
+        }
     }
 
     public function insertIfEmailNotExists($customer)
@@ -98,7 +106,12 @@ class Index extends Component
         // send email notification base on email
         event(new Registered($user));
         Auth::login($user);
+        // refresh navbar
         $this->dispatch('refreshNavbar');
+        // dispatch set user_id
+        $this->dispatch('setUserId', $user->id);
+        // dispatch next
+        $this->dispatch('next', false);
     }
 
     public function klik()

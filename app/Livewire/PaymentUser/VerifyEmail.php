@@ -18,16 +18,16 @@ class VerifyEmail extends Component
             $this->user_id = auth()->id();
         }
     }
-    public function getListeners()
+
+    #[On('setUserId')]
+    public function setUserId($id)
     {
-        return [
-            "echo:user.{$this->user_id},UserVerified" => 'handleUserVerified',
-        ];
+        $this->user_id = $id;
     }
 
+    #[On('echo:user.{user_id},UserVerified')]
     public function handleUserVerified($id)
     {
-        // Lakukan sesuatu dengan $id di sini
         $this->verified = true;
     }
 
