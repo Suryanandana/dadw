@@ -5,28 +5,18 @@ namespace App\Livewire\PaymentUser;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
-class NextPayment extends Component
+class VerifyEmail extends Component
 {
 
-    public $next = false;
     public $complete = false;
+    public $verified = false;
     public $user_id;
     public function mount()
     {
         if (auth()->check()) {
+            $this->verified = auth()->user()->hasVerifiedEmail();
             $this->user_id = auth()->id();
         }
-    }
-
-    #[On('echo:user.{user_id},UserVerified')]
-    public function handleUserVerified($id)
-    {
-        $this->next = true;
-    }
-
-    public function nextSetTrue($id)
-    {
-        $this->next = true;
     }
 
     #[On('setUserId')]
@@ -35,10 +25,10 @@ class NextPayment extends Component
         $this->user_id = $id;
     }
 
-    #[On('next')]
-    public function next($boolean)
+    #[On('echo:user.{user_id},UserVerified')]
+    public function handleUserVerified($id)
     {
-        $this->next = $boolean;
+        $this->verified = true;
     }
 
     #[On('complete')]
@@ -49,6 +39,6 @@ class NextPayment extends Component
 
     public function render()
     {
-        return view('livewire.payment-user.next-payment');
+        return view('livewire.payment-user.verify-email');
     }
 }
