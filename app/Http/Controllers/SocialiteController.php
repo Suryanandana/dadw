@@ -18,8 +18,15 @@ class SocialiteController extends Controller
 
        public function callback($provider)
        {
-            $socialUser = Socialite::driver($provider)->user();
+            $socialUser = Socialite::driver($provider)->stateless()->user();
             $authUser = $this->store($socialUser, $provider);
+
+            // Jika pengguna menggunakan OAuth, dan email dari penyedia OAuth sudah diverifikasi,
+            // maka tidak perlu menandai email sebagai diverifikasi di aplikasi Anda.
+            if (!$authUser->hasVerifiedEmail() && $socialUser->getEmail() && $socialUser->getEmailVerified()) {
+                $authUser->markEmailAsVerified();
+            }
+
             Auth::login($authUser);
             return redirect()->intended('/');
        }
@@ -40,8 +47,6 @@ class SocialiteController extends Controller
                                 'email' => $socialUser->getEmail(),
                             ]);
                         }
-                        
-                        $user->markEmailAsVerified();
 
                         $user->socialite()->create([
                             'provider_id' => $socialUser->getId(),
