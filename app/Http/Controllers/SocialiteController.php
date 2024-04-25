@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Socialite as SocialiteModel;
+
 
 class SocialiteController extends Controller
 {
@@ -20,12 +22,6 @@ class SocialiteController extends Controller
        {
             $socialUser = Socialite::driver($provider)->stateless()->user();
             $authUser = $this->store($socialUser, $provider);
-
-            // Jika pengguna menggunakan OAuth, dan email dari penyedia OAuth sudah diverifikasi,
-            // maka tidak perlu menandai email sebagai diverifikasi di aplikasi Anda.
-            if (!$authUser->hasVerifiedEmail() && $socialUser->getEmail() && $socialUser->getEmailVerified()) {
-                $authUser->markEmailAsVerified();
-            }
 
             Auth::login($authUser);
             return redirect()->intended('/');
@@ -45,6 +41,7 @@ class SocialiteController extends Controller
                             $user = User::updateOrCreate([
                                 'name' => $socialUser->getName() ? $socialUser->getName() : $socialUser->getNickname(),
                                 'email' => $socialUser->getEmail(),
+                                'email_verified_at' => Carbon::now('Asia/Singapore')
                             ]);
                         }
 
