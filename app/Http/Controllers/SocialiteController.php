@@ -31,40 +31,39 @@ class SocialiteController extends Controller
        {
             $socialAccount = SocialiteModel::where('provider_id', $socialUser->getId())->where('provider_name', $provider)->first();
 
-            #If Validate Section
             if (!$socialAccount) {
                 $user = User::where('email', $socialUser->getEmail())->first();
-                # DB Transaction Section
+
                 try {
                     DB::beginTransaction();
-                        if(!$user) {
-                            $user = User::updateOrCreate([
-                                'name' => $socialUser->getName() ? $socialUser->getName() : $socialUser->getNickname(),
-                                'email' => $socialUser->getEmail(),
-                                'email_verified_at' => Carbon::now('Asia/Singapore')
-                            ]);
-                        }
 
-                        $user->socialite()->create([
-                            'provider_id' => $socialUser->getId(),
-                            'provider_name' => $provider,
-                            'provider_token' => $socialUser->token,
-                            'provider_refresh_token' => $socialUser->refreshToken
+                    if (!$user) {
+                        $user = User::create([
+                            'name' => $socialUser->getName() ? $socialUser->getName() : $socialUser->getNickname(),
+                            'email' => $socialUser->getEmail(),
+                            'email_verified_at' => Carbon::now('Asia/Singapore')
                         ]);
+                    }
 
-                        return $user;
+                    $user->socialite()->create([
+                        'provider_id' => $socialUser->getId(),
+                        'provider_name' => $provider,
+                        'provider_token' => $socialUser->token,
+                        'provider_refresh_token' => $socialUser->refreshToken
+                    ]);
+
                     DB::commit();
+
+                    return $user; // Mengembalikan instance User
                 } catch (\Throwable $th) {
                     DB::rollBack();
-
                     $error = $th->getMessage();
-
-                    return redirect('/login')->with('error', $error);
+                    // Membuat log atau memberikan feedback ke pengguna
+                    return redirect('/login')->with('error', $error); // RedirectResponse
                 }
-                # End DB Transaction Section
-            } 
-            #End Of If Validate Section
+            } else {
+                return $socialAccount->user; // Mengembalikan instance User
+            }
+        }
 
-            return $socialAccount->user;
-       }
 }
