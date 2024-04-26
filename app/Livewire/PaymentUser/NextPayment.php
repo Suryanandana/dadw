@@ -10,29 +10,18 @@ class NextPayment extends Component
 
     public $next = false;
     public $complete = false;
-    public $user_id;
-    public function mount()
-    {
-        if (auth()->check()) {
-            $this->user_id = auth()->id();
-        }
-    }
 
-    #[On('echo:user.{user_id},UserVerified')]
+    #[On('echo:user-verified,UserVerified')]
     public function handleUserVerified($id)
     {
-        $this->next = true;
+        if ($id == auth()->id()) {
+            $this->next = true;
+        }
     }
 
     public function nextSetTrue($id)
     {
         $this->next = true;
-    }
-
-    #[On('setUserId')]
-    public function setUserId($id)
-    {
-        $this->user_id = $id;
     }
 
     #[On('next')]

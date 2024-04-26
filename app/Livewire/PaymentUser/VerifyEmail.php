@@ -16,6 +16,8 @@ class VerifyEmail extends Component
         if (auth()->check()) {
             $this->verified = auth()->user()->hasVerifiedEmail();
             $this->user_id = auth()->id();
+        } else {
+            $this->user_id = null;
         }
     }
 
@@ -25,10 +27,13 @@ class VerifyEmail extends Component
         $this->user_id = $id;
     }
 
-    #[On('echo:user.{user_id},UserVerified')]
+    #[On('echo:user-verified,UserVerified')]
     public function handleUserVerified($id)
     {
-        $this->verified = true;
+        if ($id['id'] == auth()->id()) {
+            $this->verified = true;
+            $this->dispatch('next', true);
+        }
     }
 
     #[On('complete')]

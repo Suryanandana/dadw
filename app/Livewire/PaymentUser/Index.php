@@ -80,7 +80,7 @@ class Index extends Component
         // send email notification base on email if email_verified_at is null
         $user = User::find($id_user);
         if (!$user->email_verified_at) {
-            event(new Registered($user));
+            // event(new Registered($user));
             $this->dispatch('next', false);
         } else {
             $this->dispatch('next', true);
