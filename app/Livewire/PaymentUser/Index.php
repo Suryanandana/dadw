@@ -66,9 +66,11 @@ class Index extends Component
             $result = $this->newinvoice($external_id, $customer['total']);
             // dispatch invoice_url to payment page
             $this->dispatch('invoice_url', $result['invoice_url']);
+            // get id customer base on id_users
+            $id_customer = DB::table('customer')->where('id_users', auth()->id())->value('id');
             // insert booking
             DB::table('booking')->insert([
-                'id_customer' => auth()->id(),
+                'id_customer' => $id_customer,
                 'total' => $customer['total'],
                 'date' => $customer['date'],
                 'payment_status' => $result['status'],
