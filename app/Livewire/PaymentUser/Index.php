@@ -2,13 +2,17 @@
 
 namespace App\Livewire\PaymentUser;
 
+use DateTime;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Livewire\Component;
+use Xendit\Configuration;
 use Livewire\Attributes\On;
+use Xendit\Invoice\InvoiceApi;
+use Xendit\XenditSdkException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
 
 class Index extends Component
 {
@@ -55,7 +59,25 @@ class Index extends Component
             }
             // commit transaction
             DB::commit();
+            // dispatch complete for next step
             $this->dispatch('complete', true);
+            // create invoice
+            $external_id = 'ENV-' . date('Ymd') .'-'. uniqid();
+            $result = $this->newinvoice($external_id, $customer['total']);
+            // dispatch invoice_url to payment page
+            $this->dispatch('invoice_url', $result['invoice_url']);
+            // insert booking
+            DB::table('booking')->insert([
+                'id_customer' => auth()->id(),
+                'total' => $customer['total'],
+                'date' => $customer['date'],
+                'payment_status' => $result['status'],
+                'booking_status' => 'ONGOING',
+                'external_id' => $external_id,
+                'payment_url' => $result['invoice_url'],
+                'id_room' => 1,
+                'pax' => $customer['pax'],
+            ]);
         } catch (\Exception $e) {
             // return error message with session
             session()->flash('error', $e->getMessage());
@@ -80,7 +102,7 @@ class Index extends Component
         // send email notification base on email if email_verified_at is null
         $user = User::find($id_user);
         if (!$user->email_verified_at) {
-            // event(new Registered($user));
+            event(new Registered($user));
             $this->dispatch('next', false);
         } else {
             $this->dispatch('next', true);
@@ -112,6 +134,20 @@ class Index extends Component
         $this->dispatch('setUserId', $user->id);
         // dispatch next
         $this->dispatch('next', false);
+    }
+
+    public function newinvoice($external_id, $price) {
+        Configuration::setXenditKey(env('XENDIT_API_KEY'));
+        $apiInstance = new InvoiceApi();
+
+        $create_invoice_request = new \Xendit\Invoice\CreateInvoiceRequest([
+            'external_id' => $external_id,
+            'description' => "Invoice of The Cajuput Spa",
+            'amount' => $price,
+            'currency' => 'IDR',
+            'reminder_time' => 1,
+        ]); 
+        return $apiInstance->createInvoice($create_invoice_request);
     }
 
     public function klik()

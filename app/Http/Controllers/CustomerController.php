@@ -78,8 +78,8 @@ class CustomerController extends Controller
 
             // DB::commit();
 
-            // return printf($result);
-            return $result['invoice_url'];
+            return printf($result);
+            // return $result['invoice_url'];
             // return redirect()->route('customer.booking')->with('success', 'Booking berhasil');
 
         } catch (XenditSdkException $e) {
