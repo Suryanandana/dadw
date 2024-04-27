@@ -64,6 +64,9 @@ class Index extends Component
             // create invoice
             $external_id = 'ENV-' . date('Ymd') .'-'. uniqid();
             $result = $this->newinvoice($external_id, $customer['total']);
+            $expiryDate = $result['expiry_date'];
+            $formattedExpiryDate = $expiryDate->format('Y-m-d H:i:s');
+            $this->dispatch('expiry_date', $formattedExpiryDate);
             // dispatch invoice_url to payment page
             $this->dispatch('invoice_url', $result['invoice_url']);
             // get id customer base on id_users
