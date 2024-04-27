@@ -21,12 +21,16 @@ Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
 # ==================== SOCIALITE AUTH ================================
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
+Route::post('/booking', [CustomerController::class, 'booking']);
 # ================End Facebook Auth================================
 
 // ==================== EMAIL VERIFICATION ====================
 Route::middleware(['auth', 'signed'])->group(function() {
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill(); 
+        $request->fulfill();
+        $id = $request->user()->id;
+        // Dispatch the UserVerified event
+        event(new \App\Events\UserVerified($id));
         session()->flash('message', 'Your account is now verified, enjoy full experience from The Cajuput Spa!');
         return redirect('/');
     })->name('verification.verify');
@@ -40,7 +44,6 @@ Route::middleware('auth')->group(function() {
     Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
         $request->session()->put('message','Verification link has been sent to your email address, please check to verify your account');
-        return redirect('/');
     })->middleware('throttle:6,1')->name('verification.send');
 
     Route::get('/logout', [App\Http\Controllers\Authentication::class, 'logout']);

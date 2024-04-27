@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class SelectService extends Component
 {
-    public $service;
+    public $services;
 
-    public function mount($service)
+    public function mount()
     {
-        $this->service = $service;
+        $this->services = DB::table('services')->get();
     }
 
     public function addService($idService)
