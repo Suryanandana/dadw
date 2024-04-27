@@ -54,6 +54,7 @@ class Invoice extends Component
         foreach ($this->service_invoice as $service) {
             $this->total += $service->price;
         }
+        $this->dispatch('total', $this->total);
         // jika ada layanan next = true
         if (count($this->service_invoice) > 0) {
             $this->dispatch('next', boolean: true);
@@ -61,6 +62,7 @@ class Invoice extends Component
             $this->dispatch('next', boolean: false);
         }
     }
+
     #[On('format-date')]
     public function addDate($date)
     {
