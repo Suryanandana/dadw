@@ -22,6 +22,6 @@ class UserVerified implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('user.' . $this->id);
+        return new Channel('user-verified');
     }
 }

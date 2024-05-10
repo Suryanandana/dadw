@@ -20,6 +20,6 @@ Broadcast::channel('sent.{user}', function ($user) {
     return true;
 });
 
-Broadcast::channel('user.{id}', function ($user, $id) {
+Broadcast::channel('user-verified', function ($user, $id) {
     return true;
 });
