@@ -15,13 +15,14 @@ use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', App\Livewire\Landing\Index::class)->name('landing');
+Route::get('/details/{id}', [LandingController::class, 'details'])->name('details');
 Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
 
 // autentikasi
 # ==================== SOCIALITE AUTH ================================
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
-Route::post('/booking', [CustomerController::class, 'booking']);
+Route::get('/booking', [CustomerController::class, 'booking']);
 # ================End Facebook Auth================================
 
 // ==================== EMAIL VERIFICATION ====================

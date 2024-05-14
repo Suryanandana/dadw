@@ -2,6 +2,7 @@
 
 namespace App\Livewire\PaymentUser;
 
+use DateTime;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -17,6 +18,8 @@ class FormCustomer extends Component
     public $phone;
     public $address;
     public $pax;
+    public $date;
+    public $total;
     public $validationEmailRule = 'email|required|unique:users,email';
     public $complete = false;
     public function mount($customer)
@@ -41,6 +44,20 @@ class FormCustomer extends Component
     {
         $this->country = $country;
         $this->dispatch('country-updated', $country);
+    }
+
+    #[On('total')]
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+
+    #[On('format-date')]
+    public function setDate($date)
+    {
+        $date = DateTime::createFromFormat('j F, Y. H:i T', $date);
+        $formattedDate = $date->format('Y-m-d H:i:s');
+        $this->date = $formattedDate;
     }
 
     public function updatedCountry()
@@ -133,6 +150,8 @@ class FormCustomer extends Component
             'country' => $this->country,
             'address' => $this->address,
             'pax' => $this->pax,
+            'date' => $this->date,
+            'total' => $this->total,
         ];
         $this->dispatch('save-form', $customer);
     }

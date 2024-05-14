@@ -7,18 +7,12 @@ use Livewire\Component;
 
 class Navbar extends Component
 {
-    public $user_id;
-    public function mount()
-    {
-        if (auth()->check()) {
-            $this->verified = auth()->user()->hasVerifiedEmail();
-            $this->user_id = auth()->id();
-        }
-    }
-
-    #[On('echo:user.{user_id},UserVerified')]
+    #[On('echo:user-verified,UserVerified')]
     public function handleUserVerified($id)
     {
+        // check if $id is the same as the authenticated user
+        if ($id == auth()->id()) {
+        }
     }
 
     #[On('refreshNavbar')]
@@ -29,7 +23,6 @@ class Navbar extends Component
     #[On('setUserId')]
     public function setUserId($id)
     {
-        $this->user_id = $id;
     }
 
     public function render()
