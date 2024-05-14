@@ -15,6 +15,7 @@ use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', App\Livewire\Landing\Index::class)->name('landing');
+Route::get('/details/{id}', [LandingController::class, 'details'])->name('details');
 Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
 
 // autentikasi
