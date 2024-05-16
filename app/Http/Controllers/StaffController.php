@@ -30,7 +30,7 @@ class StaffController extends Controller
     public function dashboard()
     {
         $status = ['inprogress' => 0, 'accepted' => 0, 'reschedule' => 0, 'cancelled' => 0, 'complete' => 0];
-        $data = Booking::select('booking.status_booking')->get();
+        $data = Booking::select('booking.booking_status')->get();
         foreach($data as $d){
             if($d->status_booking == 'inprogress') {
                 $status['inprogress'] += 1;
