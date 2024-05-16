@@ -83,7 +83,7 @@
                         <th scope="row" class="py-3 text-base">Total</th>
                         <td class="py-3">
                             @if ($pax > 1)
-                            <span class="text-xs line-through">Rp {{number_format($total, 0, ',', '.')}}</span>
+                            <span class="text-xs">Rp {{number_format($total, 0, ',', '.')}}</span>
                             <span class="text-xs">x {{$pax}} Person</span><br>
                             @php
                             $total = $total * $pax;

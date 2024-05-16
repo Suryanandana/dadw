@@ -3,6 +3,7 @@
 namespace App\Livewire\PaymentUser;
 
 use DateTime;
+use Exception;
 use App\Models\User;
 use Livewire\Component;
 use Xendit\Configuration;
@@ -44,7 +45,7 @@ class Index extends Component
     }
 
     #[On('save-form')]
-    public function saveForm($customer)
+    public function saveForm($customer, $service_invoice)
     {
         try {
             // start transaction
@@ -56,14 +57,12 @@ class Index extends Component
             } else {
                 // Insert new user if email doesn't exist
                 $this->insertIfEmailNotExists($customer);
-            }
-            // commit transaction
-            DB::commit();
+            }            
             // dispatch complete for next step
             $this->dispatch('complete', true);
             // create invoice
             $external_id = 'ENV-' . date('Ymd') .'-'. uniqid();
-            $result = $this->newinvoice($external_id, $customer['total']);
+            $result = $this->newinvoice($external_id, $customer['total'] * $customer['pax']);
             $expiryDate = $result['expiry_date'];
             $formattedExpiryDate = $expiryDate->format('Y-m-d H:i:s');
             $this->dispatch('expiry_date', $formattedExpiryDate);
@@ -71,11 +70,14 @@ class Index extends Component
             $this->dispatch('invoice_url', $result['invoice_url']);
             // get id customer base on id_users
             $id_customer = DB::table('customer')->where('id_users', auth()->id())->value('id');
-            // insert booking
-            DB::table('booking')->insert([
+            // call selectRooms method
+            $this->selectRooms($customer['pax']);
+            // insert booking and get the id
+            $id_booking = DB::table('booking')->insertGetId([
                 'id_customer' => $id_customer,
-                'total' => $customer['total'],
+                'total' => $customer['total'] * $customer['pax'],
                 'date' => $customer['date'],
+                'expired_date' => $formattedExpiryDate,
                 'payment_status' => $result['status'],
                 'booking_status' => 'ONGOING',
                 'external_id' => $external_id,
@@ -83,13 +85,29 @@ class Index extends Component
                 'id_room' => 1,
                 'pax' => $customer['pax'],
             ]);
+            // insert order_services
+            foreach ($service_invoice as $service) {
+                DB::table('order_services')->insert([
+                    'id_booking' => $id_booking,
+                    'id_services' => $service['id'],
+                ]);
+            }
+            // commit transaction
+            DB::commit();
         } catch (\Exception $e) {
+            // rollback transaction
+            DB::rollBack();
+            dd($e);
             // return error message with session
             session()->flash('error', $e->getMessage());
-            dd($e->getMessage());
         }
     }
 
+    public function selectRooms($person)
+    {
+        
+    }
+    
     public function updateIfEmailExists($customer, $id_user)
     {
         DB::table('users')
