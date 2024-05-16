@@ -111,6 +111,7 @@ x-data="{currentStep: 1, service: true, form: false, stepper: 'Select Customer',
     </div>
     <div class="flex flex-col items-center w-full mb-10">
         <div class="relative grid items-start w-full grid-cols-1 mt-10 bg-gray-100 lg:grid-cols-2 xl:grid-cols-3">
+            <livewire:payment-user.unfinished-payment>
             <livewire:payment-user.select-service>
             <livewire:payment-user.date>
             <livewire:payment-user.form-customer :customer='$customer'>

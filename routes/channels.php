@@ -23,3 +23,7 @@ Broadcast::channel('sent.{user}', function ($user) {
 Broadcast::channel('user-verified', function ($user, $id) {
     return true;
 });
+
+Broadcast::channel('user-paid', function ($user, $id) {
+    return true;
+});

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserPaid;
+use App\Events\UserVerified;
 use App\Models\Feedback;
 use App\Models\Order;
 use App\Models\Booking;
@@ -110,7 +112,7 @@ class CustomerController extends Controller
                 'status' => 'error',
                 'message' => 'invalid callback token',
             ], 400);
-        } 
+        }
         try {
             DB::beginTransaction();
             $payment = DB::table('booking')->where('external_id', $request->external_id);
@@ -120,9 +122,9 @@ class CustomerController extends Controller
                 ]);
             }
             DB::commit();
+            event(new UserPaid($payment->first()->id_customer));
         } catch (XenditSdkException $e) {          
             DB::rollBack();
-
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage()
