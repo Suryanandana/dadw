@@ -1,4 +1,10 @@
-<section x-cloak class="relative grid grid-cols-1 gap-3 p-5 bg-gray-100 rounded xl:col-span-2" x-show="currentStep === 3 && $wire.complete === true">
+<section x-cloak class="relative grid grid-cols-1 gap-3 p-5 bg-gray-100 rounded xl:col-span-2" x-show="currentStep === 3 && $wire.complete === true"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-90"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-90">
     <div class="flex flex-col items-center justify-center pt-5 pb-10 bg-white px-14">
         <img class="w-1/2" src="{{asset('img/payment/verify-email.png')}}" alt="verification email image illustration">
         <div x-show="!$wire.verified">

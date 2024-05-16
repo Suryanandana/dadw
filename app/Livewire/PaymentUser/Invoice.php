@@ -55,6 +55,7 @@ class Invoice extends Component
             $this->total += $service->price;
         }
         $this->dispatch('total', $this->total);
+        $this->dispatch('service-invoice', $this->service_invoice);
         // jika ada layanan next = true
         if (count($this->service_invoice) > 0) {
             $this->dispatch('next', boolean: true);

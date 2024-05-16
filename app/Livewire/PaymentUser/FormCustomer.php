@@ -20,6 +20,7 @@ class FormCustomer extends Component
     public $pax;
     public $date;
     public $total;
+    public $service_invoice;
     public $validationEmailRule = 'email|required|unique:users,email';
     public $complete = false;
     public function mount($customer)
@@ -33,6 +34,13 @@ class FormCustomer extends Component
             $this->validationEmailRule = $customer['validationEmailRule'];
         }
     }
+
+    #[On('service-invoice')]
+    public function setServiceInvoice($service_invoice)
+    {
+        $this->service_invoice = $service_invoice;
+    }
+
 
     #[On('complete')]
     public function complete($complete)
@@ -153,7 +161,7 @@ class FormCustomer extends Component
             'date' => $this->date,
             'total' => $this->total,
         ];
-        $this->dispatch('save-form', $customer);
+        $this->dispatch('save-form', $customer, $this->service_invoice);
     }
 
     public function render()
