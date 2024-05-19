@@ -24,28 +24,26 @@ class SocialiteController extends Controller
             $authUser = $this->store($socialUser, $provider);
 
             Auth::login($authUser);
-            return redirect()->intended('/');
+            return '<script>window.opener.location.reload(); window.close();</script>';
        }
 
        public function store($socialUser, $provider)
        {
             $socialAccount = SocialiteModel::where('provider_id', $socialUser->getId())->where('provider_name', $provider)->first();
+            $user = User::where('email', $socialUser->getEmail())->first();
 
-            if (!$socialAccount) {
-                $user = User::where('email', $socialUser->getEmail())->first();
-
+            if (!$socialAccount || !$user) {
                 try {
                     DB::beginTransaction();
 
-                    if (!$user) {
-                        $user = User::create([
-                            'name' => $socialUser->getName() ? $socialUser->getName() : $socialUser->getNickname(),
-                            'email' => $socialUser->getEmail(),
-                            'email_verified_at' => Carbon::now('Asia/Singapore')
-                        ]);
-                    }
+                    $user = User::updateOrCreate([
+                        'name' => $socialUser->getName() ? $socialUser->getName() : $socialUser->getNickname(),
+                        'email' => $socialUser->getEmail(),
+                        'level' => 3,
+                    ]);
+                    $user->markEmailAsVerified();
 
-                    $user->socialite()->create([
+                    $user->socialite()->updateOrCreate([
                         'provider_id' => $socialUser->getId(),
                         'provider_name' => $provider,
                         'provider_token' => $socialUser->token,
@@ -62,7 +60,7 @@ class SocialiteController extends Controller
                     return redirect('/login')->with('error', $error); // RedirectResponse
                 }
             } else {
-                return $socialAccount->user; // Mengembalikan instance User
+                return $user; // Mengembalikan instance User
             }
         }
 

@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         list = document.querySelectorAll('[id=nav-text]')
         if(scrollTop > height) {
-            console.log(navbar);
             navbar.classList.remove('md:absolute')
             navbar.classList.add('md:fixed', 'md:-top-40', 'md:translate-y-40', 'md:transition-transform', 'md:duration-300')
             document.getElementById('nav-container').classList.add('md:animate-fadein');

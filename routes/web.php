@@ -2,7 +2,6 @@
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
@@ -55,19 +54,13 @@ Route::middleware('guest')->group(function() {
 
     // ==================== AUTHENTICATION ====================
     Route::post('/login', [App\Http\Controllers\Authentication::class, 'login'])->name('login');
-    Route::get('/login', function () {
-        return view('authentication.login');
-    });
+    Route::get('/login', App\Livewire\Auth\Login::class);
 
     Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
-    Route::get('/register', function () {
-        return view('authentication.register');
-    });
+    Route::get('/register', App\Livewire\Auth\Register::class);
 
     // ==================== Reset & Forgor Password ====================
-    Route::get('/forgot-password', function () {
-        return view('auth.forgot-password');
-    })->name('password.request');
+    Route::get('/forgot', App\Livewire\Auth\Forgot::class);
 
     Route::post('/forgot-password', function (Request $request) {
         $request->validate(['email' => 'required|email']);
@@ -116,15 +109,9 @@ Route::middleware(['auth', 'verified'])->group(function()
 {
     // ==================== CUSTOMER ====================
     Route::middleware('userAccess:customer')->group(function() {
-        Route::get('/booking', function () {
-            // get data from database
-            $services = DB::table('services')->get();
-            $rooms = DB::table('rooms')->get();
-            return view('customer.booking', ['services' => $services, 'rooms' => $rooms]);
-        });
         Route::controller(CustomerController::class)->group(function() {
-            Route::get('/dashboard')->name('dashboard');
             Route::post('/booking', 'booking')->name('customer.booking');
+            Route::get('/dashboard')->name('dashboard');
             Route::get('/reschedule', 'viewReschedule');
             Route::put('/reschedule', 'reschedule')->name('customer.reschedule');
             Route::put('/cancel', 'cancel');
