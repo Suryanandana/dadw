@@ -18,13 +18,13 @@
                         {{-- button add service --}}
                         <div class="relative p-2 bg-gray-200 rounded-full cursor-pointer" x-data="{check: false}"
                             x-on:click="check = !check" wire:click='addService({{$service->id}})'>
-                            <svg x-bind:class="check ? 'opacity-0 rotate-[180deg] duration-500' : 'duration-1000'"
+                            <svg x-bind:class="check ? 'opacity-0 rotate-[45deg] duration-500' : 'duration-1000'"
                                 class="absolute w-6 h-6 text-gray-800 transition-all dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 12h14m-7 7V5" />
                             </svg>
-                            <svg x-cloak x-bind:class="check ? 'z-10 duration-1000' : 'opacity-0 rotate-[180deg] duration-500'"
+                            <svg x-cloak x-bind:class="check ? 'z-10 duration-1000' : 'opacity-0 rotate-[-45deg] duration-500'"
                                 class="absolute w-6 h-6 text-green-800 transition-all" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

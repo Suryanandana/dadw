@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        serif: ['Newsreader', 'sans-serif'],
+        serif: ['Newsreader', 'serif'],
       },
       animation: {
         fadein: 'fadeIn .3s ease-in forwards',
@@ -23,7 +23,7 @@ export default {
         fadeIn: {
           '0%': { 
             backgroundColor: theme('colors.transparent'),
-            borderBottom: 'none',
+            borderBottom: "0px solid theme('colors.gray.100')",
           },
           '100%': { 
             backgroundColor: theme('colors.white'),
@@ -37,7 +37,7 @@ export default {
           },
           '100%': { 
             backgroundColor: theme('colors.transparent'),
-            borderBottom: 'none',
+            borderBottom: "0px solid theme('colors.gray.100')",
           },  
         },
         textFadeIn: {

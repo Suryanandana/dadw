@@ -65,9 +65,10 @@
                     </div>
                 </div>
                 @else
-                <a href="/login"
+                <button href="/login" wire:navigate
                     class="inline-flex px-8 py-3 text-xs tracking-widest text-white bg-green-700 border-0 rounded-sm focus:outline-none hover:bg-green-800"
-                    x-on:click="login = true">SIGN IN</a>
+                    >SIGN IN
+                </button>
                 @endauth
                 <button data-collapse-toggle="navbar-sticky" type="button"
                     class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -84,20 +85,20 @@
                 <ul id="nav-list"
                     class="flex flex-col gap-3 p-4 mt-4 text-sm font-medium text-gray-700 list-inside border border-gray-100 rounded-lg md:text-white md:p-0 md:flex-row md:space-x-8 md:mt-0 md:border-0">
                     <li>
-                        <a href="/" id="nav-text"
-                            class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Home</a>
+                        <a href="/" id="nav-text" wire:navigate
+                            class="py-2 pl-3 pr-4 md:hover:text-green-400 md:p-0">Home</a>
                     </li>
                     <li>
                         <a href="#" id="nav-text"
-                            class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">About</a>
+                            class="py-2 pl-3 pr-4 md:hover:text-green-400 md:p-0">About</a>
                     </li>
                     <li>
                         <a href="#" id="nav-text"
-                            class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Services</a>
+                            class="py-2 pl-3 pr-4 md:hover:text-green-400 md:p-0">Services</a>
                     </li>
                     <li>
                         <a href="#" id="nav-text"
-                            class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Contact</a>
+                            class="py-2 pl-3 pr-4 md:hover:text-green-400 md:p-0">Contact</a>
                     </li>
                 </ul>
             </div>
