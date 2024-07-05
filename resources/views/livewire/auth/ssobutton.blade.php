@@ -5,7 +5,7 @@
         <span class="absolute px-3 font-medium text-gray-700 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">or</span>
     </div>
     {{-- socialite button --}}
-    <button onclick="openPopup('{{route('socialite.redirect', 'google')}}')" class="text-gray-800 w-full bg-white hover:bg-gray-50/90 focus:ring-4 focus:outline-none focus:ring-gray-50/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center justify-center border border-gray-400">
+    <button onclick="openPopup('{{route('socialite.redirect', 'google')}}'), 'Login with Google'" class="text-gray-800 w-full bg-white hover:bg-gray-50/90 focus:ring-4 focus:outline-none focus:ring-gray-50/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center justify-center border border-gray-400">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 me-2">
             <title>Sign in with Google</title>
             <desc>Google G Logo</desc>
@@ -28,7 +28,7 @@
             </svg>
         Login with Google
     </button>
-    <button onclick="openPopup('{{ route('socialite.redirect', 'facebook') }}')" class="w-full justify-center text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
+    <button onclick="openPopup('{{ route('socialite.redirect', 'facebook') }}'), 'Login with Facebook'" class="w-full justify-center text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
         <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
             <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
         </svg>

@@ -183,12 +183,13 @@ class CustomerController extends Controller
     {
         $user = auth()->user();
         // select order and booking table
-        $data = Order::select('order.*', 'booking.*', 'services.service_name', 'services.price', 'rooms.room_name')
-            ->join('booking', 'order.id_booking', '=', 'booking.id')
-            ->join('services', 'order.id_services', '=', 'services.id')
-            ->join('rooms', 'order.id_room', '=', 'rooms.id')
+        $data = DB::table('order_services')
+            ->select('order_services.*', 'booking.*', 'services.service_name', 'services.price', 'rooms.room_name')
+            ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+            ->join('services', 'order_services.id', '=', 'services.id')
+            ->join('rooms', 'booking.id_room', '=', 'rooms.id')
             ->where('booking.id_customer', $user->id)
-            ->orderBy('order.id', 'desc')
+            ->orderBy('booking.id', 'desc')
             ->get();
         $feedback = Feedback::select('feedback.*')
             ->join('booking', 'feedback.id_booking', '=', 'booking.id')

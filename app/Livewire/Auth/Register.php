@@ -58,6 +58,7 @@ class Register extends Component
     public function submit()
     {
         $this->resetErrorBag();
+        $this->user['level'] = 'customer';
         $newuser = User::create(
             $this->user
         );
