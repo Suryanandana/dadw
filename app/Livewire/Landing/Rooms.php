@@ -3,11 +3,17 @@
 namespace App\Livewire\Landing;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class Rooms extends Component
 {
     public function render()
     {
-        return view('livewire.landing.rooms');
+        $data = DB::table('rooms')
+        ->join('image_rooms', 'rooms.id', '=', 'image_rooms.id')
+        ->select('rooms.*', 'image_rooms.imgdir')
+        ->orderBy('id', 'asc')
+        ->get();
+        return view('livewire.landing.rooms')->with('data', $data);
     }
 }

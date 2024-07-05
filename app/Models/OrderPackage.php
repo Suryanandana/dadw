@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class OrderPackage extends Model
 {
     use HasFactory;
 
+    protected $table = 'order_package';
+
     protected $fillable = [
-        'service_name', 'details', 'price', 'packace_name'
+        'id_booking', 'id_package', 'id_room'
     ];
 }

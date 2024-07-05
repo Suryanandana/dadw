@@ -15,7 +15,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', App\Livewire\Landing\Index::class)->name('landing');
 Route::get('/details/{id}', [LandingController::class, 'details'])->name('details');
+Route::get('/roomdetails/{id}', [LandingController::class, 'rooms'])->name('rooms.detail');
 Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
+Route::get('/package/{id}', [LandingController::class, 'package'])->name('package.details');
 
 // autentikasi
 # ==================== SOCIALITE AUTH ================================
@@ -128,9 +130,9 @@ Route::middleware(['auth', 'verified'])->group(function()
             Route::get('/staff', 'dashboard')->name('staff');
             Route::get('/staff/transaction', 'getTransaction');
             Route::get('/staff/chat', 'chat');
-            Route::post('/staff/updatetransaction/{id}', 'updateTransaction');
-            Route::post('/staff/donetransaction/{id}', 'doneTransaction');
-            
+            Route::put('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->name('updateTransaction');
+            Route::post('/staff/updatetransaction/{id}', 'updateTransaction')->name('updateTransaction');
+            Route::post('/staff/donetransaction/{id}', 'doneTransaction');            
             Route::post('/staff/service', 'getService');
             Route::get('/staff/service', 'getService')->name('search');
             Route::post('/staff/addservice', 'addService');
@@ -143,27 +145,28 @@ Route::middleware(['auth', 'verified'])->group(function()
         // ==================== ADMIN ====================
         Route::controller(AdminController::class)->group(function() {
             Route::get('/admin', 'index')->name('admin.dashboard')->name('admin');
-            Route::get('/admin-dashboard', 'index')->name('admin.dashboard');
-    
+            Route::get('/admin-dashboard', 'index')->name('admin.dashboard');    
             Route::get('/admin-account', 'getAdmin')->name('admin.account');
             Route::post('/add-admin', 'addAdmin')->name('add.admin');
             Route::put('/update-admin/{id}', 'updateAdmin')->name('update.admin');
-            Route::delete('/delete-admin/{id}', 'deleteAdmin')->name('delete.admin');
-    
+            Route::delete('/delete-admin/{id}', 'deleteAdmin')->name('delete.admin');   
             Route::get('/staff-account', 'getStaff')->name('staff.account');
             Route::post('/add-staff', 'addStaff')->name('add.staff');
             Route::put('/update-staff/{id}', 'updateStaff')->name('update.staff');
-            Route::delete('/delete-staff/{id}', 'deleteStaff')->name('delete.staff');
-    
+            Route::delete('/delete-staff/{id}', 'deleteStaff')->name('delete.staff');               
             Route::get('/customer-account', 'getCustomer')->name('customer.account');
             Route::post('/add-customer', 'addCustomer')->name('add.customer');
             Route::put('/update-customer/{id}', 'updateCustomer')->name('update.customer');
-            Route::delete('/delete-customer/{id}', 'deleteCustomer')->name('delete.customer');
-    
-            Route::get('/all-transaction', 'getAllTransaction')->name('all.transaction');
+            Route::delete('/delete-customer/{id}', 'deleteCustomer')->name('delete.customer');    
+            Route::get('/service-transaction', 'getServiceTransaction')->name('service.transaction');
+            Route::get('/package-transaction', 'getPackageTransaction')->name('package.transaction');
             Route::post('/filter-transaction', 'filterTransaction')->name('filter.transaction');
-            Route::get('/transaction-export', 'exportTransaction')->name('transaction.export');
+            Route::get('/service-export', 'exportServiceTransaction')->name('service.export');
+            Route::get('/package-export', 'exportPackageTransaction')->name('package.export');
             Route::get('/cash-flow', 'getCashFlow')->name('cash.flow');
+            // Route::get('/cash-flow', 'getCashFlowPack')->name('cash.flow');
+            // Route::get('/cash-flow-test', 'getCashFlow')->name('cash.flow');
+
         });
         // ==================== END ADMIN ================
     });

@@ -432,14 +432,26 @@ class AdminController extends Controller
         return redirect('/customer-account')->with('success', 'successfully deleted data.');
     }
 
-    public function getAllTransaction(Request $request)
+    public function getServiceTransaction(Request $request)
     {
-        $data = DB::table('order')
-            ->join('booking', 'order.id_booking', '=', 'booking.id')
-            ->join('services', 'order.id_services', '=', 'services.id')
+        $data = DB::table('order_services')
+            ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+            ->join('services', 'order_services.id_services', '=', 'services.id')
+            ->select('services.service_name', 'booking.date', 'booking.pax', 'services.price')
             ->get();
-        return view('admin.report.all-order', compact('data'));
+        return view('admin.report.service-order', compact('data'));
     }
+
+    public function getPackageTransaction(Request $request)
+    {
+        $package = DB::table('order_package')
+            ->join('booking', 'order_package.id_booking', '=', 'booking.id')
+            ->join('package', 'order_package.id_package', '=', 'package.id')
+            ->select('package.package_name', 'booking.date', 'booking.pax', 'package.price')
+            ->get();
+        return view('admin.report.package-order', compact('package'));
+    }
+
 
     public function filterTransaction(Request $request)
     {
@@ -454,28 +466,91 @@ class AdminController extends Controller
         return view('admin.report.all-order', compact('data'));
     }
 
-    public function exportTransaction()
+    public function exportServiceTransaction()
     {
-        $data = DB::table('order')
-            ->join('booking', 'order.id_booking', '=', 'booking.id')
-            ->join('services', 'order.id_services', '=', 'services.id')
+        $data = DB::table('order_services')
+            ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+            ->join('services', 'order_services.id_services', '=', 'services.id')
+            ->select('services.service_name', 'booking.date', 'booking.pax', 'services.price')
             ->get();
-        return Excel::download(new TransactionExport($data), 'transaction.csv', \Maatwebsite\Excel\Excel::CSV);
+        return Excel::download(new TransactionExport($data), 'services.csv', \Maatwebsite\Excel\Excel::CSV);
     }
+
+    public function exportPackageTransaction()
+    {
+        $package = DB::table('order_package')
+            ->join('booking', 'order_package.id_booking', '=', 'booking.id')
+            ->join('package', 'order_package.id_package', '=', 'package.id')
+            ->select('package.package_name', 'booking.date', 'booking.pax', 'package.price')
+            ->get();
+        return Excel::download(new TransactionExport($package), 'package.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    // public function getCashFlow()
+    // {
+    //     $data = DB::table('order_services')
+    //         ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+    //         ->join('services', 'order_services.id_services', '=', 'services.id')
+    //         ->get();
+
+    //     foreach ($data as $item) {
+    //         $timestamp = strtotime($item->date);
+
+    //         $month = date('m', $timestamp);
+    //         $item->month = $month;
+    //     }
+
+    //     return view('admin.report.cash-flow', compact('data'));
+    // }
+
+    // public function getCashFlowPack()
+    // {
+    //     $datapack = DB::table('order_package')
+    //         ->join('booking', 'order_package.id_booking', '=', 'booking.id')
+    //         ->join('package', 'order_package.id_package', '=', 'package.id')
+    //         ->get();
+
+    //     foreach ($datapack as $item) {
+    //         $timestamp = strtotime($item->date);
+
+    //         $month = date('m', $timestamp);
+    //         $item->month = $month;
+    //     }
+
+    //     return view('admin.report.cash-flow-test', compact('datapack'));
+    // }
 
     public function getCashFlow()
     {
-        $data = DB::table('order')
-            ->join('booking', 'order.id_booking', '=', 'booking.id')
-            ->join('services', 'order.id_services', '=', 'services.id')
+        $serviceData = DB::table('order_services')
+            ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+            ->join('services', 'order_services.id_services', '=', 'services.id')
+            ->select('order_services.*', 'booking.date', 'services.service_name', 'services.price', 'booking.pax')
             ->get();
 
-        foreach ($data as $item) {
+        foreach ($serviceData as $item) {
             $timestamp = strtotime($item->date);
-
             $month = date('m', $timestamp);
             $item->month = $month;
         }
+
+        $packageData = DB::table('order_package')
+            ->join('booking', 'order_package.id_booking', '=', 'booking.id')
+            ->join('package', 'order_package.id_package', '=', 'package.id')
+            ->select('order_package.*', 'booking.date', 'package.package_name', 'package.price', 'booking.pax')
+            ->get();
+
+        foreach ($packageData as $item) {
+            $timestamp = strtotime($item->date);
+            $month = date('m', $timestamp);
+            $item->month = $month;
+        }
+
+        // Gabungkan kedua data
+        $data = [
+            'services' => $serviceData,
+            'packages' => $packageData,
+        ];
 
         return view('admin.report.cash-flow', compact('data'));
     }

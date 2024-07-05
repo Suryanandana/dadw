@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Welcome to The Cajuput Spa</title>
+    <title>Cajuput - Service Order</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
     {{-- font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +61,7 @@
                         <div
                             class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                             
-                            <form action="{{ route('transaction.export') }}">
+                            <form action="{{ route('service.export') }}">
                                 <div
                                     class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                                     <button type="submit" id="createProductModalButton"
@@ -129,7 +129,7 @@
                                 </tbody>
                             </table>
                             @else
-                                <p class="text-gray-700 text-sm text-center py-4">Staff Account Empty !</p>
+                                <p class="text-gray-700 text-sm text-center py-4">There is no transaction history..</p>
                             @endif
                         </div>
                         <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"

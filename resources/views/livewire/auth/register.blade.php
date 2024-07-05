@@ -83,7 +83,7 @@
                         <div>
                             <label for="address" 
                                 class="block text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                            <input type="password" name="password" id="address" placeholder="Address" wire:model="address"
+                            <input type="text" name="address" id="address" placeholder="Address" wire:model="address"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-sm focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
                             @error('address')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
@@ -91,7 +91,7 @@
                         <div>
                             <label for="country" 
                                 class="block text-sm font-medium text-gray-900 dark:text-white">Country</label>
-                            <input type="password" name="password" id="country" placeholder="Country" wire:model="country"
+                            <input type="text" name="country" id="country" placeholder="Country" wire:model="country"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-sm focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
                             @error('country')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
