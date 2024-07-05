@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Livewire\Customer;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+
+class Transaction extends Component
+{
+    public function render()
+    {
+        $id = DB::table('customer')
+        ->where('id_users', Auth::user()->getAuthIdentifier())
+        ->get()
+        ->first()->id;
+
+        $data = DB::table('booking')
+        ->join('rooms', 'rooms.id', '=', 'booking.id_room')
+        ->where('id_customer', $id)
+        ->get();
+
+        return view('livewire.customer.transaction')->with('data', $data);
+    }
+}

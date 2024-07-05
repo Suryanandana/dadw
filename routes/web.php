@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/email/verify', function () {
         return redirect('/');
     })->name('verification.notice');
-
+    
     Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
         $request->session()->put('message','Verification link has been sent to your email address, please check to verify your account');
@@ -112,13 +112,16 @@ Route::middleware(['auth', 'verified'])->group(function()
 {
     // ==================== CUSTOMER ====================
     Route::middleware('userAccess:customer')->group(function() {
+        Route::get('/transaction', App\Livewire\Customer\Index::class);
+    });
+    Route::middleware('userAccess:customer')->group(function() {
         Route::controller(CustomerController::class)->group(function() {
             Route::post('/booking', 'booking')->name('customer.booking');
             Route::get('/dashboard')->name('dashboard');
             Route::get('/reschedule', 'viewReschedule');
             Route::put('/reschedule', 'reschedule')->name('customer.reschedule');
             Route::put('/cancel', 'cancel');
-            Route::get('/transaction', 'transaction')->name('customer.transaction');
+            // Route::get('/transaction', 'transaction')->name('customer.transaction');
             Route::post('/feedback', 'feedback')->name('customer.feedback');
             Route::get('/customer', 'transaction');
 

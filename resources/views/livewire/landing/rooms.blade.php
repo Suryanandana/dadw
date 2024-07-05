@@ -5,7 +5,7 @@
     <article class="max-w-screen-xl mx-auto mt-10 text-gray-600">
         <div class="flex flex-col items-center gap-3 px-5 md:gap-12 md:flex-row">
             <div class="basis-1/2 lg:basis-2/5">
-                <img class="w-full object-cover aspect-[4/3] rounded-sm" alt="hero" src="{{asset('img/landing/'.$item->imgdir)}}">
+                <img class="w-full object-cover aspect-[4/3] rounded-sm" alt="hero" src="{{asset('/img/landing/'.$item->imgdir)}}">
             </div>
             <div class="text-left basis-1/2 lg:basis-3/5">
                 <h3 class="mb-2 text-xs font-medium tracking-widest text-gray-400">

@@ -1,39 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Welcome to The Cajuput Spa</title>
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    {{-- font --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap"
-        rel="stylesheet">
-    {{-- alpinejs --}}
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    {{-- font awesome --}}
-    <script src="https://kit.fontawesome.com/7eaa0f0932.js" crossorigin="anonymous"></script>
-    {{-- splide --}}
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/datepicker.min.js"></script>
-    <script src="https://kit.fontawesome.com/7eaa0f0932.js" crossorigin="anonymous"></script>
-</head>
-
-<body x-data="{id:0, deleteForm: false, feedbackForm: false, date:''}">
-    {{-- navbar --}}
-    @extends('customer.navbar')
-
+<div>
     {{-- content --}}
     <section class="mt-12 -mb-24 bg-white dark:bg-gray-900">
         <div class="px-10 mx-auto lg:py-16">
@@ -53,7 +18,7 @@
                 {{ session('success') }}
             </div>
             @endif
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">All Transaction</h2>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">My Transaction</h2>
             <div class="relative mb-20 overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -62,19 +27,19 @@
                                 No
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Product
+                                Total
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Invoice
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Date
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Pax
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Price
-                            </th>
-                            <th scope="col" class="px-6 py-3">
                                 Room
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Pax
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Status
@@ -92,37 +57,39 @@
                                 {{$loop->iteration}}
                             </td>
                             <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {{$item->service_name}}
+                                Rp. {{number_format(num: $item->total, thousands_separator: '.')}}
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                <button onclick="openPopup('{{ $item->payment_url }}'), 'Invoice {{$item->external_id}}'" class="">
+                                    {{$item->external_id}}
+                                </button>
                             </td>
                             <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                 {{$item->date}}
                             </td>
                             <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {{$item->pax}}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {{'Rp. '.number_format(num: $item->price * $item->pax, thousands_separator: '.')}}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                 {{$item->room_name}}
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                {{$item->pax}}
                             </td>
                             <td class="px-6 py-4">
                                 <span
-                                    class="{{$item->color}} text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->status_booking}}</span>
+                                    class="text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->payment_status}}</span>
                             </td>
-                            @if ($item->status_booking != 'cancelled')
+                            @if ($item->booking_status != 'cancelled')
                             <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                @if ($item->status_booking != 'reschedule' && $item->status_booking != 'complete')
-                                <a href="/reschedule?id={{$item->id_booking}}"
+                                @if ($item->booking_status != 'reschedule' && $item->booking_status != 'complete')
+                                <a href="/reschedule?id={{$item->id}}"
                                     class="text-yellow-600 hover:text-yellow-900">Reschedule</a>
                                 @endif
-                                @if ($item->status_booking != 'complete')
+                                @if ($item->booking_status != 'complete')
                                 <button class="text-red-600 cursor-pointer hover:text-red-900"
-                                    x-on:click="deleteForm = true, id = {{$item->id_booking}}, date = '{{$item->date}}'">Cancel</button>
+                                    x-on:click="deleteForm = true, id = {{$item->id}}, date = '{{$item->date}}'">Cancel</button>
                                 @endif
-                                @if ($item->status_booking == 'complete' && $item->feedback == null)                                
+                                @if ($item->booking_status == 'complete' && $item->feedback == null)                                
                                 <button class="text-green-600 cursor-pointer hover:text-green-900"
-                                    x-on:click="feedbackForm = true, id = {{$item->id_booking}}">Feedback</button>
+                                    x-on:click="feedbackForm = true, id = {{$item->id}}">Feedback</button>
                                 @endif
                             </td>
                             @endif
@@ -215,6 +182,8 @@
             </div>
         </div>
     </div>
-</body>
+</div>
 
-</html>
+@push('scripts')
+<script src="{{asset('js/auth/auth_popup.js')}}"></script>
+@endpush
