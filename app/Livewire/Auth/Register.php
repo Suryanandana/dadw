@@ -70,7 +70,7 @@ class Register extends Component
 
         Customer::create([
             $customer,
-            'id_user' => $newuser->id,
+            'id_users' => $newuser->id,
         ]);
 
         Auth::loginUsingId($newuser->id);
