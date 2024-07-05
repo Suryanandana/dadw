@@ -19,6 +19,7 @@ class Register extends Component
     public $user;
     public $current_step = 0;
     
+
     public function render()
     {
         return view('livewire.auth.register');
@@ -62,7 +63,7 @@ class Register extends Component
         );
 
         $customer = $this->validate([
-            'phone' =>'required|number',
+            'phone' =>'required|numeric',
             'address' => 'required|string',
             'country' => 'required|string',
         ]);

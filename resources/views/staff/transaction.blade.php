@@ -7,19 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Welcome to The Cajuput Spa</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    {{-- font --}}
+    
+    {{-- Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap"
-        rel="stylesheet">
-    {{-- alpinejs --}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap" rel="stylesheet">
+    
+    {{-- Alpine.js --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    {{-- font awesome --}}
+    
+    {{-- Font Awesome --}}
     <script src="https://kit.fontawesome.com/7eaa0f0932.js" crossorigin="anonymous"></script>
-    {{-- splide --}}
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    
+    {{-- Splide --}}
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    
     <style>
         [x-cloak] {
             display: none !important;
@@ -27,220 +30,188 @@
     </style>
 </head>
 
-<body>
+<body class="antialiased bg-gray-50 dark:bg-gray-900" x-data="{id: 0}">
 
-    <div class="antialiased bg-gray-50 dark:bg-gray-900" x-data="{id: 0}">
-        {{-- navbar --}}
-        @extends('staff.navbar')
+    {{-- Navbar --}}
+    @include('staff.navbar')
 
-        {{-- sidebar --}}
-        @extends('staff.sidebar')
+    {{-- Sidebar --}}
+    @include('staff.sidebar')
 
-        {{-- content --}}
-        <main class="h-auto p-1 pt-20 md:ml-64">
-            <!-- Start block -->
-            <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
-                <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
-                    <!-- Start coding here -->
-                    @if ($errors->any())
-                        <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li class="text-sm">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    {{-- show success message --}}
-                    @if (session('success'))
-                        <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
-                        <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
-                            <div class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                                <div class="flex items-center w-full space-x-3 md:w-auto">
-                                    <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
-                                        class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                        type="button">
-                                        <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                        </svg>
-                                        Actions
-                                    </button>
-                                    <div id="actionsDropdown"
-                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                            aria-labelledby="actionsDropdownButton">
-                                            <li>
-                                                <a href="#"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass
-                                                    Edit</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete
-                                                    all</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+    {{-- Content --}}
+    <main class="h-auto p-1 pt-20 md:ml-64">
+        <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
+            <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
+                @if ($errors->any())
+                    <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li class="text-sm">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                    <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+                        <div class="flex items-center w-full space-x-3 md:w-auto">
+                            <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
+                                class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                type="button">
+                                <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path clip-rule="evenodd" fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                </svg>
+                                Actions
+                            </button>
+                            <div id="actionsDropdown"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="actionsDropdownButton">
+                                    <li>
+                                        <a href="#"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass
+                                            Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete
+                                            all</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-4 py-4">Customer Name</th>
-                                        <th scope="col" class="px-4 py-3">Booked At</th>
-                                        <th scope="col" class="px-4 py-3">Reservation Date</th>
-                                        <th scope="col" class="px-4 py-3">Price</th>
-                                        <th scope="col" class="px-4 py-3">Receipt</th>
-                                        <th scope="col" class="px-4 py-3">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $item)
-                                        <tr class="border-b dark:border-gray-700 hover:cursor-pointer">
-                                            <th scope="row" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}"
-                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {{ $item->name }}
-                                            </th>
-                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
-                                                {{ date_format(date_create($item->created_at), 'd M Y, H:i A') }}
-                                            </td>
-                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
-                                                {{ date_format(date_create($item->date), 'd M Y, H:i A') }}
-                                            </td>
-                                            <td class="px-4 py-3 max-w-[12rem] truncate" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
-                                                {{ 'Rp. ' . number_format(num: $item->price * $item->pax, thousands_separator: '.') }}
-                                            </td>
-                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
-                                                <a
-                                                    class="text-blue underline hover:cursor-pointer">{{ substr($item->img_receipt, 0, 4) . '...' . substr($item->img_receipt, -4, 5) }}</a>
-                                            </td>
-                                            @if (!strcmp($item->status_booking, 'accepted'))
-                                            <td class="px-4 py-3" data-modal-toggle="done{{ $item->id }}" data-modal-target="done{{ $item->id }}">
-                                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Click to Complete &#709;</span>
-                                                <form action="/staff/donetransaction/{{ $item->id }}" method="post" id="done{{ $item->id }}" class="hidden py-1 items-start">
-                                                    @csrf
-                                                    <button type="submit" class="bg-green-600 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded">confirm</button>
-                                                </form>
-                                            @else 
-                                            <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
-                                                @if (!strcmp($item->status_booking, 'inprogress'))
-                                                    <span
-                                                        class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300">Need check</span>
-                                                @elseif (!strcmp($item->status_booking, 'complete'))
-                                                    <span
-                                                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Completed</span>
-                                                @elseif (!strcmp($item->status_booking, 'cancelled'))
-                                                    <span
-                                                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Cancelled</span>
-                                                @elseif (!strcmp($item->status_booking, 'reschedule'))
-                                                    <span
-                                                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Reshcedule</span>
-                                                @endif
-                                            @endif
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        {{ $data->withQueryString()->links() }}
                     </div>
-                </div>
-            </section>
-            <!-- End block -->
-
-            @foreach ($data as $item)
-            <form action="/staff/updatetransaction" method="POST">
-                @csrf
-                @method('put')
-                <div class="z-50 hidden w-56 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
-                id="updateModal{{ $item->id }}">
-                <div class="px-4 py-3">
-                    <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ auth()->user()->name }}</span>
-                    <span class="block text-sm text-gray-900 truncate dark:text-white"> {{ auth()->user()->email }}</span>
-                </div>
-            </div>
-            </form>
-                <!-- Read modal -->
-                <div id="readModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
-                    class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative w-full max-w-xl max-h-full p-4">
-                        <!-- Modal content -->
-                        <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                            <!-- Modal header -->
-                            <div class="flex justify-between mb-3 rounded-t ">
-                                <div class="text-lg text-gray-900 md:text-xl dark:text-white">
-                                    <div class="flex align-center gap-3">
-                                        <h3 class="font-bold ">{{ $item->name }}</h3>
-                                        <div>
-                                            @if (!strcmp($item->status, 'unvalidate'))
-                                                <span
-                                                    class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Need
-                                                    check</span>
-                                            @elseif (!strcmp($item->status, 'validate'))
-                                                <span
-                                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Validate</span>
-                                            @else
-                                                <span
-                                                    class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Denied</span>
-                                            @endif
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-4 py-4">Customer Name</th>
+                                    <th scope="col" class="px-4 py-3">Booked At</th>
+                                    <th scope="col" class="px-4 py-3">Reservation Date</th>
+                                    <th scope="col" class="px-4 py-3">Price</th>
+                                    <th scope="col" class="px-4 py-3">Receipt</th>
+                                    <th scope="col" class="px-4 py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                    <tr class="border-b dark:border-gray-700 hover:cursor-pointer">
+                                        <th scope="row" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}"
+                                            class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $item->name }}
+                                        </th>
+                                        <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
+                                            {{ date_format(date_create($item->created_at), 'd M Y, H:i A') }}
+                                        </td>
+                                        <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
+                                            {{ date_format(date_create($item->date), 'd M Y, H:i A') }}
+                                        </td>
+                                        <td class="px-4 py-3 max-w-[12rem] truncate" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
+                                            Rp.{{ number_format($item->price, 2, ',', '.') }}
+                                        </td>
+                                        <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
+                                            <a href="{{ Storage::url('assets/receipt/'.$item->receipt) }}" target="_blank"
+                                                class="underline decoration-dotted underline-offset-4">{{ $item->receipt }}</a>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <form action="{{ route('updateTransaction', $item->id) }}"
+                                                method="POST" id="status-form-{{ $item->id }}">
+                                                @csrf
+                                                @method('PUT')
+                                                <select name="status" id="status-{{ $item->id }}"
+                                                    class="bg-transparent rounded-lg" data-item-id="{{ $item->id }}">
+                                                    <option value="pending" @selected($item->status == 'pending')>Pending
+                                                    </option>
+                                                    <option value="completed" @selected($item->status == 'completed')>Completed
+                                                    </option>
+                                                    <option value="cancelled" @selected($item->status == 'cancelled')>Cancelled
+                                                    </option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <!-- Main modal -->
+                                    <div id="readModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
+                                        class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div class="relative w-full max-w-2xl max-h-full">
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                <!-- Modal header -->
+                                                <div
+                                                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                        {{ $item->name }}
+                                                    </h3>
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        data-modal-hide="readModal{{ $item->id }}">
+                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <div class="p-6 space-y-6">
+                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                        Customer: {{ $item->name }}
+                                                    </p>
+                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                        Booked At: {{ date_format(date_create($item->created_at), 'd M Y, H:i A') }}
+                                                    </p>
+                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                        Reservation Date: {{ date_format(date_create($item->date), 'd M Y, H:i A') }}
+                                                    </p>
+                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                        Price: Rp.{{ number_format($item->price, 2, ',', '.') }}
+                                                    </p>
+                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                        Receipt: <a href="{{ Storage::url('assets/receipt/'.$item->receipt) }}" target="_blank"
+                                                            class="underline decoration-dotted underline-offset-4">{{ $item->receipt }}</a>
+                                                    </p>
+                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                        Status: {{ ucfirst($item->status) }}
+                                                    </p>
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div
+                                                    class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                    <button data-modal-hide="readModal{{ $item->id }}" type="button"
+                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Close</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p class="font-semibold text-md">
-                                        {{ 'Total : Rp. ' . number_format(num: $item->price * $item->pax, thousands_separator: '.') }}
-                                    </p>
-                                </div>
-                                <div class="grid  justify-items-end">
-                                    <button type="button"
-                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white"
-                                        data-modal-toggle="readModal{{ $item->id }}">
-                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
-                                            viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="sr-only">Close modal</span>
-                                    </button>
-                                    <p class="font-semibold text-sm">
-                                        {{ date_format(date_create($item->created_at), 'd M Y, H:i:s A') }}</p>
-
-                                </div>
-                            </div>
-                            <div class="grid place-content-center">
-                                <img src="{{ '/img/receipt/' . $item->img_receipt }}" alt="receipt"
-                                    class="max-h-50 max-w-70 rounded-lg">
-
-                            </div>
-                            <div class="pt-4">
-                                @if (!strcmp($item->status, 'unvalidate') && strcmp($item->status_booking, 'cancelled'))
-                                <form action="/staff/updatetransaction/{{ $item->id }}" method="post">
-                                    @csrf
-                                    <button type="submit" name="status" value="validate"
-                                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">Validate</button>
-                                    <button type="submit" name="status" value="denied"
-                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Reject</button>
-                                </form>
-                                @endif
-                            </div>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            @endforeach
-        </main>
-    </div>
+            </div>
+        </section>
+    </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select[name="status"]').forEach(select => {
+                select.addEventListener('change', function () {
+                    document.getElementById('status-form-' + this.getAttribute('data-item-id')).submit();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

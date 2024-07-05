@@ -55,7 +55,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const ctx = document.getElementById('myChart');
+        const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'pie',
             data: {

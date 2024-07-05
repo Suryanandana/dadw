@@ -33,7 +33,9 @@
     <livewire:landing.hero>
     <livewire:landing.welcome>
     <livewire:landing.recommendation>
+    <livewire:landing.logo>
     <livewire:landing.rooms>
+    <livewire:landing.logo>
     <livewire:landing.services>
     <livewire:landing.feedback>
     <livewire:landing.logo>

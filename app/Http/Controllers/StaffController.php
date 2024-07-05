@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use App\Models\Order;
+use App\Models\OrderService;
+use App\Models\OrderPackage;
 use App\Models\Service;
 use App\Models\Image_service;
 use App\Models\Staff;
@@ -30,50 +31,60 @@ class StaffController extends Controller
     public function dashboard()
     {
         $status = ['inprogress' => 0, 'accepted' => 0, 'reschedule' => 0, 'cancelled' => 0, 'complete' => 0];
-        $data = Booking::select('booking.booking_status')->get();
+        $data = Booking::select('booking_status')->get();
         foreach($data as $d){
-            if($d->status_booking == 'inprogress') {
+            if($d->booking_status == 'inprogress') {
                 $status['inprogress'] += 1;
-            } else if($d->status_booking == 'accepted') {
+            } else if($d->booking_status == 'accepted') {
                 $status['accepted'] += 1;
-            } else if($d->status_booking == 'reschedule') {
+            } else if($d->booking_status == 'reschedule') {
                 $status['reschedule'] += 1;
-            } else if($d->status_booking == 'cancelled') {
+            } else if($d->booking_status == 'cancelled') {
                 $status['cancelled'] += 1;
-            } else if($d->status_booking == 'complete') {
+            } else if($d->booking_status == 'complete') {
                 $status['complete'] += 1;
             }
         }
+        // dd($status);
         return view('staff.dashboard')->with('status', $status);
     }
 
     public function getTransaction()
-    {
-        $data = Order::select('booking.pax', 'booking.status_booking', 'booking.date', 'services.price', 'users.name', 'transaction.*',)
-            ->join('booking', 'order.id_booking', '=', 'booking.id')
-            ->join('users', 'booking.id_customer', '=', 'users.id')
-            ->join('services', 'order.id_services', '=', 'services.id')
-            ->join('transaction', 'booking.id_transaction', '=', 'transaction.id')
-            ->orderBy('order.id', 'desc')
-            ->paginate(10);
-        // dd($data);
-        return view('staff.transaction')->with('data', $data);
-    }
+{
+    $serviceData = OrderService::select('order_services.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'services.price', 'users.name')
+        ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+        ->join('users', 'booking.id_customer', '=', 'users.id')
+        ->join('services', 'order_services.id_services', '=', 'services.id')
+        ->orderBy('order_services.id', 'desc')
+        ->get();
+
+    $packageData = OrderPackage::select('order_package.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'package.price', 'users.name')
+        ->join('booking', 'order_package.id_booking', '=', 'booking.id')
+        ->join('users', 'booking.id_customer', '=', 'users.id')
+        ->join('package', 'order_package.id_package', '=', 'package.id')
+        ->orderBy('order_package.id', 'desc')
+        ->get();
+
+    $data = $serviceData->merge($packageData);
+
+      // Debugging: lihat data yang dikirim ke view
+
+    return view('staff.transaction')->with('data', $data);
+}
+
     
     public function updateTransaction(Request $request, $id)
     {
-        $transaction = Transaction::where('id', $id);
-        $booking = Booking::where('id_transaction', $id);
+        // $transaction = Transaction::where('id', $id);
+        $booking = Booking::where('id', $id);
         $user = auth()->user();
-        $id_staff = Staff::select('id')->where('id_users', $user->id)->first();
+        $id_staff = Staff::select('id')->where('id_user', $user->id)->first();
         try {
             DB::beginTransaction();
             
-            $transaction->update([
-                'status' => $request->status,
-            ]);
+            
             $booking->update([
-                'status_booking' => $request->status == 'validate' ? 'accepted' : 'cancelled',
+                'booking_status' => $request->status == 'validate' ? 'accepted' : 'cancelled',
                 'id_staff' => $id_staff->id,
             ]);
 
@@ -89,14 +100,14 @@ class StaffController extends Controller
 
     public function doneTransaction($id)
     {
-        $booking = Booking::where('id_transaction', $id);
+        $booking = Booking::where('id', $id);
         $user = auth()->user();
         $id_staff = Staff::select('id')->where('id_users', $user->id)->first();
         try {
             DB::beginTransaction();
             
             $booking->update([
-                'status_booking' => 'complete',
+                'booking_status' => 'complete',
                 'id_staff' => $id_staff->id,
             ]);
 
