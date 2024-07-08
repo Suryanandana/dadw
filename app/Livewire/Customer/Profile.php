@@ -4,11 +4,10 @@ namespace App\Livewire\Customer;
 
 use Livewire\Component;
 
-class Index extends Component
+class Profile extends Component
 {
-    
     public function render()
     {
-        return view('livewire.customer.index');
+        return view('livewire.customer.profile');
     }
 }

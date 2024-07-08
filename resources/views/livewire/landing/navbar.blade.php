@@ -42,8 +42,12 @@
                         </div>
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                             <li>
+                                <a href="/profile"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                            </li>
+                            <li>
                                 <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My Transaction</a>
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Transaction</a>
                             </li>
                             @empty(auth()->user()->email_verified_at || session('message'))
                             <li>
@@ -111,7 +115,7 @@
     <div id="toast-message-cta" class="fixed z-50 right-2 top-[6rem] w-full max-w-xs px-4 py-6 text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-400" role="alert">
         <div class="flex">
             <div class="text-sm font-normal ms-3">
-                <span class="mb-2 text-sm font-semibold text-gray-900 dark:text-white">Verification</span>
+                <span class="mb-2 text-sm font-semibold text-gray-900 dark:text-white">Notification!</span>
                 <div class="mb-2 text-sm font-normal">
                     <p>{{session('message')}}</p>
                 </div> 

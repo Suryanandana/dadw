@@ -41,8 +41,12 @@
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                         <li>
+                            <a href="/profile"
+                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                        </li>
+                        <li>
                             <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-800">My Transaction</a>
+                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-800">Transaction</a>
                         </li>
                         @empty(auth()->user()->email_verified_at || session('message'))
                         <li>

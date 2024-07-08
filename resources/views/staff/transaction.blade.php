@@ -43,7 +43,7 @@
         <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
             <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
                 @if ($errors->any())
-                    <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                    <div class="p-4 mb-6 text-center text-white bg-red-500 rounded-lg">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li class="text-sm">{{ $error }}</li>
@@ -53,7 +53,7 @@
                 @endif
 
                 @if (session('success'))
-                    <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                    <div class="p-4 mb-6 text-center text-white bg-green-500 rounded-lg">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -116,12 +116,15 @@
                                             {{ date_format(date_create($item->date), 'd M Y, H:i A') }}
                                         </td>
                                         <td class="px-4 py-3 max-w-[12rem] truncate" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
-                                            Rp.{{ number_format($item->price, 2, ',', '.') }}
+                                            Rp.{{ number_format($item->total, 0, ',', '.') }}
                                         </td>
                                         <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
+                                            {{$item->payment_status}}
+                                        </td>
+                                        {{-- <td class="px-4 py-3" data-modal-toggle="readModal{{ $item->id }}" data-modal-target="readModal{{ $item->id }}">
                                             <a href="{{ Storage::url('assets/receipt/'.$item->receipt) }}" target="_blank"
                                                 class="underline decoration-dotted underline-offset-4">{{ $item->receipt }}</a>
-                                        </td>
+                                        </td> --}}
                                         <td class="px-4 py-3">
                                             <form action="{{ route('updateTransaction', $item->id) }}"
                                                 method="POST" id="status-form-{{ $item->id }}">
@@ -129,11 +132,11 @@
                                                 @method('PUT')
                                                 <select name="status" id="status-{{ $item->id }}"
                                                     class="bg-transparent rounded-lg" data-item-id="{{ $item->id }}">
-                                                    <option value="pending" @selected($item->status == 'pending')>Pending
+                                                    <option value="pending" @selected($item->booking_status == 'pending')>Pending
                                                     </option>
-                                                    <option value="completed" @selected($item->status == 'completed')>Completed
+                                                    <option value="completed" @selected($item->booking_status == 'completed')>Completed
                                                     </option>
-                                                    <option value="cancelled" @selected($item->status == 'cancelled')>Cancelled
+                                                    <option value="cancelled" @selected($item->booking_status == 'cancelled')>Cancelled
                                                     </option>
                                                 </select>
                                             </form>
@@ -175,14 +178,14 @@
                                                         Reservation Date: {{ date_format(date_create($item->date), 'd M Y, H:i A') }}
                                                     </p>
                                                     <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                                        Price: Rp.{{ number_format($item->price, 2, ',', '.') }}
+                                                        Price: Rp.{{ number_format($item->total, 2, ',', '.') }}
                                                     </p>
-                                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    {{-- <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                                         Receipt: <a href="{{ Storage::url('assets/receipt/'.$item->receipt) }}" target="_blank"
                                                             class="underline decoration-dotted underline-offset-4">{{ $item->receipt }}</a>
-                                                    </p>
+                                                    </p> --}}
                                                     <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                                        Status: {{ ucfirst($item->status) }}
+                                                        Status: {{ ucfirst($item->booking_status) }}
                                                     </p>
                                                 </div>
                                                 <!-- Modal footer -->
@@ -211,7 +214,7 @@
                 });
             });
         });
-    </script>
+        </script>
 </body>
 
 </html>

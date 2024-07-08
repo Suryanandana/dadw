@@ -1,3 +1,23 @@
+@section('title', 'Transaction')
+
+@section('head')
+{{-- font --}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap"
+    rel="stylesheet">
+{{-- flowbite js --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+{{-- font awesome --}}
+<script src="https://kit.fontawesome.com/7eaa0f0932.js" crossorigin="anonymous"></script>
+@endsection
+
+@section('navbar')
+    <livewire:customer.navbar>
+@endsection
+
 <div>
     {{-- content --}}
     <section class="mt-12 -mb-24 bg-white dark:bg-gray-900">
@@ -60,7 +80,8 @@
                                 Rp. {{number_format(num: $item->total, thousands_separator: '.')}}
                             </td>
                             <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                <button onclick="openPopup('{{ $item->payment_url }}'), 'Invoice {{$item->external_id}}'" class="">
+                                <button onclick="openPopup('{{ $item->payment_url }}'), 'Invoice {{$item->external_id}}'" 
+                                    class="hover:underline">
                                     {{$item->external_id}}
                                 </button>
                             </td>
