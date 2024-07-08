@@ -148,7 +148,7 @@ Route::middleware(['auth', 'verified'])->group(function()
     Route::middleware('userAccess:admin')->group(function() {
         // ==================== ADMIN ====================
         Route::controller(AdminController::class)->group(function() {
-            Route::get('/admin', 'index')->name('admin.dashboard')->name('admin');
+            Route::get('/admin', 'index')->name('admin');
             Route::get('/admin-dashboard', 'index')->name('admin.dashboard');    
             Route::get('/admin-account', 'getAdmin')->name('admin.account');
             Route::post('/add-admin', 'addAdmin')->name('add.admin');

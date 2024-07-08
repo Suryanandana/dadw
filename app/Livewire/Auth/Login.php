@@ -26,7 +26,14 @@ class Login extends Component
                 session()->regenerate();
                 // Buat session untuk user
                 session()->put('user', $user);
-                return redirect()->to('/'); // Redirect ke halaman dashboard atau halaman setelah login berhasil
+
+                if ($user->level == 'admin') {
+                    return redirect()->to('/admin'); // Redirect ke halaman dashboard admin
+                }elseif($user->level == 'staff'){
+                    return redirect()->to('/staff'); // Redirect ke halaman dashboard staff
+                }else{
+                    return redirect()->to('/'); // Redirect ke halaman dashboard atau halaman setelah login berhasil
+                }
             }
             $this->addError('password', 'Password is incorrect');
         }
