@@ -17,9 +17,16 @@ class Transaction extends Component
 
         $data = DB::table('booking')
         ->join('rooms', 'rooms.id', '=', 'booking.id_room')
+        ->select('booking.*', 'rooms.room_name')
         ->where('id_customer', $id)
         ->get();
+        
+        $collection = DB::table('order_services')
+        ->join('services', 'services.id', '=', 'order_services.id_services')
+        ->join('image_services', 'image_services.service_id', '=', 'services.id')
+        ->whereIn('order_services.id_booking', $data->pluck('id'))
+        ->get();
 
-        return view('livewire.customer.transaction')->with('data', $data);
+        return view('livewire.customer.transaction', compact('data', 'collection'));
     }
 }

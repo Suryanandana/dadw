@@ -39,86 +39,25 @@
             </div>
             @endif
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">My Transaction</h2>
-            <div class="relative mb-20 overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                No
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Total
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Invoice
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Date
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Room
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Pax
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Status
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $item)
-                        <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$loop->iteration}}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                Rp. {{number_format(num: $item->total, thousands_separator: '.')}}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                <button onclick="openPopup('{{ $item->payment_url }}'), 'Invoice {{$item->external_id}}'" 
-                                    class="hover:underline">
-                                    {{$item->external_id}}
-                                </button>
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {{$item->date}}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {{$item->room_name}}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {{$item->pax}}
-                            </td>
-                            <td class="px-6 py-4">
-                                <span
-                                    class="text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->payment_status}}</span>
-                            </td>
-                            @if ($item->booking_status != 'cancelled')
-                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                @if ($item->booking_status != 'reschedule' && $item->booking_status != 'complete')
-                                <a href="/reschedule?id={{$item->id}}"
-                                    class="text-yellow-600 hover:text-yellow-900">Reschedule</a>
-                                @endif
-                                @if ($item->booking_status != 'complete')
-                                <button class="text-red-600 cursor-pointer hover:text-red-900"
-                                    x-on:click="deleteForm = true, id = {{$item->id}}, date = '{{$item->date}}'">Cancel</button>
-                                @endif
-                                @if ($item->booking_status == 'complete' && $item->feedback == null)                                
-                                <button class="text-green-600 cursor-pointer hover:text-green-900"
-                                    x-on:click="feedbackForm = true, id = {{$item->id}}">Feedback</button>
-                                @endif
-                            </td>
-                            @endif
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="grid gap-5">
+            @foreach ($data as $item)
+            <div class="flex gap-8 border-2 border-gray-200 rounded-md ">
+            @foreach ($collection as $image)
+                @if ($image->id_booking === $item->id)
+                <img src="{{asset('storage/img/service/'.$image->imgdir)}}" alt="" class="m-2 rounded-sm w-44">  
+                <div class="grid my-3">
+                    <p class="font-bold">{{$image->service_name}}</p>
+                    <p>{{date_format(new DateTime($item->date), "d M Y, H:i")}} WITA</p>
+                    <p>Rp. {{$item->total}}</p>
+                    <a href="" class="text-cyan-600 hover:underline">Payment Link</a>
+                    <a href="" class="text-cyan-600 hover:underline">Invoice</a>
+                </div>
+                @endif
+            @endforeach
             </div>
+            @endforeach
+            </div>
+                
         </div>
     </section>
     {{-- confirm delete --}}
