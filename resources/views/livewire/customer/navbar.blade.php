@@ -1,6 +1,6 @@
 <nav id="nav-container" class="fixed top-0 left-0 z-50 w-full bg-white border-b border-gray-200 select-none dark:bg-gray-900">
     <div class="flex flex-wrap items-center justify-between w-full max-w-screen-xl p-4 mx-auto">
-        <a href="/" class="flex items-center">
+        <a href="/" wire:navigate class="flex items-center">
             <div class="flex items-center justify-center">
                 <svg class="w-10 h-10 text-green-600" xmlns="http://www.w3.org/2000/svg" width="47" height="67" viewBox="0 0 47 67" fill="none">
                     <path d="M32.2534 35.0758C31.9665 28.4062 32.7362 19.9136 35.6545 16.0616C38.3446 19.351 40.1858 26.6491 40.6336 33.7301C41.1442 41.8027 40.4765 50.7097 41.0175 56.0938C35.8984 50.3284 32.5984 43.0931 32.2534 35.0758Z" fill="currentColor"/>
@@ -41,11 +41,11 @@
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                         <li>
-                            <a href="/profile"
+                            <a href="/profile" wire:navigate
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                         </li>
                         <li>
-                            <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}"
+                            <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}" wire:navigate
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-800">Transaction</a>
                         </li>
                         @empty(auth()->user()->email_verified_at || session('message'))
