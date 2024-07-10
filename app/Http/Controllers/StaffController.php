@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
-use App\Models\OrderService;
-use App\Models\OrderPackage;
-use App\Models\Service;
-use App\Models\Image_service;
+use App\Models\Room;
 use App\Models\Staff;
+use App\Models\Booking;
+use App\Models\Service;
 use App\Models\Transaction;
+use App\Models\OrderPackage;
+use App\Models\OrderService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Image_service;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManager;
+use function PHPUnit\Framework\isNull;
+use function PHPUnit\Framework\isEmpty;
+
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\ImageManager;
-
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
 
 class StaffController extends Controller
 {
@@ -274,5 +275,151 @@ class StaffController extends Controller
             return redirect('/staff/service')->with('success', 'successfully updated data.');
         }
 
+    }
+
+    public function getRoom(Request $request)
+    {
+        $data = DB::table('rooms')->paginate(10);
+
+        if($request->search){
+            $data = Room::query();
+            $data->when($request->search, function ($query) use ($request){
+                return $query->where('room_name', 'like', '%'.$request->search.'%');
+            }); 
+            $data = $data->paginate(10);
+        }
+
+        return view('staff.room', ['data' => $data]);
+    }
+
+    public function addRoom(Request $request)
+    {
+        $request->validate([
+            'room_name' => 'required|string|max:255',
+            'capacity' => 'required|integer',
+            'category' => 'required|string|max:255',
+            'description'=> 'required|string',
+        ]);
+
+        try {
+            Room::create([
+                'room_name' => $request->room_name,
+                'capacity' => $request->capacity,
+                'category' => $request->category,
+                'description' => $request->description
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return redirect('/staff/room')->withErrors(['error'=> $error]);
+        }
+        return redirect('/staff/room')->with('success', 'New room added successfully!');
+    }
+
+    public function updateRoom(Request $request, $id)
+    {
+        $room = Room::where('id', $id);
+        $request->validate([
+            'room_name' => 'string|max:255',
+            'capacity' => 'integer',
+            'category' => 'string|max:255',
+            'description'=> 'string',
+        ]);
+
+        try {
+            $room->update([
+                'room_name' => $request->room_name,
+                'capacity' => $request->capacity,
+                'category' => $request->category,
+                'description' => $request->description
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return redirect('/staff/room')->withErrors(['error'=> $error]);
+        }
+        return redirect('/staff/room')->with('success', 'Data change successfully');
+    }
+
+    public function deleteRoom($id)
+    {
+        $room = Room::where('id', $id);
+        try {
+            $room->delete();
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return redirect('/staff/room')->withErrors(['error'=> $error]);
+        }
+        return redirect('/staff/room')->with('success', 'Data deleted successfully');
+    }
+
+    public function getPackage(Request $request)
+    {
+        $data = DB::table('package')->paginate(10);
+
+        if($request->search){
+            $data = DB::table('package');
+            $data->where('package_name', 'like', '%'.$request->search.'%');
+            $data = $data->paginate(10);
+        }
+
+        return view('staff.package', ['data' => $data]);
+    }
+
+    public function addPackage(Request $request)
+    {
+        $request->validate([
+            'package_name' => 'required|string|max:255',
+            'package_duration' => 'required|integer|max:3', 
+            'price' => 'required|integer',
+            'detail' => 'required|string',
+        ]);
+
+        try {
+            DB::table('package')->insert([
+                'package_name' => $request->package_name,
+                'package_duration' => $request->package_duration,
+                'price' => $request->price,
+                'detail' => $request->detail,
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return redirect('/staff/package')->withErrors(['error'=> $error]);
+        }
+        return redirect('/staff/package')->with('success', 'New package added successfully!');
+    }
+
+    public function updatePackage(Request $request, $id)
+    {
+        $package = DB::table('package')->where('id', $id);
+        $request->validate([
+            'package_name' => 'string|max:255',
+            'package_duration' => 'integer|digits_between:1,3', 
+            'price' => 'integer',
+            'details' => 'string',
+        ]);
+
+        try {
+            $package->update([
+                'package_name' => $request->package_name,
+                'package_duration' => $request->package_duration,
+                'price' => $request->price,
+                'detail' => $request->detail,
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return redirect('/staff/package')->withErrors(['error'=> $error]);
+        }
+        return redirect('/staff/package')->with('success', 'Data change successfully');
+    }
+
+    public function deletePackage($id)
+    {
+        $package = DB::table('package')->where('id', $id);
+        try {
+            $package->delete();
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return redirect('/staff/package')->withErrors(['error'=> $error]);
+        }
+        return redirect('/staff/package')->with('success', 'Data deleted successfully');
     }
 }

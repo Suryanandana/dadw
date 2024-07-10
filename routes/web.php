@@ -138,12 +138,20 @@ Route::middleware(['auth', 'verified'])->group(function()
             Route::get('/staff/chat', 'chat');
             Route::put('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->name('updateTransaction');
             Route::post('/staff/updatetransaction/{id}', 'updateTransaction')->name('updateTransaction');
-            Route::post('/staff/donetransaction/{id}', 'doneTransaction');            
+            Route::post('/staff/donetransaction/{id}', 'doneTransaction');
+            Route::get('/staff/room', 'getRoom')->name('room');  
+            Route::post('/staff/addroom', 'addRoom')->name('add.room');  
+            Route::put('/staff/updateroom/{id}', 'updateRoom')->name('update.room');  
+            Route::delete('/staff/deleteroom/{id}', 'deleteRoom')->name('delete.room');      
             Route::post('/staff/service', 'getService');
             Route::get('/staff/service', 'getService')->name('search');
             Route::post('/staff/addservice', 'addService');
             Route::put('/staff/updateservice/{id}', 'updateService')->name('update.service');
             Route::delete('/staff/deleteservice/{id}', 'deleteService')->name('delete.service');
+            Route::get('/staff/package', 'getPackage')->name('package');
+            Route::post('/staff/addpackage', 'addPackage')->name('add.package');
+            Route::put('/staff/updatepackage/{id}', 'updatePackage')->name('update.package');
+            Route::delete('/staff/deletepackage/{id}', 'deletePackage')->name('delete.package');
         });
     });
 
