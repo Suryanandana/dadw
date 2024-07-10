@@ -111,13 +111,15 @@ Route::middleware('guest')->group(function() {
 Route::middleware(['auth', 'verified'])->group(function() 
 {
     // ==================== CUSTOMER ====================
+    // livewire
     Route::middleware('userAccess:customer')->group(function() {
-        Route::get('/transaction', App\Livewire\Customer\Index::class);
+        Route::get('/transaction', App\Livewire\Customer\Transaction::class);
+        Route::get('/profile', App\Livewire\Customer\Profile::class);
     });
+    // native
     Route::middleware('userAccess:customer')->group(function() {
         Route::controller(CustomerController::class)->group(function() {
             Route::post('/booking', 'booking')->name('customer.booking');
-            Route::get('/dashboard')->name('dashboard');
             Route::get('/reschedule', 'viewReschedule');
             Route::put('/reschedule', 'reschedule')->name('customer.reschedule');
             Route::put('/cancel', 'cancel');

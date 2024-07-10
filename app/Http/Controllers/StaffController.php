@@ -50,27 +50,31 @@ class StaffController extends Controller
     }
 
     public function getTransaction()
-{
-    $serviceData = OrderService::select('order_services.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'services.price', 'users.name')
-        ->join('booking', 'order_services.id_booking', '=', 'booking.id')
-        ->join('users', 'booking.id_customer', '=', 'users.id')
-        ->join('services', 'order_services.id_services', '=', 'services.id')
-        ->orderBy('order_services.id', 'desc')
+    {
+        // $serviceData = OrderService::select('order_services.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'services.price', 'users.name')
+        //     ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+        //     ->join('users', 'booking.id_customer', '=', 'users.id')
+        //     ->join('services', 'order_services.id_services', '=', 'services.id')
+        //     ->orderBy('order_services.id', 'desc')
+        //     ->get();
+
+        // $packageData = OrderPackage::select('order_package.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'package.price', 'users.name')
+        //     ->join('booking', 'order_package.id_booking', '=', 'booking.id')
+        //     ->join('users', 'booking.id_customer', '=', 'users.id')
+        //     ->join('package', 'order_package.id_package', '=', 'package.id')
+        //     ->orderBy('order_package.id', 'desc')
+        //     ->get();
+
+        // $data = $serviceData->merge($packageData);
+
+        // Debugging: lihat data yang dikirim ke view
+        $data = DB::table('booking')
+        ->join('customer', 'booking.id_customer', '=', 'customer.id')
+        ->join('users', 'customer.id_users', '=', 'users.id')
         ->get();
 
-    $packageData = OrderPackage::select('order_package.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'package.price', 'users.name')
-        ->join('booking', 'order_package.id_booking', '=', 'booking.id')
-        ->join('users', 'booking.id_customer', '=', 'users.id')
-        ->join('package', 'order_package.id_package', '=', 'package.id')
-        ->orderBy('order_package.id', 'desc')
-        ->get();
-
-    $data = $serviceData->merge($packageData);
-
-      // Debugging: lihat data yang dikirim ke view
-
-    return view('staff.transaction')->with('data', $data);
-}
+        return view('staff.transaction')->with('data', $data);
+    }
 
     
     public function updateTransaction(Request $request, $id)
