@@ -86,6 +86,10 @@ Xendit is a payment gateway that makes payments easier for various types of busi
    ```
    php artisan serve
    ```
+9. **If Getting maatwebsite/excel error. Run this:**
+    ```
+    composer require maatwebsite/excel --ignore-platform-reqs
+    ```
 
 ## Running the program
 

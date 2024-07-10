@@ -63,8 +63,12 @@ class FormCustomer extends Component
     #[On('format-date')]
     public function setDate($date)
     {
-        $date = DateTime::createFromFormat('j F, Y. H:i T', $date);
-        $formattedDate = $date->format('Y-m-d H:i:s');
+        $formattedDate = null;
+        if (!DateTime::createFromFormat('j F, Y. H:i T', $date)) {
+            $formattedDate = null;
+        } else {
+            $formattedDate = DateTime::createFromFormat('j F, Y. H:i T', $date)->format('Y-m-d H:i:s');
+        }
         $this->date = $formattedDate;
     }
 
