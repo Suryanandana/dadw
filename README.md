@@ -52,7 +52,6 @@ Xendit is a payment gateway that makes payments easier for various types of busi
    ```
    composer install
    npm install
-   composer require maatwebsite/excel --with-all-dependencies
    ```
 
 3. **Set up environment variables:**
