@@ -43,7 +43,7 @@
                 <div>
                     <label for="Email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <input wire:model.live.debounce.200ms='Email' type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm block w-full p-2.5 @error('Email') {{'outline-red-400 border-red-400'}} @enderror
-                    " placeholder=""/>
+                    " value="{{$user->email}}" disabled/>
                     <div>
                         @error('Email')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                     </div>
@@ -51,7 +51,7 @@
                 <div>
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
                     <input wire:model.live.debounce.200ms='name' type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm block w-full p-2.5 @error('name') {{'outline-red-400 border-red-400'}} @enderror
-                    " placeholder=""/>
+                    " value="{{$user->name}}"/>
                     <div>
                         @error('name')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                     </div>
@@ -59,7 +59,7 @@
                 <div>
                     <label for="Phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
                     <input wire:model.live.debounce.200ms='Phone' type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm block w-full p-2.5 @error('Phone') {{'outline-red-400 border-red-400'}} @enderror
-                    " placeholder=""/>
+                    " value="{{$user->phone}}"/>
                     <div>
                         @error('Phone')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                     </div>
@@ -67,7 +67,7 @@
                 <div>
                     <label for="Address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
                     <textarea wire:model.live.debounce.200ms='Address' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm block w-full p-2.5 @error('Address') {{'outline-red-400 border-red-400'}} @enderror
-                    " placeholder="" rows="3"></textarea>
+                    " value="{{$user->address}}" rows="3"></textarea>
                     <div>
                         @error('Address')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                     </div>
@@ -75,17 +75,19 @@
                 <div>
                     <label for="Country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
                     <input wire:model.live.debounce.200ms='Country' type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm block w-full p-2.5 @error('Country') {{'outline-red-400 border-red-400'}} @enderror
-                    " placeholder=""/>
+                    " value="{{$user->country}}"/>
                     <div>
                         @error('Country')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                     </div>
                 </div>
 
                 <div class="space-y-3">
+                    @if (!empty($user->password))
                     <button x-on:click="$wire."
                         class="w-full text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-bg-cyan-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                         Change Password
                     </button>
+                    @endif
                     <div class="grid w-full grid-cols-2 gap-3 place-self-end">
                         <button x-on:click="$wire."
                             class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">

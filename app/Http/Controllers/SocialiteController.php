@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,8 +25,17 @@ class SocialiteController extends Controller
             $authUser = $this->store($socialUser, $provider);
 
             Auth::login($authUser);
-            return '<script>window.opener.location.reload(); window.close();</script>';
-       }
+            session()->regenerate();
+            // Buat session untuk user
+            session()->put('user', $authUser);
+
+            return '<script>
+                setTimeout(function() {
+                    window.opener.location.href = "/";
+                    window.close();
+                }, 100);
+            </script>';
+        }
 
        public function store($socialUser, $provider)
        {
@@ -48,6 +58,10 @@ class SocialiteController extends Controller
                         'provider_name' => $provider,
                         'provider_token' => $socialUser->token,
                         'provider_refresh_token' => $socialUser->refreshToken
+                    ]);
+
+                    Customer::updateOrCreate([
+                        'id_users' => $user->id,
                     ]);
 
                     DB::commit();

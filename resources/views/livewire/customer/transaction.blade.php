@@ -41,16 +41,49 @@
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">My Transaction</h2>
             <div class="grid gap-5">
             @foreach ($data as $item)
-            <div class="flex gap-8 border-2 border-gray-200 rounded-md ">
+            <div class="flex gap-8 border-2 border-gray-100 rounded-md ">
             @foreach ($collection as $image)
                 @if ($image->id_booking === $item->id)
-                <img src="{{asset('storage/img/service/'.$image->imgdir)}}" alt="" class="m-2 rounded-sm w-44">  
-                <div class="grid my-3">
-                    <p class="font-bold">{{$image->service_name}}</p>
-                    <p>{{date_format(new DateTime($item->date), "d M Y, H:i")}} WITA</p>
-                    <p>Rp. {{$item->total}}</p>
-                    <a href="" class="text-cyan-600 hover:underline">Payment Link</a>
-                    <a href="" class="text-cyan-600 hover:underline">Invoice</a>
+                <div class="flex w-full gap-5">
+                    <img src="{{asset('storage/img/service/'.$image->imgdir)}}" alt="" class="h-32 m-2 rounded-sm md:h-48">  
+                    <div class="grid items-center self-start flex-grow my-3">
+                        <p class="text-lg font-bold">{{$image->service_name}}</p>
+                        <p class="font-semibold">Date : <span class="font-normal">{{date_format(new DateTime($item->date), "d M Y, H:i")}} WITA</span> </p>
+                        <p class="font-semibold">Total : <span class="font-normal">Rp. {{number_format($item->total, '0', '.', '.')}}</span></p>
+                        <a href="" class="text-cyan-600 hover:underline">Payment Link</a>
+                        <a href="" class="text-cyan-600 hover:underline">Invoice</a>
+                    </div>
+                    <div class="m-3 justify-self-end">
+                        <button id="dropdownButton{{$item->id}}" data-dropdown-toggle="dropdown{{$item->id}}" data-dropdown-placement="left-start" type="button" class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-full hover:bg-green-100/50 focus:outline-none focus:ring-0 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
+                            <svg class="w-6 h-6 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
+                            </svg>    
+                        </button>
+                        <div id="dropdown{{$item->id}}" class="hidden bg-white border-2 border-gray-100 divide-y divide-gray-100 rounded">
+                            <ul class="z-10 flex flex-col gap-2 m-2 font-medium rounded-lg dark:bg-gray-800 dark:border-gray-700" aria-labelledby="dropdownButton{{$item->id}}">
+                                <li>
+                                    <a href="#" class="flex gap-2 px-3 py-2 text-gray-900 rounded hover:bg-green-50 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11.5 11.5 2.071 1.994M4 10h5m11 0h-1.5M12 7V4M7 7V4m10 3V4m-7 13H8v-2l5.227-5.292a1.46 1.46 0 0 1 2.065 2.065L10 17Zm-5 3h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                                        </svg>
+                                        <span>
+                                            Reschedule
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex gap-2 px-3 py-2 text-gray-900 rounded hover:bg-green-50 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                                        </svg>
+                                        <span>
+                                            Request Cancellation
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 @endif
             @endforeach
