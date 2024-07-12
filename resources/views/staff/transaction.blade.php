@@ -98,8 +98,8 @@
                                     <th scope="col" class="px-4 py-3">Booked At</th>
                                     <th scope="col" class="px-4 py-3">Reservation Date</th>
                                     <th scope="col" class="px-4 py-3">Price</th>
-                                    <th scope="col" class="px-4 py-3">Receipt</th>
-                                    <th scope="col" class="px-4 py-3">Status</th>
+                                    <th scope="col" class="px-4 py-3">Payment Status</th>
+                                    <th scope="col" class="px-4 py-3">Booking Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,11 +132,15 @@
                                                 @method('PUT')
                                                 <select name="status" id="status-{{ $item->id }}"
                                                     class="bg-transparent rounded-lg" data-item-id="{{ $item->id }}">
-                                                    <option value="pending" @selected($item->booking_status == 'pending')>Pending
+                                                    <option value="Booking Confirmed" @selected($item->booking_status == 'Booking Confirmed')>Booking Confirmed
                                                     </option>
-                                                    <option value="completed" @selected($item->booking_status == 'completed')>Completed
+                                                    <option value="Payment Confirmed" @selected($item->booking_status == 'Payment Confirmed')>Payment Confirmed
                                                     </option>
-                                                    <option value="cancelled" @selected($item->booking_status == 'cancelled')>Cancelled
+                                                    <option value="Rescheduled" @selected($item->booking_status == 'Rescheduled')>Rescheduled
+                                                    </option>
+                                                    <option value="In Progress" @selected($item->booking_status == 'In Progress')>In Progress
+                                                    </option>
+                                                    <option value="Treatment Completed" @selected($item->booking_status == 'Treatment Completed')>Treatment Completed
                                                     </option>
                                                 </select>
                                             </form>

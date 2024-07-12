@@ -4,6 +4,7 @@ namespace App\Livewire\PaymentUser;
 
 use DateTime;
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Xendit\Configuration;
@@ -84,6 +85,8 @@ class Index extends Component
                 'payment_url' => $result['invoice_url'],
                 'id_room' => 1,
                 'pax' => $customer['pax'],
+                'created_at' => Carbon::now('Asia/Makassar')->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now('Asia/Makassar')->format('Y-m-d H:i:s')
             ]);
             // insert order_services
             foreach ($service_invoice as $service) {

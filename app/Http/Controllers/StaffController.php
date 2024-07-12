@@ -12,11 +12,12 @@ use App\Models\OrderService;
 use Illuminate\Http\Request;
 use App\Models\Image_service;
 use Illuminate\Support\Facades\DB;
+use App\Events\PaymentStatusUpdated;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
 use function PHPUnit\Framework\isNull;
-use function PHPUnit\Framework\isEmpty;
 
+use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -34,15 +35,15 @@ class StaffController extends Controller
         $status = ['inprogress' => 0, 'accepted' => 0, 'reschedule' => 0, 'cancelled' => 0, 'complete' => 0];
         $data = Booking::select('booking_status')->get();
         foreach($data as $d){
-            if($d->booking_status == 'inprogress') {
+            if($d->booking_status == 'Booking Confirmed') {
                 $status['inprogress'] += 1;
-            } else if($d->booking_status == 'accepted') {
+            } else if($d->booking_status == 'Payment Confirmed') {
                 $status['accepted'] += 1;
-            } else if($d->booking_status == 'reschedule') {
+            } else if($d->booking_status == 'Rescheduled') {
                 $status['reschedule'] += 1;
-            } else if($d->booking_status == 'cancelled') {
+            } else if($d->booking_status == 'In Progress') {
                 $status['cancelled'] += 1;
-            } else if($d->booking_status == 'complete') {
+            } else if($d->booking_status == 'Treatment Completed') {
                 $status['complete'] += 1;
             }
         }
@@ -52,26 +53,9 @@ class StaffController extends Controller
 
     public function getTransaction()
     {
-        // $serviceData = OrderService::select('order_services.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'services.price', 'users.name')
-        //     ->join('booking', 'order_services.id_booking', '=', 'booking.id')
-        //     ->join('users', 'booking.id_customer', '=', 'users.id')
-        //     ->join('services', 'order_services.id_services', '=', 'services.id')
-        //     ->orderBy('order_services.id', 'desc')
-        //     ->get();
-
-        // $packageData = OrderPackage::select('order_package.id', 'booking.pax', 'booking.booking_status', 'booking.date', 'package.price', 'users.name')
-        //     ->join('booking', 'order_package.id_booking', '=', 'booking.id')
-        //     ->join('users', 'booking.id_customer', '=', 'users.id')
-        //     ->join('package', 'order_package.id_package', '=', 'package.id')
-        //     ->orderBy('order_package.id', 'desc')
-        //     ->get();
-
-        // $data = $serviceData->merge($packageData);
-
-        // Debugging: lihat data yang dikirim ke view
-        $data = DB::table('booking')
-        ->join('customer', 'booking.id_customer', '=', 'customer.id')
-        ->join('users', 'customer.id_users', '=', 'users.id')
+        $data = DB::table('users')
+        ->join('customer', 'users.id', '=', 'customer.id_users')
+        ->join('booking', 'customer.id', '=', 'booking.id_customer')
         ->get();
 
         return view('staff.transaction')->with('data', $data);
@@ -80,46 +64,30 @@ class StaffController extends Controller
     
     public function updateTransaction(Request $request, $id)
     {
-        // $transaction = Transaction::where('id', $id);
-        $booking = Booking::where('id', $id);
-        $user = auth()->user();
-        $id_staff = Staff::select('id')->where('id_user', $user->id)->first();
+        $booking = Booking::findOrFail($id);
         try {
-            DB::beginTransaction();
-            
-            
-            $booking->update([
-                'booking_status' => $request->status == 'validate' ? 'accepted' : 'cancelled',
-                'id_staff' => $id_staff->id,
-            ]);
+            // Ambil status baru dari request (jika ada)
+            $newStatus = $request->input('status');
 
-            DB::commit();
+            // Logika untuk mengatur status booking berdasarkan status pembayaran
+            if ($booking->payment_status == "PENDING") {
+                $booking->booking_status = 'Booking Confirmed';
+            }elseif ($booking->payment_status == "PAID") {
+                $booking->booking_status = 'Payment Confirmed';
+            } 
+            
+            // Perbarui status booking jika status baru disediakan
+            if ($newStatus && $newStatus !== $booking->booking_status) {
+                $booking->booking_status = $newStatus;
+            }
+
+            // Simpan perubahan status booking
+            $booking->save();
+
+            event(new PaymentStatusUpdated($booking));
             
             return redirect('/staff/transaction')->with('success', 'Data change successfully');
         } catch (\Throwable $th) {
-            DB::rollBack();
-            $error = $th->getMessage();
-            return redirect('/staff/transaction')->withErrors(['error'=> $error]);
-        }
-    }
-
-    public function doneTransaction($id)
-    {
-        $booking = Booking::where('id', $id);
-        $user = auth()->user();
-        $id_staff = Staff::select('id')->where('id_users', $user->id)->first();
-        try {
-            DB::beginTransaction();
-            
-            $booking->update([
-                'booking_status' => 'complete',
-                'id_staff' => $id_staff->id,
-            ]);
-
-            DB::commit();
-            return redirect('/staff/transaction')->with('success', 'Data change successfully');
-        } catch (\Throwable $th) {
-            DB::rollBack();
             $error = $th->getMessage();
             return redirect('/staff/transaction')->withErrors(['error'=> $error]);
         }
