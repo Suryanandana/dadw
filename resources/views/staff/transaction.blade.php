@@ -132,15 +132,17 @@
                                                 @method('PUT')
                                                 <select name="status" id="status-{{ $item->id }}"
                                                     class="bg-transparent rounded-lg" data-item-id="{{ $item->id }}">
-                                                    <option value="Booking Confirmed" @selected($item->booking_status == 'Booking Confirmed')>Booking Confirmed
+                                                    <option value="BOOKING CONFIRMED" @selected($item->booking_status == 'BOOKING CONFIRMED')>BOOKING CONFIRMED
                                                     </option>
-                                                    <option value="Payment Confirmed" @selected($item->booking_status == 'Payment Confirmed')>Payment Confirmed
+                                                    <option value="BOOKING EXPIRED" @selected($item->booking_status == 'BOOKING EXPIRED')>BOOKING EXPIRED
                                                     </option>
-                                                    <option value="Rescheduled" @selected($item->booking_status == 'Rescheduled')>Rescheduled
+                                                    <option value="PAYMENT CONFIRMED" @selected($item->booking_status == 'PAYMENT CONFIRMED')>PAYMENT CONFIRMED
                                                     </option>
-                                                    <option value="In Progress" @selected($item->booking_status == 'In Progress')>In Progress
+                                                    <option value="RESHCEDULED" @selected($item->booking_status == 'RESCHEDULED')>RESCHEDULED
                                                     </option>
-                                                    <option value="Treatment Completed" @selected($item->booking_status == 'Treatment Completed')>Treatment Completed
+                                                    <option value="CANCELLED" @selected($item->booking_status == 'CANCELLED')>CANCELLED
+                                                    </option>
+                                                    <option value="TRANSACTION COMPLETE" @selected($item->booking_status == 'TRANSACTION COMPLETE')>TRANSACTION COMPLETE
                                                     </option>
                                                 </select>
                                             </form>

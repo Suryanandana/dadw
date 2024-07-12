@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Transaction extends Component
 {
-    public string $payment_status;
+    public array $payment_status;
     public function render()
     {
         $id = DB::table('customer')
@@ -28,7 +28,7 @@ class Transaction extends Component
         ->whereIn('order_services.id_booking', $data->pluck('id'))
         ->get();
 
-        $this->payment_status = $data->pluck('payment_status');
+        $this->payment_status = $data->pluck('payment_status')->toArray();
         return view('livewire.customer.transaction', compact('data', 'collection'));
     }
 }
