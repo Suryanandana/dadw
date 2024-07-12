@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserPaid;
-use App\Events\UserVerified;
-use App\Models\Feedback;
 use App\Models\Order;
 use App\Models\Booking;
+use App\Events\UserPaid;
 use App\Models\Customer;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Feedback;
 use Xendit\Configuration;
+use App\Models\Transaction;
+use App\Events\UserVerified;
+use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
 use Xendit\XenditSdkException;
+use Illuminate\Support\Facades\DB;
+use App\Events\PaymentStatusUpdated;
 
 class CustomerController extends Controller
 {
