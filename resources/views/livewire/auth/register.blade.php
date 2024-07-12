@@ -13,18 +13,18 @@
             
 
         <ol class="flex justify-center mb-2 ml-16">
-            <li :class="$wire.current_step == 0 || $wire.current_step == 1 || $wire.current_step == 2 ? 'text-blue-600' : 'text-black'" class="flex w-full items-center dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
-                <span :class="$wire.current_step == 0 ? 'bg-blue-100' : 'bg-gray-100'" class="flex items-center justify-center rounded-full w-7 h-7 dark:bg-blue-800 shrink-0">
+            <li :class="$wire.current_step == 1 || $wire.current_step == 2 ? 'after:border-green-100' : 'text-black'" class="flex w-full items-center dark:text-green-500 after:content-[''] after:w-full after:h-1 after:border-b text-green-600 after:border-4 after:inline-block dark:after:border-green-800">
+                <span class="flex items-center justify-center text-sm font-semibold bg-green-100 rounded-full w-7 h-7 dark:bg-green-800 shrink-0">
                     1
                 </span>
             </li>
-            <li :class="$wire.current_step == 1 || $wire.current_step == 2 ? 'text-blue-600 after:border-blue-100' : 'text-black after:border-gray-100'" class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block dark:after:border-gray-700">
-                <span :class="$wire.current_step == 1 ? 'bg-blue-100' : 'bg-gray-100'" class="flex items-center justify-center bg-gray-100 rounded-full w-7 h-7 dark:bg-gray-700 shrink-0">
+            <li :class="[$wire.current_step == 1 ? 'text-green-600' : 'text-black after:border-gray-100', $wire.current_step == 2 ? 'text-green-600 after:border-green-100' : 'text-black after:border-gray-100']" class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block dark:after:border-gray-700">
+                <span :class="$wire.current_step == 1 || $wire.current_step == 2 ? 'bg-green-100' : 'bg-gray-100'" class="flex items-center justify-center text-sm font-semibold bg-gray-100 rounded-full w-7 h-7 dark:bg-gray-700 shrink-0">
                     2
                 </span>
             </li>
-            <li :class="$wire.current_step == 2 ? 'text-blue-600' : 'text-black'" class="flex items-center w-full">
-                <span :class="$wire.current_step == 2 ? 'bg-blue-100' : 'bg-gray-100'" class="flex items-center justify-center bg-gray-100 rounded-full w-7 h-7 dark:bg-gray-700 shrink-0">
+            <li :class="$wire.current_step == 2 ? 'text-green-600' : 'text-black'" class="flex items-center w-full">
+                <span :class="$wire.current_step == 2 ? 'bg-green-100' : 'bg-gray-100'" class="flex items-center justify-center text-sm font-semibold bg-gray-100 rounded-full w-7 h-7 dark:bg-gray-700 shrink-0">
                     3
                 </span>
             </li>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="flex space-x-2">
                         <button x-on:click="$wire.back()"
-                            class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            class="border-2 border-green-700 w-full text-green-700 bg-white hover:bg-green-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs font-semibold px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             Back
                         </button>
                         <button x-on:click="$wire.confirm()"
@@ -111,7 +111,7 @@
                     </div>
                     <div class="flex space-x-2">
                         <button x-on:click="$wire.back()"
-                            class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            class="border-2 border-green-700 w-full text-green-700 bg-white hover:bg-green-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs font-semibold px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             Back
                         </button>
                         <button x-on:click="$wire.submit()" x-show="$wire.current_step == 2"
