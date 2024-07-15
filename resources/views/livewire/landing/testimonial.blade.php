@@ -138,13 +138,29 @@
     {{-- gallery --}}
     <h2 class="my-10 font-serif text-4xl text-center">The Cajuput Gallery</h2>
     <div class="grid max-w-screen-xl gap-1 p-1 mx-auto sm:grid-cols-2 md:grid-cols-4">
-        <img src="{{asset('img/landing/hero.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/hero2.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/room1.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/hero3.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/body.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/hero4.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/room2.webp')}}" class="object-cover rounded aspect-square">
-        <img src="{{asset('img/landing/special.webp')}}" class="object-cover rounded aspect-square">
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/hero.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/hero2.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/room1.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/hero3.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/body.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/hero4.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/room2.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
+        <div class="aspect-square">
+            <img src="{{asset('img/landing/special.webp')}}" class="object-cover w-full h-full rounded">
+        </div>
     </div>
 </section>

@@ -15,7 +15,7 @@
 @endsection
 
 @section('navbar')
-    <livewire:customer.navbar>
+    <livewire:payment-user.navbar>
 @endsection
 
 <div class="max-w-screen-xl mx-auto mt-14 p-14">

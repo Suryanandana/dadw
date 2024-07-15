@@ -3,7 +3,7 @@
     @auth
         @if (Auth::user()->level == 'customer')
         <div x-data="{show: false}">
-            <div x-on:click="show = true" class="fixed z-50 p-2 bg-green-700 rounded-full cursor-pointer right-5 bottom-5">
+            <div x-on:click="show = true" class="fixed z-50 p-2 bg-green-700 rounded-full cursor-pointer left-5 bottom-5">
                 <svg class="w-10 h-10 text-gray-100 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -11,7 +11,7 @@
                 </svg>
             </div>
             <div x-cloak x-show="show" @click.away="show = false" x-transition
-                class="fixed z-10 w-[30%] flex flex-col pt-5 pb-2 bg-green-200 rounded-xl gap-y-2 right-5 bottom-20">
+                class="fixed z-10 w-[30%] flex flex-col pt-5 pb-2 bg-green-200 rounded-xl gap-y-2 left-5 bottom-20">
                 <div class="overflow-auto h-96">
                     @foreach ($chats as $chat)
                     <div
@@ -48,7 +48,7 @@
     @endauth
     @guest
     <div x-data="{show: false}">
-        <div x-on:click="show = true" class="fixed z-50 p-2 rounded-full cursor-pointer bg-green-700/70 hover:bg-green-700 right-5 bottom-5">
+        <div x-on:click="show = true" class="fixed z-50 p-2 rounded-full cursor-pointer bg-green-700/70 hover:bg-green-700 left-5 bottom-5">
             <svg class="w-10 h-10 text-gray-100 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,18 +56,18 @@
             </svg>
         </div>
         <div x-cloak x-show="show" @click.away="show = false" x-transition
-            class="fixed z-10 flex flex-col bg-green-200 rounded-xl gap-y-2 right-5 bottom-20">
+            class="fixed z-10 flex flex-col bg-green-100 rounded-xl gap-y-2 left-5 bottom-20">
             <div class="flex flex-col items-center justify-center max-w-sm p-6 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                 <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 </svg>
                 <a href="#">
-                    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-center text-gray-900 dark:text-white">You need to log in!</h5>
+                    <h5 class="mb-2 text-xl font-semibold tracking-tight text-center text-gray-900 dark:text-white">Sign In required!</h5>
                 </a>
-                <p class="mb-3 font-normal text-center text-gray-600 dark:text-gray-400">You must log in or register by clicking the link below to contact our customer service</p>
-                <a href="/login" class="inline-flex items-center font-medium text-blue-600 hover:underline">
+                <p class="mb-3 text-sm text-center text-gray-600 dark:text-gray-400">You must log in or register by clicking the link below to contact our customer service</p>
+                <a wire:navigate href="/login" class="inline-flex items-center font-medium text-blue-600 hover:underline">
                     Login now
                     <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
