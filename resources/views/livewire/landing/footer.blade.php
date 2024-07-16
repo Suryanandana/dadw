@@ -1,4 +1,4 @@
-<footer class="flex flex-col justify-between gap-3 px-10 py-4 mt-6 text-gray-700 border-t border-gray-300 md:flex-row md:gap-0">
+<footer id="footer" class="flex flex-col justify-between gap-3 px-10 py-4 mt-6 text-gray-700 border-t border-gray-300 md:flex-row md:gap-0">
     <div class="flex justify-center gap-4">
         <i class="text-xl fa-brands fa-facebook"></i>
         <i class="text-xl fa-brands fa-instagram"></i>

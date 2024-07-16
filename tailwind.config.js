@@ -28,33 +28,20 @@ export default {
           '100%': { 
             backgroundColor: theme('colors.white'),
             borderBottom: "2px solid theme('colors.gray.100')",
+            color: theme('colors.black')
           },
         },
         fadeOut: {
           '0%': { 
             backgroundColor: theme('colors.white'),
             borderBottom: "2px solid theme('colors.gray.100')",
+            color: theme('colors.black')
           },
           '100%': { 
             backgroundColor: theme('colors.transparent'),
             borderBottom: "0px solid theme('colors.gray.100')",
+            color: theme('colors.white')
           },  
-        },
-        textFadeIn: {
-          '0%': { 
-            color: theme('colors.black')
-          },
-          '100%': { 
-            color: theme('colors.white')
-          },
-        },
-        textFadeOut: {
-          '0%': { 
-            color: theme('colors.white')
-          },
-          '100%': { 
-            color: theme('colors.black')
-          },
         },
       }),
     },

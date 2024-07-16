@@ -46,11 +46,12 @@ class xendit extends Controller
             $booking = DB::table('booking')->where('external_id', $id);
             $booking->update([
                 'booking_status' => 'CANCELLED',
+                'updated_at' => now(),
             ]);
-            DB::commit();
-            
             $apiInstance->expireInvoice($id);
+            DB::commit();
 
+            redirect()->route('/transaction')->with('success', 'Cancel berhasil');
         } catch (XenditSdkException $e) {
             $error = $e->getMessage();
             return response()->json([
