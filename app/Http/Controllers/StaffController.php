@@ -3,21 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-use App\Models\Staff;
 use App\Models\Booking;
 use App\Models\Service;
-use App\Models\Transaction;
-use App\Models\OrderPackage;
-use App\Models\OrderService;
 use Illuminate\Http\Request;
 use App\Models\Image_service;
+use App\Exports\YearlySalesExport;
 use Illuminate\Support\Facades\DB;
 use App\Events\PaymentStatusUpdated;
-use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
-use function PHPUnit\Framework\isNull;
-
-use function PHPUnit\Framework\isEmpty;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -32,19 +26,21 @@ class StaffController extends Controller
 
     public function dashboard()
     {
-        $status = ['inprogress' => 0, 'accepted' => 0, 'reschedule' => 0, 'cancelled' => 0, 'complete' => 0];
+        $status = ['booking_confirmed' => 0, 'payment_confirmed' => 0, 'reschedule' => 0, 'in_progress' => 0, 'treatment_completed' => 0, 'cancelled' => 0];
         $data = Booking::select('booking_status')->get();
         foreach($data as $d){
             if($d->booking_status == 'Booking Confirmed') {
-                $status['inprogress'] += 1;
+                $status['booking_confirmed'] += 1;
             } else if($d->booking_status == 'Payment Confirmed') {
-                $status['accepted'] += 1;
+                $status['payment_confirmed'] += 1;
             } else if($d->booking_status == 'Rescheduled') {
                 $status['reschedule'] += 1;
             } else if($d->booking_status == 'In Progress') {
-                $status['cancelled'] += 1;
+                $status['in_progress'] += 1;
             } else if($d->booking_status == 'Treatment Completed') {
-                $status['complete'] += 1;
+                $status['treatment_completed'] += 1;
+            }else if($d->booking_status == 'Cancelled') {
+                $status['cancelled'] += 1;
             }
         }
         // dd($status);
@@ -70,11 +66,11 @@ class StaffController extends Controller
             $newStatus = $request->input('status');
 
             // Logika untuk mengatur status booking berdasarkan status pembayaran
-            if ($booking->payment_status == "PENDING") {
-                $booking->booking_status = 'Booking Confirmed';
-            }elseif ($booking->payment_status == "PAID") {
+            if ($booking->payment_status == "PAID") {
                 $booking->booking_status = 'Payment Confirmed';
-            } 
+            } else if ($booking->payment_status == "PENDING") {
+                $booking->booking_status = 'Booking Confirmed';
+            }
             
             // Perbarui status booking jika status baru disediakan
             if ($newStatus && $newStatus !== $booking->booking_status) {
@@ -336,7 +332,7 @@ class StaffController extends Controller
     {
         $request->validate([
             'package_name' => 'required|string|max:255',
-            'package_duration' => 'required|integer|max:3', 
+            'package_duration' => 'required|integer|digits_between:1,3', 
             'price' => 'required|integer',
             'detail' => 'required|string',
         ]);
@@ -389,5 +385,20 @@ class StaffController extends Controller
             return redirect('/staff/package')->withErrors(['error'=> $error]);
         }
         return redirect('/staff/package')->with('success', 'Data deleted successfully');
+    }
+
+    public function getReport(){
+
+        $data = DB::table('booking')
+        ->select(DB::raw('YEAR(date) as year, SUM(total) as total_sales'))
+        ->groupBy(DB::raw('YEAR(date)'))
+        ->get();
+
+        return view('staff.report', compact('data'));
+    }
+
+    public function exportReport()
+    {
+        return Excel::download(new YearlySalesExport, 'yearly_sales.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }
