@@ -26,7 +26,7 @@ class StaffController extends Controller
 
     public function dashboard()
     {
-        $status = ['booking_confirmed' => 0, 'payment_confirmed' => 0, 'reschedule' => 0, 'in_progress' => 0, 'treatment_completed' => 0, 'cancelled' => 0];
+        $status = ['booking_confirmed' => 0, 'payment_confirmed' => 0, 'reschedule' => 0, 'in_progress' => 0, 'treatment_completed' => 0, 'cancelled' => 0, 'booking_expired' => 0];
         $data = Booking::select('booking_status')->get();
         foreach($data as $d){
             if($d->booking_status == 'Booking Confirmed') {
@@ -41,6 +41,8 @@ class StaffController extends Controller
                 $status['treatment_completed'] += 1;
             }else if($d->booking_status == 'Cancelled') {
                 $status['cancelled'] += 1;
+            }else if($d->booking_status == 'Booking Expired') {
+                $status['booking_expired'] += 1;
             }
         }
         // dd($status);
