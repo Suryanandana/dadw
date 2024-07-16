@@ -138,6 +138,8 @@
                                                     </option>
                                                     <option value="Rescheduled" @selected($item->booking_status == 'Rescheduled')>Rescheduled
                                                     </option>
+                                                    <option value="Cancelled" @selected($item->booking_status == 'Cancelled')>Cancelled
+                                                    </option>
                                                     <option value="In Progress" @selected($item->booking_status == 'In Progress')>In Progress
                                                     </option>
                                                     <option value="Treatment Completed" @selected($item->booking_status == 'Treatment Completed')>Treatment Completed

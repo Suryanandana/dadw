@@ -360,5 +360,6 @@ return [
         |
         */
         'force_resync_remote' => null,
+        'keep_local' => true,
     ],
 ];

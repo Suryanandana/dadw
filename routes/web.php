@@ -136,7 +136,7 @@ Route::middleware(['auth', 'verified'])->group(function()
             Route::get('/staff', 'dashboard')->name('staff');
             Route::get('/staff/transaction', 'getTransaction');
             Route::get('/staff/chat', 'chat');
-            Route::put('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->name('updateTransaction');
+            // Route::put('/staff/updatetransaction/{id}', [StaffController::class, 'updateTransaction'])->name('updateTransaction');
             Route::post('/staff/updatetransaction/{id}', 'updateTransaction')->name('updateTransaction');
             Route::post('/staff/donetransaction/{id}', 'doneTransaction');
             Route::get('/staff/room', 'getRoom')->name('room');  
@@ -152,6 +152,8 @@ Route::middleware(['auth', 'verified'])->group(function()
             Route::post('/staff/addpackage', 'addPackage')->name('add.package');
             Route::put('/staff/updatepackage/{id}', 'updatePackage')->name('update.package');
             Route::delete('/staff/deletepackage/{id}', 'deletePackage')->name('delete.package');
+            Route::get('/staff/report', 'getReport')->name('report');
+            Route::get('/staff/export', 'exportReport')->name('report.export');
         });
     });
 
