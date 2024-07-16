@@ -138,12 +138,12 @@
                                                     </option>
                                                     <option value="PAYMENT CONFIRMED" @selected($item->booking_status == 'PAYMENT CONFIRMED')>PAYMENT CONFIRMED
                                                     </option>
-                                                    <option value="IN PROGRESS" @selected($item->booking_status == 'IN PROGRESS')>In Progress
-                                                    <option value="RESHCEDULED" @selected($item->booking_status == 'RESCHEDULED')>RESCHEDULED
+                                                    <option value="IN PROGRESS" @selected($item->booking_status == 'IN PROGRESS')>IN PROGRESS
+                                                    <option value="RESCHEDULED" @selected($item->booking_status == 'RESCHEDULED')>RESCHEDULED
                                                     </option>
                                                     <option value="CANCELLED" @selected($item->booking_status == 'CANCELLED')>CANCELLED
                                                     </option>
-                                                    <option value="TRANSACTION COMPLETE" @selected($item->booking_status == 'TRANSACTION COMPLETE')>TRANSACTION COMPLETE
+                                                    <option value="TREATMENT COMPLETED" @selected($item->booking_status == 'TREATMENT COMPLETED')>TRANSACTION COMPLETE
                                                     </option>
                                                 </select>
                                             </form>
