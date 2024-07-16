@@ -80,7 +80,7 @@ class Index extends Component
                 'date' => $customer['date'],
                 'expired_date' => $formattedExpiryDate,
                 'payment_status' => $result['status'],
-                'booking_status' => 'ONGOING',
+                'booking_status' => 'BOOKING CONFIRMED',
                 'external_id' => $external_id,
                 'payment_url' => $result['invoice_url'],
                 'id_room' => 1,

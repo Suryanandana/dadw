@@ -1,7 +1,7 @@
 <div>
     {{-- button back --}}
     <button 
-        x-on:click="currentStep > 1 ? (currentStep--, $wire.complete = false) : ''"
+        x-on:click="currentStep > 1 ? (currentStep--, $wire.complete = false) : history.back()"
         x-bind:class="currenStep > 1 ? '' : 'opacity-70 cursor-not-allowed'"
         class="inline-flex px-8 py-3 mt-5 text-xs tracking-widest text-white bg-red-700 border-0 rounded-sm focus:outline-none hover:bg-red-800">
         Back

@@ -1,7 +1,7 @@
 <header id="heroes" class="relative z-10 max-w-screen-2xl w-full top-0 2xl:left-1/2 2xl:translate-x-[-50%]">
     <div class="flex justify-center">
         <div class="absolute z-30 top-1/2 translate-y-[-50%]">
-            <h1 class="text-3xl font-extrabold text-center text-white md:text-6xl">Welcome to The Cajuput Spa</h1>
+            <h1 class="text-3xl font-extrabold text-center text-white sm:text-4xl md:text-5xl lg:text-6xl">Welcome to <span class="text-nowrap">The Cajuput Spa</span></h1>
             <div class="flex justify-center gap-3 pt-5">
                 <a href="#service"
                     class="p-3 px-6 text-xs font-semibold tracking-widest text-center text-white border rounded-sm bg-white/25 hover:cursor-pointer hover:bg-white/50">OUR
