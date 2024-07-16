@@ -24,15 +24,15 @@
                     @error('password')<span class="text-xs text-red-600">*{{ $message }}</span> @enderror
                 </div>
             </form>
-            <div class="space-y-1">
-                <a href="/forgot" wire:navigate 
-                    class="block mt-2 text-sm text-right hover:underline">
-                    Forgot Password?
-                </a>
+            <div class="flex flex-col-reverse gap-1 space-y-1">
                 <button x-on:click="$wire.submit"
                     class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                     Login
                 </button>
+                <a href="/forgot" wire:navigate 
+                    class="mt-2 text-sm text-right hover:underline">
+                    Forgot Password?
+                </a>
             </div>
             <p class="mt-4 text-sm font-light text-center text-gray-500 dark:text-gray-400">
                 Doesn't have an account? 

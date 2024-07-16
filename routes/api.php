@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\xendit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/xendit/callback', [CustomerController::class, 'callback']);
-Route::post('/xendit/expire/{id}', [CustomerController::class, 'expire']);
+Route::post('/xendit/callback', [xendit::class, 'callback']);
+Route::get('/xendit/cancel/{id}', [xendit::class, 'cancel']);

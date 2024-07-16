@@ -15,7 +15,7 @@
 @endsection
 
 @section('navbar')
-    <livewire:customer.navbar>
+    <livewire:payment-user.navbar>
 @endsection
 
 <div class="max-w-screen-xl mx-auto mt-14 p-14">
@@ -90,7 +90,7 @@
                     @endif
                     <div class="grid w-full grid-cols-2 gap-3 place-self-end">
                         <button x-on:click="$wire."
-                            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            class="text-green-800 font-semibold bg-white hover:bg-green-800 hover:text-white border-2 border-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             Cancel
                         </button>
                         <button x-on:click="$wire.submit"

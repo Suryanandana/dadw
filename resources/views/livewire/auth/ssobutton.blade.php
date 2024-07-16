@@ -5,7 +5,7 @@
         <span class="absolute px-3 font-medium text-gray-700 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">or</span>
     </div>
     {{-- socialite button --}}
-    <button onclick="openPopup('{{route('socialite.redirect', 'google')}}'), 'Login with Google'" class="text-gray-800 w-full bg-white hover:bg-gray-50/90 focus:ring-4 focus:outline-none focus:ring-gray-50/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center justify-center border border-gray-400">
+    <button onclick="openPopup('{{route('socialite.redirect', 'google')}}'), 'Login with Google'" class="text-gray-800 w-full bg-white hover:bg-gray-50/90 focus:ring-4 focus:outline- focus:ring-gray-50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center justify-center border border-gray-400">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 me-2">
             <title>Sign in with Google</title>
             <desc>Google G Logo</desc>
