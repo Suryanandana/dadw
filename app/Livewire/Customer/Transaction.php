@@ -2,15 +2,66 @@
 
 namespace App\Livewire\Customer;
 
+use App\Models\Feedback;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\Attributes\Validate;
+
+use function PHPUnit\Framework\isEmpty;
 
 class Transaction extends Component
 {
+
     public array $payment_status;
-    public string $feedbacktitle;
-    public string $feedbackmessage;
+
+    #[Validate('string|nullable|max:255')] 
+    public $feedbacktitle = null;
+    #[Validate('string|nullable')] 
+    public $feedbackmessage = null;
+    #[Validate('required|integer|between:1,5')] 
+    public $rating = 0;
+
+    public $review = false;
+    public $id_booking = null;
+
+    public function feedback()
+    {
+        $this->validate();
+        $table = Feedback::where('id_booking', $this->id_booking);
+        if($table){
+            $table->update([
+                'rate' => $this->rating,
+                'title' => $this->feedbacktitle,
+                'message' => $this->feedbackmessage,
+            ]);
+        } else {
+            Feedback::create([
+                'rate' => $this->rating,
+                'title' => $this->feedbacktitle,
+                'message' => $this->feedbackmessage,
+                'id_booking' => $this->id_booking,
+            ]);
+        }
+
+        $this->reset();
+        $this->review = false;
+        $this->dispatch('resetFeedback', 0);
+    }
+    
+    public function openfeedback($id) 
+    {
+        $this->id_booking = DB::table('booking')->where('external_id', $id)->get()->first()->id;
+        $feedback = Feedback::where('id_booking', $this->id_booking)->get()->first();
+        if($feedback) {
+            $this->dispatch('resetFeedback', $feedback->rate);
+            $this->rating = $feedback->rate;
+            $this->feedbacktitle = $feedback->title;
+            $this->feedbackmessage = $feedback->message;
+        }
+        $this->review = true;
+    }
     public function render()
     {
         $id = DB::table('customer')
@@ -24,19 +75,26 @@ class Transaction extends Component
         ->where('id_customer', $id)
         ->orderBy('booking.date', 'desc')
         ->get();
-        
-        $collection = DB::table('order_services')
+
+        $feedback = DB::table('feedback')
+        ->whereIn('feedback.id_booking', $data->pluck('id'))
+        ->get();
+
+        $name = DB::table('order_services')
         ->join('services', 'services.id', '=', 'order_services.id_services')
-        ->join('image_services', 'image_services.service_id', '=', 'services.id')
+        ->select(DB::raw('GROUP_CONCAT(services.service_name ORDER BY services.service_name SEPARATOR ", ") as selected_service'))
+        ->whereIn('order_services.id_booking', $data->pluck('id'))
+        ->groupBy('order_services.id_booking')
+        ->get();
+        
+        $image = DB::table('order_services')
+        ->join('services', 'services.id', '=', 'order_services.id_services')
+        ->join('image_services', 'services.id', '=', 'image_services.service_id')
+        ->select('image_services.imgdir', 'order_services.id_booking')
         ->whereIn('order_services.id_booking', $data->pluck('id'))
         ->get();
 
-        $this->payment_status = $data->pluck('payment_status')->toArray();
-        return view('livewire.customer.transaction', compact('data', 'collection'));
+        return view('livewire.customer.transaction', compact('data', 'image', 'feedback', 'name'));
     }
 
-    public function feedback($id)
-    {
-        dd($id);
-    }
 }

@@ -76,7 +76,7 @@
                     </div>
                     <div class="flex space-x-2">
                         <button x-on:click="$wire.back()"
-                            class="border-2 border-green-700 w-full text-green-700 bg-white hover:bg-green-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs font-semibold px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            class="border-2 border-green-700 w-full text-green-700 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs font-semibold px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             Back
                         </button>
                         <button x-on:click="$wire.confirm()"
@@ -111,7 +111,7 @@
                     </div>
                     <div class="flex space-x-2">
                         <button x-on:click="$wire.back()"
-                            class="border-2 border-green-700 w-full text-green-700 bg-white hover:bg-green-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs font-semibold px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            class="border-2 border-green-700 w-full text-green-700 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-green-300 tracking-widest rounded-sm text-xs font-semibold px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             Back
                         </button>
                         <button x-on:click="$wire.submit()" x-show="$wire.current_step == 2"

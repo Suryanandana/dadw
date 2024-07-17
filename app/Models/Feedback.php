@@ -12,6 +12,6 @@ class Feedback extends Model
     protected $table = 'feedback';
 
     protected $fillable = [
-        'rate', 'text', 'date', 'id_booking'
+    'rate', 'title', 'message', 'id_booking','created_at','updated_at'
     ];
 }

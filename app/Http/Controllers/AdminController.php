@@ -442,15 +442,6 @@ class AdminController extends Controller
         return view('admin.report.service-order', compact('data'));
     }
 
-    public function getPackageTransaction(Request $request)
-    {
-        $package = DB::table('order_package')
-            ->join('booking', 'order_package.id_booking', '=', 'booking.id')
-            ->join('package', 'order_package.id_package', '=', 'package.id')
-            ->select('package.package_name', 'booking.date', 'booking.pax', 'package.price')
-            ->get();
-        return view('admin.report.package-order', compact('package'));
-    }
 
 
     public function filterTransaction(Request $request)
@@ -476,15 +467,6 @@ class AdminController extends Controller
         return Excel::download(new TransactionExport($data), 'services.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
-    public function exportPackageTransaction()
-    {
-        $package = DB::table('order_package')
-            ->join('booking', 'order_package.id_booking', '=', 'booking.id')
-            ->join('package', 'order_package.id_package', '=', 'package.id')
-            ->select('package.package_name', 'booking.date', 'booking.pax', 'package.price')
-            ->get();
-        return Excel::download(new TransactionExport($package), 'package.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
 
     // public function getCashFlow()
     // {
@@ -534,22 +516,9 @@ class AdminController extends Controller
             $item->month = $month;
         }
 
-        $packageData = DB::table('order_package')
-            ->join('booking', 'order_package.id_booking', '=', 'booking.id')
-            ->join('package', 'order_package.id_package', '=', 'package.id')
-            ->select('order_package.*', 'booking.date', 'package.package_name', 'package.price', 'booking.pax')
-            ->get();
-
-        foreach ($packageData as $item) {
-            $timestamp = strtotime($item->date);
-            $month = date('m', $timestamp);
-            $item->month = $month;
-        }
-
         // Gabungkan kedua data
         $data = [
             'services' => $serviceData,
-            'packages' => $packageData,
         ];
 
         return view('admin.report.cash-flow', compact('data'));

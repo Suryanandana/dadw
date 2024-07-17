@@ -12,7 +12,7 @@ class Rooms extends Component
         $data = DB::table('rooms')
         ->join('image_rooms', 'rooms.id', '=', 'image_rooms.id_room')
         ->select('rooms.*', 'image_rooms.imgdir')
-        ->orderBy('id', 'asc')
+        ->limit(3)
         ->get();
         return view('livewire.landing.rooms')->with('data', $data);
     }
