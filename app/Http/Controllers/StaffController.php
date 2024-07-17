@@ -26,21 +26,23 @@ class StaffController extends Controller
 
     public function dashboard()
     {
-        $status = ['booking_confirmed' => 0, 'payment_confirmed' => 0, 'reschedule' => 0, 'in_progress' => 0, 'treatment_completed' => 0, 'cancelled' => 0];
+        $status = ['BOOKING CONFIRMED' => 0, 'PAYMENT CONFIRMED' => 0, 'RESCHEDULED' => 0, 'IN PROGRESS' => 0, 'TREATMENT COMPLETED' => 0, 'CANCELLED' => 0, 'BOOKING EXPIRED' => 0];
         $data = Booking::select('booking_status')->get();
         foreach($data as $d){
-            if($d->booking_status == 'Booking Confirmed') {
-                $status['booking_confirmed'] += 1;
-            } else if($d->booking_status == 'Payment Confirmed') {
-                $status['payment_confirmed'] += 1;
-            } else if($d->booking_status == 'Rescheduled') {
-                $status['reschedule'] += 1;
-            } else if($d->booking_status == 'In Progress') {
-                $status['in_progress'] += 1;
-            } else if($d->booking_status == 'Treatment Completed') {
-                $status['treatment_completed'] += 1;
-            }else if($d->booking_status == 'Cancelled') {
-                $status['cancelled'] += 1;
+            if($d->booking_status == 'BOOKING CONFIRMED') {
+                $status['BOOKING CONFIRMED'] += 1;
+            } else if($d->booking_status == 'PAYMENT CONFIRMED') {
+                $status['PAYMENT CONFIRMED'] += 1;
+            } else if($d->booking_status == 'RESCHEDULED') {
+                $status['RESCHEDULED'] += 1;
+            } else if($d->booking_status == 'IN PROGRESS') {
+                $status['IN PROGRESS'] += 1;
+            } else if($d->booking_status == 'TREATMENT COMPLETED') {
+                $status['TREATMENT COMPLETED'] += 1;
+            }else if($d->booking_status == 'CANCELLED') {
+                $status['CANCELLED'] += 1;
+            }else if($d->booking_status == 'BOOKING EXPIRED') {
+                $status['BOOKING EXPIRED'] += 1;
             }
         }
         // dd($status);

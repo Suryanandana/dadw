@@ -59,16 +59,17 @@
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['booking_confirmed', 'accepted', 'reschedule', 'in_progress', 'treatment_completed', 'cancelled'],
+                labels: ['BOOKING CONFIRMED', 'PAYMENT CONFIRMED', 'RESCHEDULED', 'IN PROGRESS', 'TREATMENT COMPLETED', 'CANCELLED', 'BOOKING EXPIRED'],
                 datasets: [{
                     label: 'Total transaction',
                     data: [
-                        {{$status['booking_confirmed']}},
-                        {{$status['payment_confirmed']}},
-                        {{$status['reschedule']}},
-                        {{$status['in_progress']}},
-                        {{$status['treatment_completed']}},
-                        {{$status['cancelled']}}
+                        {{$status['BOOKING CONFIRMED']}},
+                        {{$status['PAYMENT CONFIRMED']}},
+                        {{$status['RESCHEDULED']}},
+                        {{$status['IN PROGRESS']}},
+                        {{$status['TREATMENT COMPLETED']}},
+                        {{$status['CANCELLED']}},
+                        {{$status['BOOKING EXPIRED']}}
                     ],
                     backgroundColor: [
                         'yellow',
@@ -76,7 +77,8 @@
                         'blue',
                         'red',
                         'teal',
-                        'gray'
+                        'gray',
+                        'orange'
                     ],
                     hoverOffset: 4
                 }]
