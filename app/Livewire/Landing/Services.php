@@ -13,8 +13,16 @@ class Services extends Component
         $data = DB::table('services')
         ->join('image_services', 'services.id', '=', 'image_services.service_id')
         ->select('services.*', 'image_services.imgdir')
-        ->orderBy('id', 'desc')
         ->get();
-        return view('livewire.landing.services')->with('data', $data);
+
+        $rating = DB::table('feedback')
+        ->rightJoin('booking', 'feedback.id_booking', '=', 'booking.id')
+        ->rightJoin('order_services', 'order_services.id_booking', '=', 'booking.id')
+        ->select(DB::raw('ROUND(AVG(rate),1) as rating'))
+        ->groupBy('order_services.id_services')
+        ->get();
+
+
+        return view('livewire.landing.services', compact('data', 'rating'));
     }
 }

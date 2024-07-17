@@ -6,7 +6,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90">
     <div class="flex flex-col items-center justify-center pt-5 pb-10 bg-white px-14">
-        <img class="w-1/2" src="{{asset('img/payment/verify-email.png')}}" alt="verification email image illustration">
+        <img class="w-1/2" src="/storage/img/payment/verify-email.png" alt="verification email image illustration">
         <div x-show="!$wire.verified">
             <h1 class="text-3xl font-bold text-center">Please verify your email</h1>
             <p class="mt-2 text-center">

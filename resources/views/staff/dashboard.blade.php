@@ -72,9 +72,11 @@
                         {{$status['BOOKING EXPIRED']}}
                     ],
                     backgroundColor: [
-                        'yellow',
-                        'green',
+                        'orange',
                         'blue',
+                        'pink',
+                        'gray',
+                        'green',
                         'red',
                         'teal',
                         'gray',

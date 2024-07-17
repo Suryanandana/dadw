@@ -1,4 +1,4 @@
-@section('title', 'Landing Page')
+@section('title', 'The Cajuput Spa')
 
 @section('head')
 {{-- font --}}
@@ -29,7 +29,6 @@
     <livewire:landing.rooms>
     <livewire:landing.logo>
     <livewire:landing.services>
-    <livewire:landing.feedback>
     <livewire:landing.logo>
     <livewire:landing.testimonial>
     <livewire:landing.chat>

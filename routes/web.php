@@ -8,16 +8,14 @@ use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Controllers\LandingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', App\Livewire\Landing\Index::class)->name('landing');
-Route::get('/details/{id}', [LandingController::class, 'details'])->name('details');
-Route::get('/roomdetails/{id}', [LandingController::class, 'rooms'])->name('rooms.detail');
+Route::get('/service/{id}', App\Livewire\Detail\Service::class);
+Route::get('/room/{id}', App\Livewire\Detail\Room::class);
 Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
-Route::get('/package/{id}', [LandingController::class, 'package'])->name('package.details');
 
 // autentikasi
 # ==================== SOCIALITE AUTH ================================
@@ -56,10 +54,7 @@ Route::middleware('auth')->group(function() {
 Route::middleware('guest')->group(function() {
 
     // ==================== AUTHENTICATION ====================
-    Route::post('/login', [App\Http\Controllers\Authentication::class, 'login'])->name('login');
     Route::get('/login', App\Livewire\Auth\Login::class);
-
-    Route::post('/register', [App\Http\Controllers\Authentication::class, 'register']);
     Route::get('/register', App\Livewire\Auth\Register::class);
 
     // ==================== Reset & Forgor Password ====================
@@ -117,19 +112,6 @@ Route::middleware(['auth', 'verified'])->group(function()
         Route::get('/profile', App\Livewire\Customer\Profile::class);
         Route::get('/feedback',[App\Livewire\Customer\Profile::class, 'feedback']);
     });
-    // native
-    Route::middleware('userAccess:customer')->group(function() {
-        Route::controller(CustomerController::class)->group(function() {
-            Route::post('/booking', 'booking')->name('customer.booking');
-            Route::get('/reschedule', 'viewReschedule');
-            Route::put('/reschedule', 'reschedule')->name('customer.reschedule');
-            Route::put('/cancel', 'cancel');
-            // Route::get('/transaction', 'transaction')->name('customer.transaction');
-            Route::post('/feedback', 'feedback')->name('customer.feedback');
-            Route::get('/customer', 'transaction');
-
-        });
-    });
     
     Route::middleware('userAccess:staff')->group(function() {  
         // ==================== STAFF ====================
@@ -149,10 +131,6 @@ Route::middleware(['auth', 'verified'])->group(function()
             Route::post('/staff/addservice', 'addService');
             Route::put('/staff/updateservice/{id}', 'updateService')->name('update.service');
             Route::delete('/staff/deleteservice/{id}', 'deleteService')->name('delete.service');
-            Route::get('/staff/package', 'getPackage')->name('package');
-            Route::post('/staff/addpackage', 'addPackage')->name('add.package');
-            Route::put('/staff/updatepackage/{id}', 'updatePackage')->name('update.package');
-            Route::delete('/staff/deletepackage/{id}', 'deletePackage')->name('delete.package');
             Route::get('/staff/report', 'getReport')->name('report');
             Route::get('/staff/export', 'exportReport')->name('report.export');
         });
@@ -176,10 +154,8 @@ Route::middleware(['auth', 'verified'])->group(function()
             Route::put('/update-customer/{id}', 'updateCustomer')->name('update.customer');
             Route::delete('/delete-customer/{id}', 'deleteCustomer')->name('delete.customer');    
             Route::get('/service-transaction', 'getServiceTransaction')->name('service.transaction');
-            Route::get('/package-transaction', 'getPackageTransaction')->name('package.transaction');
             Route::post('/filter-transaction', 'filterTransaction')->name('filter.transaction');
             Route::get('/service-export', 'exportServiceTransaction')->name('service.export');
-            Route::get('/package-export', 'exportPackageTransaction')->name('package.export');
             Route::get('/cash-flow', 'getCashFlow')->name('cash.flow');
             // Route::get('/cash-flow', 'getCashFlowPack')->name('cash.flow');
             // Route::get('/cash-flow-test', 'getCashFlow')->name('cash.flow');

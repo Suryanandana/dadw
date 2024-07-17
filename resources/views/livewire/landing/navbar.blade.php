@@ -66,7 +66,7 @@
                     @endempty
                     @else
                     <a href="/login" wire:navigate
-                        class="hidden px-8 py-3 m-4 text-xs tracking-widest text-center text-white bg-green-700 border-0 rounded-sm md:block focus:outline-none hover:bg-green-800">
+                        class="hidden px-8 py-3 text-xs tracking-widest text-center text-white bg-green-700 border-0 rounded-sm md:block focus:outline-none hover:bg-green-800">
                         Sign In
                     </a>
                     @endauth

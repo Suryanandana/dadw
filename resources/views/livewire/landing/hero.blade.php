@@ -25,19 +25,19 @@
             <div class="h-screen splide__track 2xl:h-auto 2xl:aspect-video">
                 <ul class="splide__list max-w-screen-2xl 2xl:aspect-video">
                     <li class="splide__slide">
-                        <img src="{{asset('img/landing/hero.webp')}}" class="object-cover w-full h-full">
+                        <img src="/storage/img/hero/hero.webp" class="object-cover w-full h-full">
                     </li>
                     <li class="splide__slide">
-                        <img src="{{asset('img/landing/hero2.webp')}}" class="object-cover w-full h-full">
+                        <img src="/storage/img/hero/hero2.webp" class="object-cover w-full h-full">
                     </li>
                     <li class="splide__slide">
-                        <img src="{{asset('img/landing/hero3.webp')}}" class="object-cover w-full h-full">
+                        <img src="/storage/img/hero/hero3.webp" class="object-cover w-full h-full">
                     </li>
                     <li class="splide__slide">
-                        <img src="{{asset('img/landing/hero4.webp')}}" class="object-cover w-full h-full">
+                        <img src="/storage/img/hero/hero4.webp" class="object-cover w-full h-full">
                     </li>
                     <li class="splide__slide">
-                        <img src="{{asset('img/landing/hero5.webp')}}" class="object-cover w-full h-full">
+                        <img src="/storage/img/hero/hero5.webp" class="object-cover w-full h-full">
                     </li>
                 </ul>
             </div>

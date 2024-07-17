@@ -1,4 +1,4 @@
-@section('title', 'Profile')
+@section('title', 'Profile | The Cajuput Spa')
 
 @section('head')
 {{-- font --}}
