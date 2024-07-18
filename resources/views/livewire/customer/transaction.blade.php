@@ -8,6 +8,10 @@
 <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap"
     rel="stylesheet">
+{{-- date picker --}}
+<script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.min.css">
+<link rel="stylesheet" href="{{asset('css/date.css')}}">
 {{-- flowbite js --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 {{-- font awesome --}}
@@ -19,11 +23,16 @@
 @endsection
 
 <div x-data="{
-        sure : false,
-        title : 'Important',
+        popup_c : false,
+        popup_r : false,
+        title : '',
         subtitle : '',
-        sureurl : ''
-    }">
+    }"
+    x-init="$wire.on('success', (sub) => {
+        notification = true,
+        title =  'Notification',
+        subtitle = sub
+    });">
     {{-- content --}}
     <section class="mt-12 -mb-24 bg-white dark:bg-gray-900">
         <div class="px-10 py-16 mx-auto">
@@ -61,10 +70,12 @@
                                         @if($booking->booking_status === 'BOOKING CONFIRMED' || $booking->booking_status === 'PAYMENT CONFIRMED')
                                         <li>
                                             <button x-on:click="[
-                                                sure = true,
+                                                $wire.popup = true,
+                                                popup_r = true,
+                                                popup_c = false,
                                                 title = 'Reschedule this Booking?',
                                                 subtitle = 'You only can reschedule once per transaction and you can not cancel your transaction after reschedule',
-                                                sureurl = ''
+                                                $wire.id_booking = '{{$booking->external_id}}'
                                                 ]"
                                                 class="flex gap-2 px-3 py-2 text-gray-900 rounded hover:bg-green-50 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                                 <svg class="w-5 h-5 text-gray-800 dark:text-white"
@@ -80,11 +91,14 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button x-on:click="[
-                                                    sure = true,
-                                                    title = 'Cancel Booking?',
-                                                    subtitle = 'Are you sure you want to cancel this booking? Refund will be 50% of total order and will be processed in 1x24 hours',
-                                                    sureurl = '/api/xendit/cancel/{{$booking->external_id}}'
+                                            <button 
+                                                x-on:click="[
+                                                $wire.popup = true,
+                                                popup_c = true,
+                                                popup_r = false,
+                                                title = 'Cancel Booking?',
+                                                subtitle = 'Are you sure you want to cancel this booking? Refund will be 50% of total order and will be processed in 1x24 hours',
+                                                $wire.id_booking = '{{$booking->external_id}}'
                                                 ]"
                                                 class="flex w-full gap-2 px-3 py-2 text-gray-900 rounded hover:bg-green-50 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                                 <svg class="w-5 h-5 text-gray-800 dark:text-white"
@@ -102,10 +116,9 @@
                                         @endif
                                         <li>
                                             <button x-on:click="[
-                                                sure = true,
+                                                $wire.popup = true,
                                                 title = 'Booking Details',
                                                 subtitle = 'For more information you can ask our staff via chat',
-                                                sureurl = ''
                                                 ]"
                                                 class="flex w-full gap-2 px-3 py-2 text-gray-900 rounded hover:bg-green-50 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                                 <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -124,11 +137,15 @@
                         <div class="flex w-full p-3 sm:gap-5 sm:flex-row">
                             <div class="self-center basis-1/3 max-w-64">
                                 <div class="grid grid-flow-row aspect-video" :class="$refs.image{{$i}}.children.length > 1 ? 'grid-cols-2':'grid-cols-1'" x-ref="image{{$i}}">
-                                    @foreach ($image as $service)
-                                    @if ($service->id_booking == $booking->id)
-                                    <img src="/storage/img/service/{{$service->imgdir}}" class="object-cover w-full h-full">
-                                    @endif
-                                    @endforeach
+                                    @php 
+                                    $limit = 0;
+                                    foreach ($image as $service) {
+                                        if ($service->id_booking == $booking->id && $limit < 4) {
+                                            echo "<img src='/storage/img/service/$service->imgdir' class='object-cover w-full h-full'>";
+                                            $limit++;
+                                        }
+                                    }
+                                    @endphp
                                 </div>
                             </div>
                             <div class="grid items-center self-center flex-grow gap-2 m-2">
@@ -166,7 +183,7 @@
                             </div>
                             <div class="flex flex-wrap justify-end gap-2">
                                 @if ($booking->booking_status === 'PENDING')
-                                <button onclick="openPopup('{{$booking->payment_url}}', '{{$booking->external_id}}')"
+                                <button onclick="openPopup_c('{{$booking->payment_url}}', '{{$booking->external_id}}')"
                                     class="self-end px-5 py-2 text-xs tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm text-nowrap hover:bg-green-800">Pay Now</button>
                                 @elseif ($booking->booking_status === 'TRANSACTION COMPLETE')
                                 <button wire:click="openfeedback('{{$booking->external_id}}')"
@@ -312,24 +329,58 @@
         </div>
     </div>
 
-    {{-- confirm message --}}
-    <div x-show="sure" x-cloak x-transition.1000ms
+    {{-- Notification Popup --}}
+    <div x-show="$wire.popup" x-cloak x-transition.1000ms
         class="flex overflow-y-auto overflow-x-hidden backdrop-brightness-95 backdrop-blur-sm fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-screen">
         <div class="relative max-w-sm max-h-full">
-            <div x-on:click.away="sure = false" class="grid grid-cols-1 p-5 bg-white rounded-md shadow justify-items-center dark:bg-gray-700">
+            <div x-on:click.away="$wire.popup = false" class="grid grid-cols-1 p-5 bg-white rounded-md shadow justify-items-center dark:bg-gray-700">
                 <svg class="w-16 h-16 text-green-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>                  
                 <span x-text="title" class="text-lg font-semibold tracking-wider"></span>
                 <span x-text="subtitle" class="text-sm tracking-wider text-center"></span>
                 <div class="mt-5">
-                    <button x-on:click="sure = false" type="button"
+                    <button x-on:click="$wire.popup = false" type="button"
                         class="px-5 py-2 text-xs font-semibold tracking-wider text-green-700 bg-white border-2 border-green-700 rounded-sm focus:outline-none hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
-                    <a type="button" x-bind:href="sureurl" wire:navigate
-                        class="px-5 py-2 text-xs font-medium tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Continue</a>
+                    <button x-show="popup_c" wire:click="cancel, popup_c = false" 
+                        class="px-5 py-2 text-xs font-medium tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Continue</button>
+                    <button x-show="popup_r" wire:click="openReschedule, popup_r = false"
+                        class="px-5 py-2 text-xs font-medium tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Continue</button>
                 </div>
             </div>
         </div> 
+    </div>
+
+    {{-- Reshcedule Modal --}}
+    <div x-show="$wire.reschedule" x-cloak x-transition.1000ms
+    class="flex overflow-y-auto overflow-x-hidden backdrop-brightness-95 backdrop-blur-sm fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-screen">
+    <div class="relative max-w-sm max-h-full">
+        <form wire:submit.prevent="rescheduled" x-on:click.away="$wire.reschedule = false" class="relative space-y-4 bg-white rounded-md shadow dark:bg-gray-700">
+                {{-- Modal button --}}
+                <div class="flex items-center justify-between px-4 pt-4 rounded-t md:pt-5 dark:border-gray-600">
+                    <p class="text-xl font-semibold">Select Date & Time</p>
+                    <button x-on:click="$wire.reschedule = false" type="button"
+                        class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <livewire:payment-user.date-input>
+                <input type="hidden" wire:model="date" value="">
+                <input type="hidden" wire:model="time" velue="">
+                {{-- Modal footer --}}
+                <div class="flex items-center justify-center gap-3 pb-4 rounded-b md:pb-8 dark:border-gray-600">
+                <button x-on:click="$wire.reschedule = false" type="button"
+                    class="px-5 py-2 text-xs font-semibold tracking-wider text-green-700 bg-white border-2 border-green-700 rounded-sm focus:outline-none hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                <button type="submit"
+                    class="px-5 py-2 text-xs font-medium tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Submit</button>
+            </div>
+        </form>
+    </div>
     </div>
 
 </div>
@@ -337,4 +388,5 @@
 
 @push('scripts')
 <script src="{{asset('js/auth/auth_popup.js')}}"></script>
+<script src="{{asset('js/payment-user/date.js')}}"></script>
 @endpush

@@ -8,6 +8,7 @@ use Xendit\XenditSdkException;
 use Illuminate\Support\Facades\DB;
 use Xendit\Configuration;
 use App\Events\UserPaid;
+use Illuminate\Support\Facades\Log;
 
 class xendit extends Controller
 {
@@ -29,35 +30,53 @@ class xendit extends Controller
             }
             DB::commit();
             event(new UserPaid($payment->first()->id_customer));
+            return response()->json([
+                'status' => 'success',
+                'message' => 'payment status updated',
+            ]);
         } catch (XenditSdkException $e) {          
             DB::rollBack();
+            // Log the full error
+            Log::error('Exception when calling callback', [
+                'message' => $e->getMessage(),
+                'full_error' => $e->getFullError()
+            ]);
+
+            // Return an error response
             return response()->json([
                 'status' => 'error',
-                'message' => $e->getMessage()
+                'message' => 'Failed to callback',
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
     
-    public function cancel($id) {
+    public function expire($id) {
         try {
             Configuration::setXenditKey(env('XENDIT_API_KEY'));
             $apiInstance = new InvoiceApi();
-            DB::beginTransaction();
-            $booking = DB::table('booking')->where('external_id', $id);
-            $booking->update([
-                'booking_status' => 'CANCELLED',
-                'updated_at' => now(),
-            ]);
-            $apiInstance->expireInvoice($id);
-            DB::commit();
+            $result = $apiInstance->expireInvoice($id);
 
-            redirect()->route('/transaction')->with('success', 'Cancel berhasil');
+            // Return a success response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Invoice expired successfully',
+                'data' => $result,
+            ]);
         } catch (XenditSdkException $e) {
-            $error = $e->getMessage();
+            // Log the full error
+            Log::error('Exception when calling expireInvoice', [
+                'message' => $e->getMessage(),
+                'full_error' => $e->getFullError()
+            ]);
+
+            // Return an error response
             return response()->json([
                 'status' => 'error',
-                'message' => $error,
+                'message' => 'Failed to expire invoice',
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
+
 }

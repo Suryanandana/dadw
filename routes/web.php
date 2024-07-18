@@ -110,7 +110,8 @@ Route::middleware(['auth', 'verified'])->group(function()
     Route::middleware('userAccess:customer')->group(function() {
         Route::get('/transaction', App\Livewire\Customer\Transaction::class);
         Route::get('/profile', App\Livewire\Customer\Profile::class);
-        Route::get('/feedback',[App\Livewire\Customer\Profile::class, 'feedback']);
+        Route::get('/feedback',[App\Livewire\Customer\Transaction::class, 'feedback']);
+        Route::get('/cancel/{id}',[App\Livewire\Customer\Transaction::class, 'cancel']);
     });
     
     Route::middleware('userAccess:staff')->group(function() {  

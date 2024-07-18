@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/xendit/callback', [xendit::class, 'callback']);
-Route::get('/xendit/cancel/{id}', [xendit::class, 'cancel']);
+Route::get('/xendit/expire/{id}', [xendit::class, 'expire']);
