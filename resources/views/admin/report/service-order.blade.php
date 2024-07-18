@@ -72,7 +72,7 @@
                                 </div>
                             </form>
 
-                            <form class="flex items-center" action="{{ route('filter.transaction') }}" method="POST">
+                            <form class="flex items-center" action="{{ route('service.transaction') }}" method="GET">
                                 @csrf
                                 <div date-rangepicker class="flex items-center me-2">
                                     <div class="relative">
