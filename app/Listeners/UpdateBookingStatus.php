@@ -25,9 +25,9 @@ class UpdateBookingStatus
 
         // Logika untuk mengatur status booking berdasarkan status pembayaran
         if ($booking->payment_status == "PAID") {
-            $booking->booking_status = 'Payment Confirmed';
+            $booking->booking_status = 'PAYMENT CONFIRMED';
         } elseif ($booking->payment_status == "PENDING") {
-            $booking->booking_status = 'Booking Confirmed';
+            $booking->booking_status = 'BOOKING CONFIRMED';
         }
 
         // Simpan status booking yang baru

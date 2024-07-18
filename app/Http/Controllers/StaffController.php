@@ -69,9 +69,9 @@ class StaffController extends Controller
 
             // Logika untuk mengatur status booking berdasarkan status pembayaran
             if ($booking->payment_status == "PAID") {
-                $booking->booking_status = 'Payment Confirmed';
+                $booking->booking_status = 'PAYMENT CONFIRMED';
             } else if ($booking->payment_status == "PENDING") {
-                $booking->booking_status = 'Booking Confirmed';
+                $booking->booking_status = 'BOOKING CONFIRMED';
             }
             
             // Perbarui status booking jika status baru disediakan
@@ -317,18 +317,24 @@ class StaffController extends Controller
         return redirect('/staff/room')->with('success', 'Data deleted successfully');
     }
 
-    public function getReport(){
+    public function getReport(Request $request){
+        // Mendapatkan tahun dari request, jika tidak ada default ke tahun ini
+        $year = $request->input('year', date('Y'));
 
+        // Mengambil data total penjualan per bulan untuk tahun tertentu
         $data = DB::table('booking')
-        ->select(DB::raw('YEAR(date) as year, SUM(total) as total_sales'))
-        ->groupBy(DB::raw('YEAR(date)'))
-        ->get();
+            ->select(DB::raw('MONTH(date) as month, SUM(total) as total_sales'))
+            ->whereYear('date', $year)
+            ->groupBy(DB::raw('MONTH(date)'))
+            ->get();
 
-        return view('staff.report', compact('data'));
+        return view('staff.report', compact('data', 'year'));
     }
 
-    public function exportReport()
+    public function exportReport(Request $request)
     {
-        return Excel::download(new YearlySalesExport, 'yearly_sales.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $year = $request->input('year', date('Y'));
+
+        return Excel::download(new YearlySalesExport($year), 'yearly_sales_' . $year . '.xlsx');
     }
 }
