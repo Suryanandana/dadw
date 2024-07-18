@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Staff;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
 use App\Exports\TransactionExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -434,73 +433,29 @@ class AdminController extends Controller
 
     public function getServiceTransaction(Request $request)
     {
-        $data = DB::table('order_services')
-            ->join('booking', 'order_services.id_booking', '=', 'booking.id')
-            ->join('services', 'order_services.id_services', '=', 'services.id')
-            ->select('services.service_name', 'booking.date', 'booking.pax', 'services.price')
-            ->get();
+        $query = DB::table('order_services')
+        ->join('booking', 'order_services.id_booking', '=', 'booking.id')
+        ->join('services', 'order_services.id_services', '=', 'services.id')
+        ->select('services.service_name', 'booking.date', 'booking.pax', 'services.price');
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $start_date = $request->input('start_date');
+            $end_date = $request->input('end_date');
+            $query->whereBetween('booking.date', [$start_date, $end_date]);
+        }
+
+        $data = $query->get();
+
         return view('admin.report.service-order', compact('data'));
     }
 
-
-
-    public function filterTransaction(Request $request)
+    public function exportServiceTransaction(Request $request)
     {
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-        $data = DB::table('order')
-            ->join('booking', 'order.id_booking', '=', 'booking.id')
-            ->join('services', 'order.id_services', '=', 'services.id')
-            ->whereDate('booking.date', '>=', $start_date)
-            ->whereDate('booking.date', '<=', $end_date)
-            ->get();
-        return view('admin.report.all-order', compact('data'));
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+    
+        return Excel::download(new TransactionExport($startDate, $endDate), 'service_transactions.xlsx');
     }
-
-    public function exportServiceTransaction()
-    {
-        $data = DB::table('order_services')
-            ->join('booking', 'order_services.id_booking', '=', 'booking.id')
-            ->join('services', 'order_services.id_services', '=', 'services.id')
-            ->select('services.service_name', 'booking.date', 'booking.pax', 'services.price')
-            ->get();
-        return Excel::download(new TransactionExport($data), 'services.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
-
-
-    // public function getCashFlow()
-    // {
-    //     $data = DB::table('order_services')
-    //         ->join('booking', 'order_services.id_booking', '=', 'booking.id')
-    //         ->join('services', 'order_services.id_services', '=', 'services.id')
-    //         ->get();
-
-    //     foreach ($data as $item) {
-    //         $timestamp = strtotime($item->date);
-
-    //         $month = date('m', $timestamp);
-    //         $item->month = $month;
-    //     }
-
-    //     return view('admin.report.cash-flow', compact('data'));
-    // }
-
-    // public function getCashFlowPack()
-    // {
-    //     $datapack = DB::table('order_package')
-    //         ->join('booking', 'order_package.id_booking', '=', 'booking.id')
-    //         ->join('package', 'order_package.id_package', '=', 'package.id')
-    //         ->get();
-
-    //     foreach ($datapack as $item) {
-    //         $timestamp = strtotime($item->date);
-
-    //         $month = date('m', $timestamp);
-    //         $item->month = $month;
-    //     }
-
-    //     return view('admin.report.cash-flow-test', compact('datapack'));
-    // }
 
     public function getCashFlow()
     {
