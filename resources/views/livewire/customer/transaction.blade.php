@@ -182,9 +182,9 @@
                                 </div>
                             </div>
                             <div class="flex flex-wrap justify-end gap-2">
-                                @if ($booking->booking_status === 'PENDING')
-                                <button onclick="openPopup_c('{{$booking->payment_url}}', '{{$booking->external_id}}')"
-                                    class="self-end px-5 py-2 text-xs tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm text-nowrap hover:bg-green-800">Pay Now</button>
+                                @if ($booking->payment_status === 'PENDING')
+                                <a href={{$booking->payment_url}} target="_blank"
+                                    class="self-end px-5 py-2 text-xs tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm text-nowrap hover:bg-green-800">Pay Now</a>
                                 @elseif ($booking->booking_status === 'TRANSACTION COMPLETE')
                                 <button wire:click="openfeedback('{{$booking->external_id}}')"
                                     class="self-end px-5 py-2 text-xs font-semibold tracking-wider text-green-700 border-2 border-green-700 rounded-sm text-nowrap hover:bg-gray-100">Feedback</button>
@@ -340,8 +340,6 @@
                 <span x-text="title" class="text-lg font-semibold tracking-wider"></span>
                 <span x-text="subtitle" class="text-sm tracking-wider text-center"></span>
                 <div class="mt-5">
-                    <button x-on:click="$wire.popup = false" type="button"
-                        class="px-5 py-2 text-xs font-semibold tracking-wider text-green-700 bg-white border-2 border-green-700 rounded-sm focus:outline-none hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
                     <button x-show="popup_c" wire:click="cancel, popup_c = false" 
                         class="px-5 py-2 text-xs font-medium tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Continue</button>
                     <button x-show="popup_r" wire:click="openReschedule, popup_r = false"

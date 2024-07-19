@@ -128,7 +128,7 @@
         x-transition:enter="transition ease-out duration-500 -mr-64"
         x-transition:enter-start=""
         x-transition:enter-end="transform -translate-x-64"
-        class="fixed top-0 right-0 z-40 h-screen pt-20 overflow-y-auto bg-white border min-w-52 dark:bg-gray-700 dark:divide-gray-600 @guest md:hidden @endguest">
+        class="fixed top-0 right-0 z-40 h-dvh pt-20 overflow-y-auto bg-white border min-w-52 dark:bg-gray-700 dark:divide-gray-600 @guest md:hidden @endguest">
         <div class="flex flex-col h-full">
             @auth
             {{-- sidebar greeting --}}

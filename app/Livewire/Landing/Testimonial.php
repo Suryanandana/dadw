@@ -15,7 +15,6 @@ class Testimonial extends Component
         ->join('users', 'users.id', '=', 'customer.id_users')
         ->join('rooms', 'rooms.id', '=', 'booking.id_room')
         ->select('feedback.*', 'users.name', 'rooms.room_name', 'booking.id')
-        ->orderBy('booking.updated_at', 'desc')
         ->limit(6)
         ->get();
   

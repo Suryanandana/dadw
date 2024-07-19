@@ -59,7 +59,7 @@
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['BOOKING CONFIRMED', 'PAYMENT CONFIRMED', 'RESCHEDULED', 'IN PROGRESS', 'TREATMENT COMPLETED', 'CANCELLED', 'BOOKING EXPIRED'],
+                labels: ['BOOKING CONFIRMED', 'PAYMENT CONFIRMED', 'RESCHEDULED', 'IN PROGRESS', 'TRANSACTION COMPLETE', 'CANCELLED', 'BOOKING EXPIRED'],
                 datasets: [{
                     label: 'Total transaction',
                     data: [
@@ -67,7 +67,7 @@
                         {{$status['PAYMENT CONFIRMED']}},
                         {{$status['RESCHEDULED']}},
                         {{$status['IN PROGRESS']}},
-                        {{$status['TREATMENT COMPLETED']}},
+                        {{$status['TRANSACTION COMPLETE']}},
                         {{$status['CANCELLED']}},
                         {{$status['BOOKING EXPIRED']}}
                     ],

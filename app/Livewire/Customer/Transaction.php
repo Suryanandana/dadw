@@ -36,21 +36,12 @@ class Transaction extends Component
     public function feedback()
     {
         $this->validate();
-        $table = Feedback::where('id_booking', $this->id_booking);
-        if($table){
-            $table->update([
-                'rate' => $this->rating,
-                'title' => $this->feedbacktitle,
-                'message' => $this->feedbackmessage,
-            ]);
-        } else {
-            Feedback::create([
-                'rate' => $this->rating,
-                'title' => $this->feedbacktitle,
-                'message' => $this->feedbackmessage,
-                'id_booking' => $this->id_booking,
-            ]);
-        }
+        DB::table('feedback')->updateOrInsert(
+        ['id_booking' => $this->id_booking],[
+            'rate' => $this->rating,
+            'title' => $this->feedbacktitle,
+            'message' => $this->feedbackmessage,
+        ] );
 
         $this->reset();
         $this->review = false;
@@ -61,19 +52,20 @@ class Transaction extends Component
         try {
             $booking = DB::table('booking')->where('external_id', $this->id_booking);
             $id = substr($booking->get()->first()->payment_url, 38);
+
+            $xendit = new \App\Http\Controllers\xendit;
             if ($booking->get()->first()->payment_status === 'PENDING') {
-                $response = Http::timeout(10)->get(URL::to('/api/xendit/expire/' . $id));
+                $response = $xendit->expire($id);
+                // $response = Http::timeout(10)->get(URL::to('/api/xendit/expire/' . $id));
                 if ($response->status() !== 200) {
                     throw new Exception('Failed to cancel booking');
                 }
                 $return = "Booking has been cancelled, Your refund will be processed soon";
             }
-            DB::beginTransaction();
             $booking->update([
                 'booking_status' => 'CANCELLED',
                 'updated_at' => now(),
             ]);
-            DB::commit();
             $return = "Booking has been cancelled";
         } catch (Exception $e) {
             DB::rollBack();

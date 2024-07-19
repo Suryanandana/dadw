@@ -143,7 +143,7 @@
                                                     </option>
                                                     <option value="CANCELLED" @selected($item->booking_status == 'CANCELLED')>CANCELLED
                                                     </option>
-                                                    <option value="TREATMENT COMPLETED" @selected($item->booking_status == 'TREATMENT COMPLETED')>TREATMENT COMPLETED
+                                                    <option value="TRANSACTION COMPLETE" @selected($item->booking_status == 'TRANSACTION COMPLETE')>TRANSACTION COMPLETE
                                                     </option>
                                                 </select>
                                             </form>
@@ -221,7 +221,7 @@
                 });
             });
         });
-        </script>
+    </script>
 </body>
 
 </html>

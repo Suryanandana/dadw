@@ -36,12 +36,6 @@ class xendit extends Controller
             ]);
         } catch (XenditSdkException $e) {          
             DB::rollBack();
-            // Log the full error
-            Log::error('Exception when calling callback', [
-                'message' => $e->getMessage(),
-                'full_error' => $e->getFullError()
-            ]);
-
             // Return an error response
             return response()->json([
                 'status' => 'error',
@@ -55,21 +49,15 @@ class xendit extends Controller
         try {
             Configuration::setXenditKey(env('XENDIT_API_KEY'));
             $apiInstance = new InvoiceApi();
-            $result = $apiInstance->expireInvoice($id);
-
-            // Return a success response
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Invoice expired successfully',
-                'data' => $result,
-            ]);
+            $apiInstance->expireInvoice($id);
+            return response()->json('success', 200);
+            // // Return a success response
+            // return response()->json([
+            //     'status' => 'success',
+            //     'message' => 'Invoice expired successfully',
+            //     'data' => $result,
+            // ]);
         } catch (XenditSdkException $e) {
-            // Log the full error
-            Log::error('Exception when calling expireInvoice', [
-                'message' => $e->getMessage(),
-                'full_error' => $e->getFullError()
-            ]);
-
             // Return an error response
             return response()->json([
                 'status' => 'error',
