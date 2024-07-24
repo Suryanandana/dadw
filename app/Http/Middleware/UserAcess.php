@@ -18,6 +18,6 @@ class UserAcess
         if(auth()->user()->level == $role) {
             return $next($request);
         }
-        return redirect(auth()->user()->level); 
+        return redirect('/'); 
     }
 }

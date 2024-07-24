@@ -3,14 +3,13 @@
     <div class="space-y-3 basis-1/5">
         <span class="font-semibold">Sitemap</span>
         <ul class="ml-2 space-y-3 list-disc list-outside columns-2 sm:columns-3 md:columns-1">
-            <li>Home</li>
-            <li>About Us</li>
-            <li>Offers</li>
-            <li>Spa</li>
-            <li>Reviews</li>
-            <li>Gallery</li>
-            <li>Blog</li>
-            <li>Contact Us</li>
+            <li><a href="/#heroes">Home</a></li>
+            <li><a href="/#header">About Us</a></li>
+            <li><a href="/#recommendation">Recommendation</a></li>
+            <li><a href="/#service">Service</a></li>
+            <li><a href="/#review">Reviews</a></li>
+            <li><a href="/#gallery">Gallery</a></li>
+            <li><a href="/#footer">Contact Us</a></li>
         </ul>
     </div>
     <div class="flex flex-col basis-1/2">

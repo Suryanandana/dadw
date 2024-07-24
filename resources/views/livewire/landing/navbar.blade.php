@@ -32,7 +32,7 @@
             </a>
             
             {{-- navbar right --}}
-            <div class="flex flex-1 gap-3 place-content-end md:order-2 basis-0">
+            <div class="flex justify-end flex-1 gap-3 md:order-2 basis-0">
                 <div class="relative">
                     @auth
                     {{-- profile picture --}}
@@ -128,7 +128,7 @@
         x-transition:enter="transition ease-out duration-500 -mr-64"
         x-transition:enter-start=""
         x-transition:enter-end="transform -translate-x-64"
-        class="fixed top-0 right-0 z-40 h-screen pt-20 overflow-y-auto bg-white border min-w-52 dark:bg-gray-700 dark:divide-gray-600 @guest md:hidden @endguest">
+        class="fixed top-0 right-0 z-40 h-dvh pt-20 overflow-y-auto bg-white border min-w-52 dark:bg-gray-700 dark:divide-gray-600 @guest md:hidden @endguest">
         <div class="flex flex-col h-full">
             @auth
             {{-- sidebar greeting --}}
@@ -165,7 +165,7 @@
             {{-- sidebar menu list --}}
             <ul class="flex-1 h-auto my-2 text-sm text-gray-700 dark:text-gray-200 md:hidden">
                 <li> 
-                    <a href="/" wire:navigate 
+                    <a href="/#heroes"
                     class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/>
@@ -213,7 +213,7 @@
                     </svg>
                     Profile
                 </a>
-                <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}"
+                <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/'.Auth::user()->level}}"
                     wire:navigate
                     class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -238,7 +238,7 @@
             </a>
             @else
             <a href="/login" wire:navigate
-                class="py-3 m-4 text-xs tracking-widest text-center text-white bg-green-700 border-0 rounded-sm md:hidden focus:outline-none hover:bg-green-800">
+                class="py-3 mx-4 mb-4 text-xs tracking-widest text-center text-white bg-green-700 border-0 rounded-sm b-0 md:hidden focus:outline-none hover:bg-green-800">
                 Sign In
             </a>
             @endauth

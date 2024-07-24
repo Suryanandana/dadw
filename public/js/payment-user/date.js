@@ -22,7 +22,7 @@ var datepicker = new AirDatepicker('#date', {
     onSelect(date) {
         let selectedDate = new Date(date.date);
         let formattedDate = selectedDate.getDate() + ' ' + selectedDate.toLocaleString('default', { month: 'long' }) + ', ' + selectedDate.getFullYear() + '. ' + String(selectedDate.getHours()).padStart(2, '0') + ':' + String(selectedDate.getMinutes()).padStart(2, '0') + ' WITA';
-        let formattedDateInput = selectedDate.getDate() + '-' + selectedDate.getMonth() + '-' + selectedDate.getFullYear();
+        let formattedDateInput = selectedDate.getDate() + '-' + (selectedDate.getMonth()+1) + '-' + selectedDate.getFullYear() + ' ' + String(selectedDate.getHours()).padStart(2, '0') + ':' + String(selectedDate.getMinutes()).padStart(2, '0') + ':00';
         date.formattedDate = formattedDate;
         if (date.date === undefined) {
             formattedDate = '-';

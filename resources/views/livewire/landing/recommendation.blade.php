@@ -1,5 +1,5 @@
 {{-- our recommendation --}}
-<section>
+<section id="recommendation">
     <h2 class="font-serif text-4xl text-center mt-14">Special From Us</h2>
     <article class="max-w-screen-xl mx-auto mt-10 text-gray-600">
         <div class="flex flex-col items-center gap-3 px-5 md:gap-12 md:flex-row">

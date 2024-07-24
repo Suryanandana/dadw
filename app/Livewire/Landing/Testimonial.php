@@ -14,18 +14,13 @@ class Testimonial extends Component
         ->join('customer', 'customer.id', '=', 'booking.id_customer')
         ->join('users', 'users.id', '=', 'customer.id_users')
         ->join('rooms', 'rooms.id', '=', 'booking.id_room')
-        ->select('feedback.*', 'users.name', 'rooms.room_name', 'booking.id')
-        ->orderBy('booking.updated_at', 'desc')
-        ->limit(6)
-        ->get();
-  
-        $name = DB::table('order_services')
+        ->join('order_services', 'order_services.id_booking', '=', 'booking.id')
         ->join('services', 'services.id', '=', 'order_services.id_services')
-        ->select(DB::raw('GROUP_CONCAT(services.service_name ORDER BY services.service_name SEPARATOR ", ") as selected_services'))
-        ->whereIn('order_services.id_booking', $data->pluck('id_booking'))
-        ->groupBy('order_services.id_booking')
+        ->select('feedback.id', 'feedback.updated_at', 'feedback.rate', 'feedback.message', 'feedback.title', 'users.name', 'rooms.room_name', 'booking.id', DB::raw('GROUP_CONCAT(services.service_name ORDER BY services.service_name SEPARATOR ", ") as selected_services'))
+        ->groupBy('feedback.id', 'feedback.updated_at', 'feedback.rate', 'feedback.message', 'feedback.title', 'users.name', 'rooms.room_name', 'booking.id')
+        ->orderBy('feedback.id', 'desc')
         ->get();
         
-        return view('livewire.landing.testimonial', compact('data', 'name'));
+        return view('livewire.landing.testimonial', compact('data'));
     }
 }

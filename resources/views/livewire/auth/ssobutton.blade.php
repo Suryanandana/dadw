@@ -1,11 +1,11 @@
-<div class="space-y-4">
+<div class="w-full space-y-4">
     {{-- or --}}
     <div class="inline-flex items-center justify-center w-full">
         <hr class="w-10/12 h-px my-2 bg-gray-400 border-0 dark:bg-gray-700">
         <span class="absolute px-3 font-medium text-gray-700 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">or</span>
     </div>
     {{-- socialite button --}}
-    <button onclick="openPopup('{{route('socialite.redirect', 'google')}}'), 'Login with Google'" class="text-gray-800 w-full bg-white hover:bg-gray-50/90 focus:ring-4 focus:outline- focus:ring-gray-50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center justify-center border border-gray-400">
+    <a href="{{route('socialite.redirect', 'google')}}" target="_blank" class="text-gray-800 w-full bg-white hover:bg-gray-50/90 focus:ring-4 focus:outline- focus:ring-gray-50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center justify-center border border-gray-400">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 me-2">
             <title>Sign in with Google</title>
             <desc>Google G Logo</desc>
@@ -25,15 +25,15 @@
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 class="fill-[#ea4335]"
             ></path>
-            </svg>
+        </svg>
         Login with Google
-    </button>
-    <button onclick="openPopup('{{ route('socialite.redirect', 'facebook') }}'), 'Login with Facebook'" class="w-full justify-center text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
+    </a>
+    {{-- <a href="{{route('socialite.redirect', 'facebook')}}" target="_blank" class="w-full justify-center text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
         <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
             <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
         </svg>
         Login with Facebook
-    </button>
+    </a> --}}
     <div class="flex items-center justify-center hover:cursor-pointer" href="/" wire:navigate>
         <svg class="text-green-600 size-6" xmlns="http://www.w3.org/2000/svg" width="47" height="67" viewBox="0 0 47 67" fill="none">
             <path d="M32.2534 35.0758C31.9665 28.4062 32.7362 19.9136 35.6545 16.0616C38.3446 19.351 40.1858 26.6491 40.6336 33.7301C41.1442 41.8027 40.4765 50.7097 41.0175 56.0938C35.8984 50.3284 32.5984 43.0931 32.2534 35.0758Z" fill="currentColor"/>

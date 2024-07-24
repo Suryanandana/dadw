@@ -11,7 +11,7 @@
                 </svg>
             </div>
             <div x-cloak x-show="show" @click.away="show = false" x-transition
-                class="fixed z-10 w-[30%] flex flex-col pt-5 pb-2 bg-green-200 rounded-xl gap-y-2 left-5 bottom-20">
+                class="fixed z-10 lg:w-[30%] flex flex-col pt-5 pb-2 bg-green-200 rounded-xl gap-y-2 left-5 bottom-20">
                 <div class="overflow-auto h-96">
                     @foreach ($chats as $chat)
                     <div

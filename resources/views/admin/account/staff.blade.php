@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="icon" type="image/x-icon" href="/storage/img/favicon/cajuput.ico">
     <title>Welcome to The Cajuput Spa</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
     {{-- font --}}
@@ -37,13 +39,13 @@
         @extends('admin.sidebar')
 
         {{-- content --}}
-        <main class="p-1 md:ml-64 h-auto pt-20">
+        <main class="h-auto p-1 pt-20 md:ml-64">
             <!-- Start block -->
-            <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
-                <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+            <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
+                <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
                     <!-- Start coding here -->
                     @if ($errors->any())
-                    <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                    <div class="p-4 mb-6 text-center text-white bg-red-500 rounded-lg">
                         <ul>
                             @foreach ($errors->all() as $error)
                             <li class="text-sm">{{ $error }}</li>
@@ -53,13 +55,13 @@
                     @endif
                     {{-- show success message --}}
                     @if (session('success'))
-                    <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                    <div class="p-4 mb-6 text-center text-white bg-green-500 rounded-lg">
                         {{ session('success') }}
                     </div>
                     @endif
-                    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                         <div
-                            class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                            class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
                             <div class="w-full md:w-1/2">
                                 <form class="flex items-center">
                                     @csrf
@@ -76,16 +78,16 @@
                                             </svg>
                                         </div>
                                         <input type="text" id="simple-search"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search" required="">
                                     </div>
                                 </form>
                             </div>
                             <div
-                                class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                                class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                 <button type="button" id="createProductModalButton"
                                     data-modal-target="createProductModal" data-modal-toggle="createProductModal"
-                                    class="flex items-center justify-center text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-700">
+                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-700">
                                     <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path clip-rule="evenodd" fill-rule="evenodd"
@@ -117,10 +119,10 @@
                                             <td class="px-4 py-3">{{ $userData->level }}</td>
                                             <td class="px-4 py-3">{{ $userData->phone }}</td>
                                             <td class="px-4 py-3">{{ $userData->updated_at }}</td>
-                                            <td class="px-4 py-3 flex items-center justify-end">
+                                            <td class="flex items-center justify-end px-4 py-3">
                                                 <button type="button" data-modal-target="updateProductModal-{{ $userData->id }}"
                                                     data-modal-toggle="updateProductModal-{{ $userData->id }}"
-                                                    class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                                    class="flex items-center w-full py-1 pl-3 text-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dark:text-gray-200">
                                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
                                                         viewbox="0 0 20 20" fill="currentColor"
                                                         aria-hidden="true">
@@ -132,7 +134,7 @@
                                                 </button>
                                                 {{-- <button type="button" data-modal-target="readProductModal-{{ $userData->id }}"
                                                     data-modal-toggle="readProductModal-{{ $userData->id }}"
-                                                    class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                                    class="flex items-center w-full py-1 pl-3 text-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dark:text-gray-200">
                                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
                                                         viewbox="0 0 20 20" fill="currentColor"
                                                         aria-hidden="true">
@@ -143,7 +145,7 @@
                                                 </button> --}}
                                                 <button type="button" data-modal-target="deleteModal-{{ $userData->id }}"
                                                     data-modal-toggle="deleteModal-{{ $userData->id }}"
-                                                    class="flex w-full items-center py-1 pl-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400">
+                                                    class="flex items-center w-full py-1 pl-3 text-red-500 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-400">
                                                     <svg class="w-4 h-4" viewbox="0 0 14 15" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -157,10 +159,10 @@
                                 </tbody>
                             </table>
                             @else
-                                <p class="text-gray-700 text-sm text-center py-4">Staff Account Empty !</p>
+                                <p class="py-4 text-sm text-center text-gray-700">Staff Account Empty !</p>
                             @endif
                         </div>
-                        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+                        <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
                             aria-label="Table navigation">
                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                                 Showing
@@ -183,23 +185,23 @@
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
                                 </li>
                                 <li>
                                     <a href="#" aria-current="page"
-                                        class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                                        class="z-10 flex items-center justify-center px-3 py-2 text-sm leading-tight border text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
                                 </li>
                                 <li>
                                     <a href="#"
@@ -222,12 +224,12 @@
             <!-- Create modal -->
             <div id="createProductModal" tabindex="-1" aria-hidden="true"
                 class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full max-w-2xl max-h-full">
+                <div class="relative w-full max-w-2xl max-h-full p-4">
                     <!-- Modal content -->
                     <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                         <!-- Modal header -->
                         <div
-                            class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                            class="flex items-center justify-between pb-4 mb-4 border-b rounded-t sm:mb-5 dark:border-gray-600">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add New Staff</h3>
                             <button type="button"
                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -269,7 +271,7 @@
                             </div>
                             <button type="submit"
                                 class="text-white inline-flex items-center bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700">
-                                <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewbox="0 0 20 20"
+                                <svg class="w-6 h-6 mr-1 -ml-1" fill="currentColor" viewbox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
                                         d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
@@ -285,12 +287,12 @@
                 <!-- Update modal -->
                 <div id="updateProductModal-{{ $data->id }}" tabindex="-1" aria-hidden="true"
                     class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                    <div class="relative w-full max-w-2xl max-h-full p-4">
                         <!-- Modal content -->
                         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                             <!-- Modal header -->
                             <div
-                                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                                class="flex items-center justify-between pb-4 mb-4 border-b rounded-t sm:mb-5 dark:border-gray-600">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Update Data</h3>
                                 <button type="button"
                                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -315,21 +317,21 @@
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                         <input type="text" name="name" id="name" value="{{ $data->name }}"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Ex. Apple iMac 27&ldquo;">
+                                            placeholder="Name">
                                     </div>
                                     <div>
                                         <label for="phone"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
                                         <input type="text" name="phone" id="phone" value="{{ $data->phone }}"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Ex. Apple iMac 27&ldquo;">
+                                            placeholder="Phone">
                                     </div>
                                     <div>
                                         <label for="level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Level</label>
                                         <select
                                             id="level" name="level"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                            <option value="{{ $data->level }}">{{ $data->level }}</option>
+                                            <option value="{{ $data->level }}">{{ ucfirst($data->level) }}</option>
                                             @if ($data->level == 'admin')
                                                 <option value="staff">Staff</option>
                                                 <option value="customer">Customer</option>
@@ -356,7 +358,7 @@
                 <!-- Read modal -->
                 <div id="readProductModal" tabindex="-1" aria-hidden="true"
                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative p-4 w-full max-w-xl max-h-full">
+                    <div class="relative w-full max-w-xl max-h-full p-4">
                         <!-- Modal content -->
                         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                             <!-- Modal header -->
@@ -388,11 +390,11 @@
                                 <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Category</dt>
                                 <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Electronics/PC</dd>
                             </dl>
-                            <div class="flex justify-between items-center">
+                            <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3 sm:space-x-4">
                                     <button type="button"
                                         class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                        <svg aria-hidden="true" class="mr-1 -ml-1 w-5 h-5" fill="currentColor"
+                                        <svg aria-hidden="true" class="w-5 h-5 mr-1 -ml-1" fill="currentColor"
                                             viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -425,7 +427,7 @@
                     @method('DELETE')
                     <div id="deleteModal-{{ $data->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden backdrop-blur-sm backdrop-brightness-75 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                        <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative w-full max-w-md max-h-full p-4">
                             <!-- Modal content -->
                             <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                                 <button type="button"
@@ -446,12 +448,12 @@
                                         clip-rule="evenodd" />
                                 </svg>
                                 <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete <b>{{ $data->name }}</b> account?</p>
-                                <div class="flex justify-center items-center space-x-4">
+                                <div class="flex items-center justify-center space-x-4">
                                     <button data-modal-toggle="deleteModal-{{ $data->id }}" type="button"
-                                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                                        class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                                         cancel</button>
                                     <button type="submit"
-                                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Yes,
+                                        class="px-3 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Yes,
                                         I'm sure</button>
                                 </div>
                             </div>

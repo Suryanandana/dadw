@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="icon" type="image/x-icon" href="/storage/img/favicon/cajuput.ico">
     <title>Cajuput - Package Order</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
     {{-- font --}}
@@ -37,15 +39,15 @@
         @extends('admin.sidebar')
 
         {{-- content --}}
-        <main class="p-1 md:ml-64 h-auto pt-20">
+        <main class="h-auto p-1 pt-20 md:ml-64">
             <!-- Start block -->
-            <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
+            <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
 
                 <!-- SERVICE TAB  -->
-                <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+                <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
                     <!-- Start coding here -->
                     @if ($errors->any())
-                    <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                    <div class="p-4 mb-6 text-center text-white bg-red-500 rounded-lg">
                         <ul>
                             @foreach ($errors->all() as $error)
                             <li class="text-sm">{{ $error }}</li>
@@ -55,20 +57,20 @@
                     @endif
                     {{-- show success message --}}
                     @if (session('success'))
-                    <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                    <div class="p-4 mb-6 text-center text-white bg-green-500 rounded-lg">
                         {{ session('success') }}
                     </div>
                     @endif
-                    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                         <div
-                            class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                            class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
                             
                             <form action="{{ route('package.export') }}">
                                 <div
-                                    class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                                    class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                     <button type="submit" id="createProductModalButton"
                                         data-modal-target="createProductModal" data-modal-toggle="createProductModal"
-                                        class="flex items-center justify-center text-md text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-700">
+                                        class="flex items-center justify-center px-4 py-2 font-medium text-white bg-green-600 rounded-lg text-md hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-700">
                                         Export Data
                                     </button>
                                 </div>
@@ -78,7 +80,7 @@
                                 @csrf
                                 <div date-rangepicker class="flex items-center me-2">
                                     <div class="relative">
-                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                                             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                             </svg>
@@ -87,7 +89,7 @@
                                     </div>
                                     <span class="mx-4 text-gray-500">to</span>
                                     <div class="relative">
-                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                                             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                             </svg>
@@ -96,10 +98,10 @@
                                     </div>
                                 </div>  
                                 <div
-                                    class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                                    class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                     <button type="submit" id="createProductModalButton"
                                         data-modal-target="createProductModal" data-modal-toggle="createProductModal"
-                                        class="flex items-center justify-center text-md text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-700">
+                                        class="flex items-center justify-center px-4 py-2 font-medium text-white bg-green-600 rounded-lg text-md hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-700">
                                         Filter
                                     </button>
                                 </div>
@@ -131,10 +133,10 @@
                                 </tbody>
                             </table>
                             @else
-                                <p class="text-gray-700 text-sm text-center py-4">There is no transaction history..</p>
+                                <p class="py-4 text-sm text-center text-gray-700">There is no transaction history..</p>
                             @endif
                         </div>
-                        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+                        <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
                             aria-label="Table navigation">
                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                                 Showing
@@ -157,23 +159,23 @@
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
                                 </li>
                                 <li>
                                     <a href="#" aria-current="page"
-                                        class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                                        class="z-10 flex items-center justify-center px-3 py-2 text-sm leading-tight border text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+                                        class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
                                 </li>
                                 <li>
                                     <a href="#"

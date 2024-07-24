@@ -3,13 +3,16 @@
 namespace App\Livewire\Customer;
 
 use App\Models\Feedback;
+use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
-
-use function PHPUnit\Framework\isEmpty;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 class Transaction extends Component
 {
@@ -23,31 +26,79 @@ class Transaction extends Component
     #[Validate('required|integer|between:1,5')] 
     public $rating = 0;
 
+    public String $id_booking = '';
     public $review = false;
-    public $id_booking = null;
+    public $popup = false;
+    public $reschedule = false;
+    public $selecteddate = '';
+    public $time = '';
 
     public function feedback()
     {
         $this->validate();
-        $table = Feedback::where('id_booking', $this->id_booking);
-        if($table){
-            $table->update([
-                'rate' => $this->rating,
-                'title' => $this->feedbacktitle,
-                'message' => $this->feedbackmessage,
-            ]);
-        } else {
-            Feedback::create([
-                'rate' => $this->rating,
-                'title' => $this->feedbacktitle,
-                'message' => $this->feedbackmessage,
-                'id_booking' => $this->id_booking,
-            ]);
-        }
+        DB::table('feedback')->updateOrInsert(
+        ['id_booking' => $this->id_booking],[
+            'rate' => $this->rating,
+            'title' => $this->feedbacktitle,
+            'message' => $this->feedbackmessage,
+        ] );
 
         $this->reset();
         $this->review = false;
         $this->dispatch('resetFeedback', 0);
+    }
+
+    public function cancel() {
+        try {
+            $booking = DB::table('booking')->where('external_id', $this->id_booking);
+            $id = substr($booking->get()->first()->payment_url, 38);
+
+            $xendit = new \App\Http\Controllers\xendit;
+            if ($booking->get()->first()->payment_status === 'PENDING') {
+                $response = $xendit->expire($id);
+                // $response = Http::timeout(10)->get(URL::to('/api/xendit/expire/' . $id));
+                if ($response->status() !== 200) {
+                    throw new Exception('Failed to cancel booking');
+                }
+                $return = "Booking has been cancelled, Your refund will be processed soon";
+            }
+            $booking->update([
+                'booking_status' => 'CANCELLED',
+                'updated_at' => now(),
+            ]);
+            $return = "Booking has been cancelled";
+        } catch (Exception $e) {
+            DB::rollBack();
+            $return = $e->getMessage();
+        }
+        $this->dispatch('success', $return);
+        $this->popup = true;
+    }
+
+    public function openReschedule() {
+        $this->popup = false;
+        $this->reschedule = true;
+    }
+    #[On('date')]
+    public function update($date) {
+        $this->selecteddate = $date;
+        $this->popup = false;
+        $this->reschedule = true;
+    }
+
+    public function rescheduled() {
+        $this->reschedule = false;
+
+        DB::beginTransaction();
+        
+        DB::table('booking')->where('external_id', $this->id_booking)->update([
+            'date' => date('Y-m-d H:i:s', strtotime($this->selecteddate)),
+            'booking_status' => 'RESCHEDULED',
+            'updated_at' => now(),
+        ]);
+        DB::commit();
+        $this->dispatch('success', 'Your booking has been rescheduled!');
+        $this->popup = true;
     }
     
     public function openfeedback($id) 
@@ -73,7 +124,6 @@ class Transaction extends Component
         ->join('rooms', 'rooms.id', '=', 'booking.id_room')
         ->select('booking.*', 'rooms.room_name')
         ->where('id_customer', $id)
-        ->orderBy('booking.date', 'desc')
         ->get();
 
         $feedback = DB::table('feedback')
@@ -93,6 +143,10 @@ class Transaction extends Component
         ->select('image_services.imgdir', 'order_services.id_booking')
         ->whereIn('order_services.id_booking', $data->pluck('id'))
         ->get();
+
+        if(empty($data)){
+
+        }
 
         return view('livewire.customer.transaction', compact('data', 'image', 'feedback', 'name'));
     }

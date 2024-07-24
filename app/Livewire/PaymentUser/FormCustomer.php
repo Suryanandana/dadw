@@ -60,16 +60,17 @@ class FormCustomer extends Component
         $this->total = $total;
     }
 
-    #[On('format-date')]
+    #[On('date')]
     public function setDate($date)
     {
-        $formattedDate = null;
-        if (!DateTime::createFromFormat('j F, Y. H:i T', $date)) {
-            $formattedDate = null;
-        } else {
-            $formattedDate = DateTime::createFromFormat('j F, Y. H:i T', $date)->format('Y-m-d H:i:s');
-        }
-        $this->date = $formattedDate;
+        // $formattedDate = null;
+        // if (!DateTime::createFromFormat('j F, Y. H:i T', $date)) {
+        //     $formattedDate = null;
+        // } else {
+        //     $formattedDate = date('Y-m-d H:i:s', strtotime($date));
+        // }
+        // $this->date = $formattedDate;
+        $this->date = date('Y-m-d H:i:s', strtotime($date));
     }
 
     public function updatedCountry()

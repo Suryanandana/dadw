@@ -1,10 +1,10 @@
 {{-- testimonial --}}
-<section class="mt-10 py-14 bg-sky-100">
+<section id="review" class="mt-10 py-14 bg-sky-100">
     <h2 class="mb-5 font-serif text-4xl text-center">What People Think?</h2>
     <div id="testimonial" class="max-w-screen-xl mx-auto splide">
         <div class="p-5 splide__track h-content">
             <ul class="splide__list">
-                @foreach ($data as $i => $feedback)
+                @foreach ($data as $feedback)
                 <li class="splide__slide">
                     {{-- card --}}
                     <div class="flex flex-col h-full gap-3 p-5 mx-3 bg-white rounded-lg">
@@ -24,7 +24,7 @@
                                 <div class="flex flex-col justify-center text-xs w-">
                                     <span class="text-sm font-semibold text-gray-800">{{$feedback->name}}</span>
                                     <span class="text-gray-500">{{date_format(new DateTime($feedback->updated_at), "j F Y")}}</span>
-                                    <span class="text-gray-400 line-clamp-1">{{$name[$i]->selected_services}} | {{$feedback->room_name}}</span>
+                                    <span class="text-gray-400 line-clamp-1">{{$feedback->selected_services}} | {{$feedback->room_name}}</span>
                                 </div>
                             </div>
                             {{-- score --}}
@@ -48,7 +48,7 @@
     </div>
 
     {{-- gallery --}}
-    <h2 class="my-10 font-serif text-4xl text-center">The Cajuput Gallery</h2>
+    <h2 id="gallery" class="my-10 font-serif text-4xl text-center">The Cajuput Gallery</h2>
     <div class="grid max-w-screen-xl gap-1 p-1 mx-auto sm:grid-cols-2 md:grid-cols-4">
         <div class="aspect-square">
             <img src="/storage/img/hero/hero.webp" class="object-cover w-full h-full rounded">

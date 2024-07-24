@@ -11,11 +11,45 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', App\Livewire\Landing\Index::class)->name('landing');
 Route::get('/service/{id}', App\Livewire\Detail\Service::class);
 Route::get('/room/{id}', App\Livewire\Detail\Room::class);
 Route::get('/payment', App\Livewire\PaymentUser\Index::class)->name('payment');
+
+Route::get('/testing', function(){
+    $data = DB::table('booking')
+        ->join('feedback', 'feedback.id_booking', '=', 'booking.id')
+        ->join('customer', 'customer.id', '=', 'booking.id_customer')
+        ->join('users', 'users.id', '=', 'customer.id_users')
+        ->join('rooms', 'rooms.id', '=', 'booking.id_room')
+        ->join('order_services', 'order_services.id_booking', '=', 'booking.id')
+        ->join('services', 'services.id', '=', 'order_services.id_services')
+        ->select('feedback.id', 'feedback.updated_at', 'feedback.rate', 'feedback.message', 'feedback.title', 'users.name', 'rooms.room_name', 'booking.id', DB::raw('GROUP_CONCAT(services.service_name ORDER BY services.service_name SEPARATOR ", ") as selected_services'))
+        ->groupBy('feedback.id', 'feedback.updated_at', 'feedback.rate', 'feedback.message', 'feedback.title', 'users.name', 'rooms.room_name', 'booking.id')
+        ->orderBy('feedback.id', 'desc')
+        ->get();
+    return $data;
+});
+
+Route::get('/testing', function(){
+    $data = DB::table('services')
+        ->join('image_services', 'services.id', '=', 'image_services.service_id')
+        ->select('services.*', 'image_services.imgdir')
+        ->get();
+
+        $rating = DB::table('feedback')
+        ->rightJoin('booking', 'feedback.id_booking', '=', 'booking.id')
+        ->rightJoin('order_services', 'order_services.id_booking', '=', 'booking.id')
+        ->rightJoin('services', 'services.id', '=', 'order_services.id_services')
+        ->join('image_services', 'services.id', '=', 'image_services.service_id')
+        ->select('services.service_name', 'image_services.imgdir', 'services.service_duration', 'services.price', 'services.type', 'services.details', 'order_services.id_services', DB::raw('ROUND(AVG(rate),1) as rating'))
+        ->groupBy('services.service_name', 'image_services.imgdir', 'services.service_duration', 'services.price', 'services.type', 'services.details', 'order_services.id_services')
+        ->get();
+
+        return (compact('rating'));
+});
 
 // autentikasi
 # ==================== SOCIALITE AUTH ================================
@@ -110,7 +144,8 @@ Route::middleware(['auth', 'verified'])->group(function()
     Route::middleware('userAccess:customer')->group(function() {
         Route::get('/transaction', App\Livewire\Customer\Transaction::class);
         Route::get('/profile', App\Livewire\Customer\Profile::class);
-        Route::get('/feedback',[App\Livewire\Customer\Profile::class, 'feedback']);
+        Route::get('/feedback',[App\Livewire\Customer\Transaction::class, 'feedback']);
+        Route::get('/cancel/{id}',[App\Livewire\Customer\Transaction::class, 'cancel']);
     });
     
     Route::middleware('userAccess:staff')->group(function() {  

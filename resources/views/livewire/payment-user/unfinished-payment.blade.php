@@ -10,20 +10,16 @@
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>
                 <h3 class="text-lg font-normal text-gray-900 dark:text-gray-400">You have unfinished payment</h3>
-                <p class="mt-2 text-gray-500">
+                <p class="mb-5 text-gray-500">
                     Please complete the payment before placing another order, or you can cancel this booking.
                 </p>
-                <div x-data="countdown('{{$expired_date}}')" class="mt-2 mb-5">
+                {{-- <div x-data="countdown('{{$expired_date}}')" class="mt-2 mb-5">
                     <p class="text-gray-700">Payment expired in:</p>
                     <p id="days" class="text-center text-gray-500"></p>
-                </div>
-                <button data-modal-hide="popup-modal" type="button" x-on:click="invoice=true"
-                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                View order</button>
-                <button data-modal-hide="popup-modal" type="button"
-                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                    Cancel order
-                </button>
+                </div> --}}
+                <a data-modal-hide="popup-modal" href="/transaction" wire:navigate
+                class="py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-700 rounded-sm border border-gray-200 hover:bg-green-800 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                View order</a>
             </div>
         </div>
         {{-- invoice --}}
