@@ -78,7 +78,7 @@
                 {{-- card service --}}
                 <div class="p-4 md:w-1/3 splide__slide">
                     <div class="h-full overflow-hidden rounded shadow-md border-opacity-60">
-                        <img class="object-cover object-center w-full lg:h-48 md:h-36"
+                        <img class="object-cover object-center w-full lg:h-48 h-36"
                             src="{{asset('storage/img/service/'.$item->imgdir)}}" alt="blog">
                         <div class="m-6">
                             <div class="">

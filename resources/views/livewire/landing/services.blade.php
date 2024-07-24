@@ -3,11 +3,11 @@
     <h2 class="py-3 font-serif text-4xl text-center">Our Services</h2>
     <div class="px-5 mx-auto splide__track">
         <ul class="splide__list">
-            @foreach ($data as $i => $item)
+            @foreach ($rating as $item)
             {{-- card service --}}
             <div class="p-4 md:w-1/3 splide__slide">
                 <div class="h-full overflow-hidden rounded shadow-md border-opacity-60">
-                    <img class="object-cover object-center w-full lg:h-48 md:h-36"
+                    <img class="object-cover object-center w-full h-36 lg:h-48"
                         src="{{asset('storage/img/service/'.$item->imgdir)}}" alt="blog">
                     <div class="m-6">
                         <div class="">
@@ -16,7 +16,7 @@
                             <div class="flex gap-6">
                                 <span class="text-green-600 text-md ">
                                     <i class="mr-1 fa-regular fa-star"></i>
-                                    {{empty($rating[$i]->rating) ? '-' : $rating[$i]->rating}}
+                                    {{empty($item->rating) ? '-' : $item->rating}}
                                 </span>
                                 <ul class="list-disc">
                                     <li class="items-center text-gray-400">

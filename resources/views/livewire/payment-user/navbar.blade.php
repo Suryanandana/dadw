@@ -4,7 +4,7 @@
         <div class="flex flex-wrap items-center justify-between w-full max-w-screen-xl p-4 mx-auto">
             
             {{-- navbar logo --}}
-            <a href="/" wire:navigate class="flex items-center flex-1 basis-0">
+            <a href="/" class="flex items-center flex-1 basis-0">
                 <div class="flex items-center justify-center">
                     <svg class="w-10 h-10 text-green-600" xmlns="http://www.w3.org/2000/svg" width="47" height="67"
                         viewBox="0 0 47 67" fill="none">
@@ -88,7 +88,7 @@
                 <ul 
                     class="flex flex-col gap-3 p-4 mt-4 text-sm font-medium text-gray-700 list-inside border border-gray-100 rounded-lg md:text-gray-800 md:p-0 md:flex-row md:space-x-8 md:mt-0 md:border-0">
                     <li>
-                        <a wire:navigate href="/" class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Home</a>
+                        <a href="/" class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">Home</a>
                     </li>
                     <li>
                         <a href="/#header" class="py-2 pl-3 pr-4 md:hover:text-green-500 md:p-0">About</a>

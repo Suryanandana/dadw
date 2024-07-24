@@ -47,8 +47,6 @@ class AdminController extends Controller
 
             // send an email to the email entered
             event(new Registered($data));
-            // provides login access when verifying email
-            Auth::login($data);
         } catch (\Throwable $th) {
             $error = $th->getMessage();
             return redirect('/admin-account')->with('error', $error);
@@ -183,8 +181,6 @@ class AdminController extends Controller
 
             // send an email to the email entered
             event(new Registered($data));
-            // provides login access when verifying email
-            Auth::login($data);
         } catch (\Throwable $th) {
             // rollback transaction if error
             DB::rollBack();
@@ -326,8 +322,6 @@ class AdminController extends Controller
 
             // send an email to the email entered
             event(new Registered($data));
-            // provides login access when verifying email
-            Auth::login($data);
         } catch (\Throwable $th) {
             // rollback transaction if error
             DB::rollBack();

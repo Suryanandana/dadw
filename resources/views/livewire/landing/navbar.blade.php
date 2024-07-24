@@ -213,7 +213,7 @@
                     </svg>
                     Profile
                 </a>
-                <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/dashboard'}}"
+                <a href="{{Auth::user()->level == 'customer' ? '/transaction' : '/'.Auth::user()->level}}"
                     wire:navigate
                     class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

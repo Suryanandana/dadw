@@ -27,12 +27,7 @@ class SocialiteController extends Controller
             // Buat session untuk user
             session()->put('user', $authUser);
 
-            return '<script>
-                setTimeout(function() {
-                    window.opener.location.href = "/";
-                    window.close();
-                }, 100);
-            </script>';
+            return redirect()->intended('/');
         }
 
        public function store($socialUser, $provider)

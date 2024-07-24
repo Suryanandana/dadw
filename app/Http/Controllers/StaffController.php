@@ -119,6 +119,8 @@ class StaffController extends Controller
             'price' => 'required|integer',
             'details' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp',
+            'type' => 'required',
+            'service_duration' => 'required|integer',
         ]);
 
         try {
@@ -130,6 +132,8 @@ class StaffController extends Controller
                 'service_name' => $request->service_name,
                 'price' => $request->price,
                 'details' => $request->details,
+                'type' => $request->type,
+                'service_duration' => $request->service_duration,
             ]);
             // insert data into staff table
             Image_service::create([

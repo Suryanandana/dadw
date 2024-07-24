@@ -25,7 +25,6 @@ class xendit extends Controller
             if ($payment) {
                 $payment->update([
                     'payment_status' => $request->status,
-                    'booking_status' => ($request->status == 'PAID' ? 'PAYMENT CONFIRMED' : 'BOOKING EXPIRED'),
                 ]);
             }
             DB::commit();
@@ -51,12 +50,6 @@ class xendit extends Controller
             $apiInstance = new InvoiceApi();
             $apiInstance->expireInvoice($id);
             return response()->json('success', 200);
-            // // Return a success response
-            // return response()->json([
-            //     'status' => 'success',
-            //     'message' => 'Invoice expired successfully',
-            //     'data' => $result,
-            // ]);
         } catch (XenditSdkException $e) {
             // Return an error response
             return response()->json([

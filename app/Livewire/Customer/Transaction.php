@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\URL;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
-
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 class Transaction extends Component
 {
@@ -30,7 +30,7 @@ class Transaction extends Component
     public $review = false;
     public $popup = false;
     public $reschedule = false;
-    public $date = '';
+    public $selecteddate = '';
     public $time = '';
 
     public function feedback()
@@ -81,7 +81,7 @@ class Transaction extends Component
     }
     #[On('date')]
     public function update($date) {
-        $this->date = $date;
+        $this->selecteddate = $date;
         $this->popup = false;
         $this->reschedule = true;
     }
@@ -92,7 +92,7 @@ class Transaction extends Component
         DB::beginTransaction();
         
         DB::table('booking')->where('external_id', $this->id_booking)->update([
-            'date' => date('Y-m-d H:i:s', strtotime($this->date)),
+            'date' => date('Y-m-d H:i:s', strtotime($this->selecteddate)),
             'booking_status' => 'RESCHEDULED',
             'updated_at' => now(),
         ]);
@@ -143,6 +143,10 @@ class Transaction extends Component
         ->select('image_services.imgdir', 'order_services.id_booking')
         ->whereIn('order_services.id_booking', $data->pluck('id'))
         ->get();
+
+        if(empty($data)){
+
+        }
 
         return view('livewire.customer.transaction', compact('data', 'image', 'feedback', 'name'));
     }

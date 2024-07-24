@@ -31,7 +31,13 @@ class Service extends Component
 
         $name = DB::table('order_services')
         ->join('services', 'services.id', '=', 'order_services.id_services')
-        ->select(DB::raw('GROUP_CONCAT(services.service_name ORDER BY services.service_name SEPARATOR ", ") as selected_services'))
+        ->select(DB::raw('GROUP_CONCAT(services.service_name ORDER BY 
+        CASE 
+            WHEN services.id = '.$this->params->id.' THEN 0 
+            ELSE 1 
+        END, 
+        services.service_name 
+        SEPARATOR ", ") as selected_services'))
         ->whereIn('order_services.id_booking', $collection->pluck('id_booking'))
         ->groupBy('order_services.id_booking')
         ->get();

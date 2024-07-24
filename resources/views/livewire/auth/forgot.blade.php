@@ -2,7 +2,7 @@
     
 <section class="flex items-center justify-center min-h-screen py-8 bg-gradient-to-bl from-green-50 via-lime-50 to-green-100 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center w-full h-full gap-3 mx-6 bg-white rounded-md shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">       
-        <div class="p-6 sm:p-8">
+        <div class="w-full p-6 sm:p-8">
             <h1
                 class="mb-4 text-4xl font-bold text-center text-gray-900 dark:text-white">
                     Reset Password

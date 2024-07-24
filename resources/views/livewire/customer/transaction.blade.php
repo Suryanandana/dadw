@@ -38,6 +38,14 @@
         <div class="px-10 py-16 mx-auto">
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">My Transaction</h2>
             <div class="grid gap-5">
+                @if($data->isEmpty())
+                <div class="text-center">
+                    <p class="mb-3 text-sm">Nothing to show here</p>
+                    <a href="/payment" wire:click
+                        class="px-5 py-2 text-xs tracking-wider text-white bg-green-700 border-2 border-green-700 rounded-sm text-nowrap hover:bg-green-800">Book Now!</a>
+                </div>
+                @endif
+
                 @foreach ($data as $i => $booking)
                 <div class="flex gap-8 border-2 border-gray-100 rounded-md ">
                     <div class="grid w-full shadow">
@@ -45,7 +53,8 @@
                             <div class="flex gap-3">
                                 <span class="text-lg font-bold">{{$name[$i]->selected_service}}</span>
                                 <span x-data="{status: '{{$booking->booking_status}}'}" :class="{
-                                    'text-blue-800 bg-blue-500/50': status !== 'TRANSACTION COMPLETE' && status !== 'BOOKING EXPIRED' && status !== 'CANCELLED', 
+                                    'text-blue-800 bg-blue-500/50': status !== 'TRANSACTION COMPLETE' && status !== 'BOOKING EXPIRED' && status !== 'CANCELLED' && status !== 'RESHCEDULED', 
+                                    'text-yellow-800 bg-yellow-500/50': status === 'RESCHEDULED', 
                                     'text-green-800 bg-green-500/50': status === 'TRANSACTION COMPLETE', 
                                     'text-red-800 bg-red-500/50': status === 'BOOKING EXPIRED' || status === 'CANCELLED', 
                                     }" class="self-center px-2 py-1 overflow-hidden text-xs font-bold rounded-sm text text-clip">

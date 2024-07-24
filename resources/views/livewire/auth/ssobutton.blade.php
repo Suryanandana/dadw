@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="w-full space-y-4">
     {{-- or --}}
     <div class="inline-flex items-center justify-center w-full">
         <hr class="w-10/12 h-px my-2 bg-gray-400 border-0 dark:bg-gray-700">
@@ -28,12 +28,12 @@
         </svg>
         Login with Google
     </a>
-    <a href="{{route('socialite.redirect', 'facebook')}}" target="_blank" class="w-full justify-center text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
+    {{-- <a href="{{route('socialite.redirect', 'facebook')}}" target="_blank" class="w-full justify-center text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
         <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
             <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
         </svg>
         Login with Facebook
-    </a>
+    </a> --}}
     <div class="flex items-center justify-center hover:cursor-pointer" href="/" wire:navigate>
         <svg class="text-green-600 size-6" xmlns="http://www.w3.org/2000/svg" width="47" height="67" viewBox="0 0 47 67" fill="none">
             <path d="M32.2534 35.0758C31.9665 28.4062 32.7362 19.9136 35.6545 16.0616C38.3446 19.351 40.1858 26.6491 40.6336 33.7301C41.1442 41.8027 40.4765 50.7097 41.0175 56.0938C35.8984 50.3284 32.5984 43.0931 32.2534 35.0758Z" fill="currentColor"/>
